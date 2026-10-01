@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="si" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>අභිධර්ම රූප විභාගය (Rupa Vibhagaya App)</title>
+    
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" href="../launchericon-48x48.png">
+    <meta name="theme-color" content="#3f0a0c">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        saffron: {
+                            50: '#fffbeedb', 100: '#fef3c7', 200: '#fde68a', 300: '#fcd34d',
+                            400: '#fbbf24', 500: '#f59e0b', 600: '#d97706', 700: '#b45309',
+                            800: '#92400e', 900: '#78350f', 950: '#451a03',
+                        },
+                        maroon: {
+                            700: '#701a1d', 800: '#581113', 900: '#3f0a0c', 950: '#260507',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Serif Sinhala', 'Inter', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Noto Serif Sinhala & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+Sinhala:wght@400;600;700&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Noto Serif Sinhala', 'Inter', serif;
+            -webkit-tap-highlight-color: transparent;
+            font-size: 15px;
+        }
+        
+        /* ============================================================ */
+        /* ✅ සිංහල පෙළ සඳහා Justify සැකසුම */
+        /* ============================================================ */
+        p, .text-justify {
+            text-align: justify;
+            text-justify: inter-word;
+            word-spacing: 0.05em;
+            line-height: 1.8;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+        }
+        
+        li {
+            text-align: justify;
+            text-justify: inter-word;
+            line-height: 1.7;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            text-align: left;
+        }
+        
+        button, .btn, .badge {
+            text-align: center;
+        }
+        
+        th {
+            text-align: left;
+        }
+        
+        /* Dynamic content justify */
+        #rupa-deta-content p,
+        #rupa-deta-content td,
+        #rupa-deta-content li,
+        [id^="infoDetailsGroup"] {
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* ============================================================ */
+        /* ✅ රූපය විස්තර කාඩ්පත - විශේෂ ස්ටයිල් (රන්වන්-දුඹුරු) */
+        /* ============================================================ */
+        .rupa-intro-card {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fde68a 100%);
+            border: 1px solid #fcd34d;
+            border-left: 6px solid #d97706;
+        }
+        .dark .rupa-intro-card {
+            background: linear-gradient(135deg, #451a03 0%, #78350f 50%, #92400e 100%);
+            border-color: #b45309;
+            border-left-color: #fbbf24;
+        }
+        
+        .rupa-intro-card .gatha-box {
+            background: rgba(255, 255, 255, 0.85);
+            border-left: 4px solid #d97706;
+            border-radius: 0.75rem;
+        }
+        .dark .rupa-intro-card .gatha-box {
+            background: rgba(0, 0, 0, 0.35);
+            border-left-color: #fbbf24;
+        }
+        
+        /* ============================================================ */
+        /* SCROLL TABLE */
+        /* ============================================================ */
+        .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 0.75rem;
+        }
+        .table-scroll::-webkit-scrollbar { height: 6px; }
+        .table-scroll::-webkit-scrollbar-track { background: #fef3c7; border-radius: 3px; }
+        .table-scroll::-webkit-scrollbar-thumb { background: #d97706; border-radius: 3px; }
+        .dark .table-scroll::-webkit-scrollbar-track { background: #334155; }
+        .dark .table-scroll::-webkit-scrollbar-thumb { background: #f59e0b; }
+        
+        /* ============================================================ */
+        /* ANIMATIONS */
+        /* ============================================================ */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+    </style>
+</head>
+<body class="h-full flex flex-col justify-between text-slate-800 dark:text-slate-100 bg-amber-50/30 dark:bg-slate-900 antialiased selection:bg-saffron-200 selection:text-maroon-900 transition-colors duration-200">
+
+<!-- ============================================================ -->
+<!-- HEADER -->
+<!-- ============================================================ -->
+<header class="sticky top-0 z-30 bg-maroon-900 text-amber-100 shadow-md border-b-2 border-saffron-500">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between relative">
+        <div class="flex items-center space-x-2">
+            <a href="../index.html" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="මුල් පිටුවට">
+                <i class="fa-solid fa-house text-lg"></i>
+            </a>
+            <a href="../paramatta.html" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="සතර පරමාර්ථ">
+                <i class="fa-solid fa-gem text-lg"></i>
+            </a>
+        </div>
+
+        <div class="flex items-center space-x-2 mx-auto text-center cursor-pointer" onclick="window.location.href='../index.html'">
+            <div class="w-9 h-9 rounded-full bg-saffron-500/20 border border-saffron-400 flex items-center justify-center text-saffron-300 shadow-inner shrink-0">
+                <i class="fa-solid fa-cube text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-xl sm:text-2xl leading-tight text-saffron-100 tracking-wide">අභිධර්ම රූප විභාගය</h1>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <button id="theme-toggle-btn" onclick="toggleDarkMode()" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="තේමාව වෙනස් කරන්න">
+                <i id="theme-toggle-icon" class="fa-solid fa-moon text-lg"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- BREADCRUMB -->
+<!-- ============================================================ -->
+<nav class="max-w-4xl w-full mx-auto px-4 pt-3 text-xs text-amber-800 dark:text-saffron-300 flex items-center gap-2 flex-wrap">
+    <a href="../index.html" class="hover:underline flex items-center gap-1">
+        <i class="fa-solid fa-house text-[10px]"></i> මුල් පිටුව
+    </a>
+    <i class="fa-solid fa-chevron-right text-[10px] text-amber-400"></i>
+    <a href="../paramatta.html" class="hover:underline flex items-center gap-1">
+        <i class="fa-solid fa-gem text-[10px]"></i> සතර පරමාර්ථ
+    </a>
+    <i class="fa-solid fa-chevron-right text-[10px] text-amber-400"></i>
+    <span class="font-bold text-amber-900 dark:text-saffron-200">රූප පරමාර්ථය</span>
+</nav>
+
+<!-- ============================================================ -->
+<!-- MAIN CONTAINER -->
+<!-- ============================================================ -->
+<main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 pb-12 space-y-6 fade-in">
+
+    <!-- ============================================================ -->
+    <!-- HERO / INTRO BANNER -->
+    <!-- ============================================================ -->
+    <div class="bg-gradient-to-br from-amber-700 via-saffron-600 to-amber-700 text-white rounded-2xl p-6 shadow-xl border border-saffron-400/60 relative overflow-hidden">
+        <div class="absolute -right-6 -bottom-6 opacity-15 text-white text-9xl pointer-events-none">
+            <i class="fa-solid fa-cube"></i>
+        </div>
+        <div class="relative">
+            <span class="inline-block px-3 py-1 bg-white/25 border border-white/40 rounded-full text-xs text-white font-medium mb-2 backdrop-blur-sm">
+                අභිධර්ම පිටකය • පරමාර්ථ ධර්ම 3
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2 drop-shadow-md">රූප පරමාර්ථය</h2>
+            <p class="text-sm sm:text-base text-white/95 leading-relaxed mb-4 text-justify">
+                අරමුණ නොදන්නා, රූපී ස්වභාවය ඇති ධර්ම. රූප 28 වර්ගීකරණයට අමතරව කර්ම, චිත්ත, සෘතු, ආහාර යන සමුට්ඨාන සතරෙන් උපදින රූප නය ක්‍රමයන් පහත බොත්තම් භාවිතයෙන් අධ්‍යයනය කළ හැක.
+            </p>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+                    <div class="text-2xl font-bold text-white">28</div>
+                    <div class="text-[10px] text-white/90 font-medium mt-1">රූප</div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+                    <div class="text-2xl font-bold text-white">4</div>
+                    <div class="text-[10px] text-white/90 font-medium mt-1">මහාභූත</div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+                    <div class="text-2xl font-bold text-white">4</div>
+                    <div class="text-[10px] text-white/90 font-medium mt-1">සමුට්ඨාන</div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+                    <div class="text-2xl font-bold text-white">4</div>
+                    <div class="text-[10px] text-white/90 font-medium mt-1">ලක්ඛණ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ✅ රූපය විස්තර කාඩ්පත (Hero එකට යටින්) -->
+    <!-- ============================================================ -->
+    <section class="rupa-intro-card rounded-2xl p-5 sm:p-6 shadow-md fade-in">
+        <div class="flex items-start gap-3 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-600 to-orange-700 text-white flex items-center justify-center text-xl shrink-0 shadow-md">
+                <i class="fa-solid fa-cube"></i>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1 flex-wrap">
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-600 text-white">පරමාර්ථ ධර්ම 3</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-200">28</span>
+                </div>
+                <h3 class="font-bold text-xl text-amber-900 dark:text-amber-100">රූපය</h3>
+            </div>
+        </div>
+
+        <!-- ගාථාව -->
+        <div class="gatha-box p-4 mb-4">
+            <p class="text-sm sm:text-base italic text-amber-900 dark:text-amber-100 leading-relaxed text-justify">
+                <i class="fa-solid fa-quote-left text-amber-500 mr-2 opacity-60"></i>
+                <strong>"රුප්පතීති රූපං, සීතුණ්හාදිවිරොධිපච්චයෙහි විකාරමාපජ්ජති, ආපාදීයතීති වා අත්ථො."</strong>
+                <span class="text-xs text-amber-700 dark:text-amber-300 ml-2">(අභි.සං)</span>
+            </p>
+        </div>
+
+        <!-- මුල් විස්තරය -->
+        <div class="space-y-3">
+            <p class="text-sm sm:text-base text-amber-900 dark:text-amber-50 leading-relaxed text-justify">
+                සත්ත්ව ශරීර හා බාහිර වස්තූන් සෑදී ඇති මූලික ධර්ම රාශිය <strong>රූපයෝ</strong> ය. රූප විසි අටක් (28) ඇත්තේ ය. එයින් ඇසට පෙනෙන්නේ වර්ණ ධාතුව නැමති එක් රූපයක් පමණෙකි. ඉතිරි සත්විස්ස ඇසට පෙනෙන රූප නො වේ.
+            </p>
+
+            <p class="text-sm sm:text-base text-amber-900 dark:text-amber-50 leading-relaxed text-justify">
+                රූප යන වචනයේ තේරුම <strong>ශීතෝෂ්ණාදි විරුද්ධ දෙය හා එක් වීමෙන් විකාරයට පැමිණෙන දෙය</strong> ය යනුයි. චිත්ත චෛතසිකයන් ඉතා සියුම් බැවින් ශීතෝෂ්ණාදිය හා ඒවායේ ගැටීමක් සිදු නොවේ. 
+                <span class="text-xs text-amber-700 dark:text-amber-300 italic">(අභි,ච)</span>
+            </p>
+        </div>
+
+        <!-- අලුතින් එක් කරන ලද රූප නිර්වචන පාලි සහ සිංහල විවරණය -->
+        <div class="bg-amber-50/95 dark:bg-slate-900/90 border border-amber-300 dark:border-amber-700 rounded-xl p-4 sm:p-5 my-4 space-y-3 text-slate-900 dark:text-slate-100 shadow-sm">
+            <div class="border-b border-amber-300/80 dark:border-slate-700 pb-2">
+                <span class="text-xs uppercase tracking-wider font-bold text-amber-900 dark:text-amber-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-scroll text-amber-700 dark:text-amber-400"></i> රූප නිර්වචන පාලි පාඨය
+                </span>
+                <p class="text-xs sm:text-sm italic leading-relaxed text-justify mt-2 text-slate-900 dark:text-slate-200">
+                    "රුප්‌පතීති රූපං, සීතුණ්‌හාදිවිරොධිපච්‌චයෙහි විකාරමාපජ්‌ජති, ආපාදීයතීති වා අත්‌ථො. තෙනාහ භගවා ‘‘සීතෙනපි රුප්‌පති, උණ්‌හෙනපි රුප්‌පතී’’ත්‍යාදි (සං. නි. 3.79), රුප්‌පනඤ්‌චෙත්‌ථ සීතාදිවිරොධිපච්‌චයසමවායෙ විසදිසුප්‌පත්‌තියෙව. යදි එවං අරූපධම්‌මානම්‌පි රූපවොහාරො ආපජ්‌ජතීති? නාපජ්‌ජති සීතාදිග්‌ගහණසාමත්‌ථියතො විභූතතරස්‌සෙව රුප්‌පනස්‌සාධිප්‌පෙතත්‌තා. ඉතරථා හි ‘‘රුප්‌පතී’’ති අවිසෙසවචනෙනෙව පරියත්‌තන්‌ති කිං සීතාදිග්‌ගහණෙන, තං පන සීතාදිනා ඵුට්‌ඨස්‌ස රුප්‌පනං විභූතතරං, තස්‌මා තදෙවෙත්‌ථාධිප්‌පෙතන්‌ති ඤාපනත්‌ථං සීතාදිග්‌ගහණං කතං. යදි එවං කථං බ්‍රහ්‌මලොකෙ රූපවොහාරො, න හි තත්‌ථ උපඝාතකා සීතාදයො අත්‌ථීති? කිඤ්‌චාපි උපඝාතකා නත්‌ථි, අනුග්‌ගාහකා පන අත්‌ථි, තස්‌මා තංවසෙනෙත්‌ථ රුප්‌පනං සම්‌භවතීති, අථ වා තංසභාවානතිවත්‌තනතො තත්‌ථ රූපවොහාරොති අලමතිප්‌පපඤ්‌චෙන."
+                </p>
+            </div>
+
+            <div class="pt-1">
+                <span class="text-xs uppercase tracking-wider font-bold text-amber-900 dark:text-amber-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-book-open text-amber-700 dark:text-amber-400"></i> සිංහල අර්ථ විවරණය
+                </span>
+                <p class="text-xs sm:text-sm leading-relaxed text-justify mt-2 text-slate-900 dark:text-slate-200">
+                    "විකාරයට පත්වේනුයි (වෙනස් වීමට භාජනය වේනුයි) <strong>'රූප'</strong> නම් වේ. එනම් ශීත, උෂ්ණ ආදී වූ පටහැනි (විරුද්ධ) ප්‍රත්‍යයන් හේතුවෙන් විකාරයට පැමිණේ, පමුණුවනු ලැබේ යන අර්ථයයි. එහෙයින් භාග්‍යවතුන් වහන්සේ <em>'සීතේනපි රුප්පති, උණ්හේනපි රුප්පති'</em> (ශීතලෙන් ද විකාරයට පත්වේ, උෂ්ණයෙන් ද විකාරයට පත්වේ) යනාදී වශයෙන් වදාළ සේක (සංයුක්ත නිකාය 3.79 - ඛජ්ජනීය සූත්‍රය). මෙහිලා 'රුප්පනය' (විකාරයට පත්වීම) යනු ශීතාදී විරුද්ධ ප්‍රත්‍යයන් එක්රැස් වූ කල්හි (පෙර පැවති රූප සන්තතියට) අසමාන වූ (විසදෘශ) රූපයන්ගේ පහළවීම ම ය.
+                </p>
+                <div class="bg-white/80 dark:bg-slate-800/80 p-3 rounded-lg border border-amber-200 dark:border-slate-700 my-2 space-y-2">
+                    <div>
+                        <strong class="text-amber-950 dark:text-amber-300">ප්‍රශ්නය:</strong> ඉදින් එසේ නම් (පෙර සිතට අසමාන පසු සිත් පහළවීම් ආදිය හේතුවෙන්) අරූප ධර්මයන්ට ද (නාම ධර්මයන්ට ද) 'රූප' යන ව්‍යවහාරය පැමිණිය යුතු නොවේ ද?
+                    </div>
+                    <div>
+                        <strong class="text-emerald-800 dark:text-emerald-400">පිළිතුර:</strong> නැත, එසේ නොපැමිණේ. ශීත-උෂ්ණාදිය ගැනීමෙහි සමර්ථතාව අනුව (ඇසට, කයට) අතිශයින්ම ප්‍රකට වූවක් ම 'රුප්පනය' වශයෙන් මෙහි අදහස් කර ඇති බැවිනි. එසේ නොවන්නේ නම්, 'රුප්පති' (විකාරයට පත්වේ) යන විශේෂණයක් නැති සාමාන්‍ය වචනයෙන්ම ප්‍රමාණවත් වන බැවින් 'ශීතාදී' වශයෙන් ගැනීමෙන් කුමන ඵලයක් ද? ශීත-උෂ්ණාදිය හා ගැටීමෙන් වන විකාරය අතිශයින්ම ප්‍රකට ය. එබැවින් මෙහි අදහස් කරන ලද්දේ එයම බව දැනවීම සඳහා ශීතාදී වශයෙන් ගැනීම කරන ලදී.
+                    </div>
+                    <div class="pt-1">
+                        <strong class="text-amber-950 dark:text-amber-300">ප්‍රශ්නය:</strong> ඉදින් එසේ නම් බ්‍රහ්ම ලෝකයෙහි 'රූප' යන ව්‍යවහාරය කෙසේ වේ ද? එහි රූපයන්ට හානි පමුණුවන (උපඝාතක වූ) ශීත-උෂ්ණාදිය නැත්තේ නොවේ ද?
+                    </div>
+                    <div>
+                        <strong class="text-emerald-800 dark:text-emerald-400">පිළිතුර:</strong> හානි පමුණුවන උපඝාතක ධර්මයන් එහි නැතත්, අනුග්‍රහ කරන (අනුකූල වූ) ශීත-උෂ්ණාදී ප්‍රත්‍යයෝ ඇත්තාහ. එබැවින් ඒ අනුග්‍රාහක ප්‍රත්‍යයන්ගේ බලයෙන් එහි ද 'රුප්පනය' (වෙනස් වී පහළවීම) සම්භවය වේ (සිදුවේ). නැතහොත්, (කාම ලෝකයේදී පවතින) එම රූප ස්වභාවය ඉක්මවා නොපවතින බැවින් ද එහි 'රූප' යන ව්‍යවහාරය වේ. එබැවින් මේ සම්බන්ධයෙන් අනවශ්‍ය ලෙස දීර්ඝ විස්තර කිරීම් ප්‍රමාණවත් වේ."
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- විශේෂාංග ලැයිස්තුව -->
+        <div class="mt-4 pt-4 border-t border-amber-300/60 dark:border-amber-500/30 grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div class="bg-white/60 dark:bg-amber-950/40 rounded-lg p-3 text-center">
+                <i class="fa-solid fa-cube text-amber-600 dark:text-amber-300 text-lg mb-1"></i>
+                <div class="text-xs font-bold text-amber-900 dark:text-amber-200">28 ක් ඇත</div>
+                <div class="text-[10px] text-amber-700 dark:text-amber-300">රූප වර්ග</div>
+            </div>
+            <div class="bg-white/60 dark:bg-amber-950/40 rounded-lg p-3 text-center">
+                <i class="fa-solid fa-eye-slash text-amber-600 dark:text-amber-300 text-lg mb-1"></i>
+                <div class="text-xs font-bold text-amber-900 dark:text-amber-200">අරමුණ නොදනී</div>
+                <div class="text-[10px] text-amber-700 dark:text-amber-300">රූපයේ ස්වභාවය</div>
+            </div>
+            <div class="bg-white/60 dark:bg-amber-950/40 rounded-lg p-3 text-center">
+                <i class="fa-solid fa-temperature-half text-amber-600 dark:text-amber-300 text-lg mb-1"></i>
+                <div class="text-xs font-bold text-amber-900 dark:text-amber-200">විකාරයට පැමිණේ</div>
+                <div class="text-[10px] text-amber-700 dark:text-amber-300">ශීතෝෂ්ණාදියෙන්</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SEARCH PANEL -->
+    <!-- ============================================================ -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white dark:bg-slate-800 p-4 rounded-xl border border-amber-200 dark:border-slate-700 shadow-sm">
+        <div class="relative w-full sm:flex-1">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-amber-700 dark:text-saffron-400">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <input type="text" id="search-input" placeholder="රූපයක නමක් හෝ විස්තරයක් සොයන්න... (උදා: පඨවි, කර්මජ, චිත්තජ)" 
+                   class="w-full pl-10 pr-4 py-2.5 bg-amber-50/50 dark:bg-slate-900 border border-amber-300 dark:border-slate-700 rounded-lg text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-saffron-500">
+        </div>
+        <div id="total-count" class="shrink-0 bg-saffron-500/20 dark:bg-slate-700 text-maroon-900 dark:text-saffron-300 font-bold px-4 py-2 rounded-lg text-xs border border-saffron-400/30">
+            ප්‍රදර්ශනය වන රූප ගණන: 28
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- RUPA VIBHAGAYA SECTION -->
+    <!-- ============================================================ -->
+    <div class="space-y-4">
+        
+        <!-- බොත්තම් පේළිය: රූප විභාගය + ලක්ඛණ රස -->
+        <div class="flex flex-col sm:flex-row gap-2">
+            <!-- බොත්තම 1: රූප විභාගය වර්ගීකරණය -->
+            <button type="button" onclick="toggleMainSection()" class="w-full sm:w-auto inline-flex items-center justify-between sm:justify-start gap-3 bg-gradient-to-r from-amber-700 via-saffron-600 to-amber-700 hover:from-amber-800 hover:to-saffron-700 text-white px-5 py-3 rounded-xl font-bold text-base shadow-md transition-all">
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-saffron-200"></i> රූප විභාගය වර්ගීකරණය
+                </span>
+                <i id="vibhaga-arrow" class="fa-solid fa-chevron-down text-saffron-200 transition-transform duration-200"></i>
+            </button>
+
+            <!-- නව බොත්තම: ලක්ඛණ, රස, පච්චුපට්ඨාන, පදට්ඨාන -->
+            <a href="rupa-lr.html" class="w-full sm:w-auto inline-flex items-center justify-between sm:justify-start gap-3 bg-gradient-to-r from-purple-700 via-violet-600 to-purple-700 hover:from-purple-800 hover:to-violet-700 text-white px-5 py-3 rounded-xl font-bold text-base shadow-md transition-all">
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-purple-200"></i> ලක්ඛණ, රස, පච්චුපට්ඨාන, පදට්ඨාන
+                </span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-purple-200 text-sm"></i>
+            </a>
+        </div>
+
+        <!-- Sub-Buttons Box -->
+        <div id="subContainer" class="hidden bg-amber-100/60 dark:bg-slate-800 p-4 rounded-2xl border border-amber-200 dark:border-slate-700 shadow-sm space-y-4">
+            
+            <!-- Group 1: මූලික රූප විභාග වර්ගීකරණය -->
+            <div class="rupa-group border border-amber-200 dark:border-slate-700 rounded-xl p-3 bg-white/50 dark:bg-slate-900/30" data-group="1">
+                <div class="text-xs font-bold text-maroon-900 dark:text-saffron-300 mb-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-shapes text-saffron-600"></i> මූලික රූප විභාග වර්ගීකරණය:
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'rupa28')">රූප 28 (මූලික විභාගය)</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'ajjhattika5')">අජ්ඣත්තික රූප 5</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'bahira23')">බාහිර රූප 23</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'vatthu6')">වත්ථු රූප 6</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'dvara8')">ද්වාර රූප 8</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'indriya8')">ඉන්ද්‍රිය රූප 8</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'olarika12')">ඔළාරික රූප 12</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'sukhuma16')">සුඛුම රූප 16</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'santike12')">සන්තිකේ රූප 12</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'dure16')">දූරේ රූප 16</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'gocara4')">ගෝචරග්ගාහික රූප 5</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'avinibbhoga8')">අවිනිබ්භෝග රූප 8</button>
+                    <button type="button" class="sub-btn-1 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'vinibbhoga20')">විනිබ්භෝග රූප 20</button>
+                </div>
+                <div id="rupaDisplayGroup1" class="hidden mt-3 bg-white dark:bg-slate-800 rounded-xl p-4 border-l-4 border-l-saffron-500 border border-amber-200 dark:border-slate-700 shadow-sm space-y-2">
+                    <h3 id="infoTitleGroup1" class="text-base font-bold text-maroon-900 dark:text-saffron-200"></h3>
+                    <div id="infoDetailsGroup1" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed overflow-x-auto text-justify"></div>
+                </div>
+            </div>
+
+            <!-- Group 2: සමුට්ඨාන නය -->
+            <div class="rupa-group border border-amber-200 dark:border-slate-700 rounded-xl p-3 bg-white/50 dark:bg-slate-900/30" data-group="2">
+                <div class="text-xs font-bold text-maroon-900 dark:text-saffron-300 mb-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-dharmachakra text-saffron-600"></i> සමුට්ඨාන නය (කර්මජ, චිත්තජ, උතුජ, ආහාරජ බෙදීම්):
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'kammaja20')">කර්මජ රූප 20</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'cittaja17')">චිත්තජ රූප 17</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'utuja15')">උතුජ රූප 15</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'aharaja14')">ආහාරජ රූප 14</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'asamutthana4')">නොඋපදින (සමුට්ඨාන නැති) 4</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'ekantaKammaja9')">ඒකාන්ත කර්මජ 9</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'anekantaKammaja11')">අනේකාන්ත කර්මජ 11</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'ekantaCittaja2')">ඒකාන්ත චිත්තජ 2</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'anekantaCittaja15')">අනේකාන්ත චිත්තජ 15</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'ekantaUtuja')">ඒකාන්ත උතුජ 0</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'anekantaUtuja15')">අනේකාන්ත උතුජ 15</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'ekantaAharaja')">ඒකාන්ත ආහාරජ 0</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'anekantaAharaja14')">අනේකාන්ත ආහාරජ 14</button>
+                    <button type="button" class="sub-btn-2 bg-white dark:bg-slate-900 text-amber-950 dark:text-slate-200 hover:bg-saffron-500 hover:text-white dark:hover:bg-saffron-600 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-amber-300 dark:border-slate-700 shadow-sm transition-all" onclick="showInfo(event, 'ekantaAharajaNovana')">ඒකාන්ත ආහාරජ නොවන 14</button>
+                </div>
+                <div id="rupaDisplayGroup2" class="hidden mt-3 bg-white dark:bg-slate-800 rounded-xl p-4 border-l-4 border-l-saffron-500 border border-amber-200 dark:border-slate-700 shadow-sm space-y-2">
+                    <h3 id="infoTitleGroup2" class="text-base font-bold text-maroon-900 dark:text-saffron-200"></h3>
+                    <div id="infoDetailsGroup2" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed overflow-x-auto text-justify"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ✅ නව බොත්තම 2: රූප - සවිස්තරාත්මක තොරතුරු -->
+        <!-- ============================================================ -->
+        <button type="button" onclick="toggleRupaDetaSection()" class="w-full sm:w-auto inline-flex items-center justify-between sm:justify-start gap-3 bg-gradient-to-r from-emerald-700 via-teal-600 to-emerald-700 hover:from-emerald-800 hover:to-teal-700 text-white px-5 py-3 rounded-xl font-bold text-base shadow-md transition-all">
+            <span class="flex items-center gap-2">
+                <i class="fa-solid fa-book-open-reader text-emerald-200"></i> රූප - සවිස්තරාත්මක තොරතුරු
+            </span>
+            <i id="rupa-deta-arrow" class="fa-solid fa-chevron-down text-emerald-200 transition-transform duration-200"></i>
+        </button>
+
+        <!-- නව Sub-Container: rupa-deta.js මගින් පාලනය වේ -->
+        <div id="rupaDetaContainer" class="hidden bg-emerald-50/60 dark:bg-slate-800 p-4 rounded-2xl border border-emerald-200 dark:border-slate-700 shadow-sm space-y-4">
+            
+            <div id="rupa-deta-content" class="space-y-4 text-justify">
+                
+                <!-- Loading Placeholder -->
+                <div class="text-center py-8 text-slate-400 dark:text-slate-500">
+                    <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-emerald-500"></i>
+                    <p class="text-sm">සවිස්තරාත්මක තොරතුරු load වෙමින්...</p>
+                </div>
+                
+            </div>
+            
+        </div>
+
+    </div>
+
+</main>
+
+<!-- ============================================================ -->
+<!-- FOOTER -->
+<!-- ============================================================ -->
+<footer class="bg-maroon-900 text-amber-100 text-center py-4 border-t-2 border-saffron-500">
+    <p class="text-xs text-amber-200/70">අභිධර්ම මාතිකා අධ්‍යයනය &copy; 2024 | රූප පරමාර්ථය</p>
+</footer>
+
+<!-- ============================================================ -->
+<!-- THEME TOGGLE SUPPORT SCRIPT -->
+<!-- ============================================================ -->
+<script>
+    function initTheme() {
+        const isDark = localStorage.getItem('abhidhamma_theme') === 'dark' ||
+                       localStorage.getItem('theme') === 'dark' ||
+                       (!localStorage.getItem('abhidhamma_theme') && !localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.getElementById('theme-toggle-icon').className = 'fa-solid fa-sun text-lg';
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.getElementById('theme-toggle-icon').className = 'fa-solid fa-moon text-lg';
+        }
+    }
+
+    function toggleDarkMode() {
+        if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('abhidhamma_theme', 'light');
+            localStorage.setItem('theme', 'light');
+            document.getElementById('theme-toggle-icon').className = 'fa-solid fa-moon text-lg';
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('abhidhamma_theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            document.getElementById('theme-toggle-icon').className = 'fa-solid fa-sun text-lg';
+        }
+    }
+
+    function toggleRupaDetaSection() {
+        const container = document.getElementById("rupaDetaContainer");
+        const arrowIcon = document.getElementById("rupa-deta-arrow");
+        
+        if (container) {
+            container.classList.toggle("hidden");
+            if (arrowIcon) {
+                arrowIcon.classList.toggle("rotate-180");
+            }
+            
+            if (!container.classList.contains('hidden')) {
+                if (typeof initRupaDeta === 'function') {
+                    initRupaDeta();
+                } else {
+                    console.warn('[rupa.html] initRupaDeta function not found - rupa-deta.js load වී නැත');
+                }
+            }
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', initTheme);
+</script>
+
+<!-- ============================================================ -->
+<!-- EXTERNAL DATA & LOGIC -->
+<!-- ============================================================ -->
+<script src="rupa.js"></script>
+<script src="rupa-deta.js"></script>
+
+</body>
+</html>
