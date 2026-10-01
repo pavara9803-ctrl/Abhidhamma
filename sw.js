@@ -3,7 +3,7 @@
 // Version: 15.0.0 (Final update for complete file structure)
 // ============================================================
 
-const CACHE_NAME = 'abhidhamma-matika-v15.0.0';
+const CACHE_NAME = 'abhidhamma-matika-v16.0.0';
 const OFFLINE_URL = './index.html';
 
 // ============================================================
