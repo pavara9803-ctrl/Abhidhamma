@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="si" class="h-full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>සුත්තන්ත මාතිකා - අභිධර්ම මාතිකා</title>
+
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./launchericon-48x48.png">
+
+<meta name="theme-color" content="#3f0a0c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="සුත්තන්ත මාතිකා">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        saffron: { 50:'#fffbeedb',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',800:'#92400e',900:'#78350f',950:'#451a03' },
+        maroon: { 700:'#701a1d',800:'#581113',900:'#3f0a0c',950:'#260507' }
+      },
+      fontFamily: { sans: ['Inter','Noto Serif Sinhala','sans-serif'] }
+    }
+  }
+};
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+body { font-family: 'Noto Serif Sinhala', 'Inter', serif; -webkit-tap-highlight-color: transparent; }
+
+/* ============================================================ */
+/* ✅ Justify සැකසුම් - සියලුම වචන පේළි */
+/* ============================================================ */
+
+/* සියලුම ඡේද (paragraphs) justify කරන්න */
+p {
+  text-align: justify;
+  text-justify: inter-word;
+  word-spacing: 0.05em;
+  line-height: 1.8;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* ලැයිස්තු අයිතම justify කරන්න */
+li {
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.7;
+}
+
+/* ස්වරූපාර්ථ box එකේ වචන justify කරන්න */
+.svartha-box,
+.artha-box {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  word-spacing: 0.05em;
+}
+
+/* අර්ථ box එකේ වචන justify කරන්න */
+#suttanta-pada-artha-text,
+#suttanta-pada-svartha,
+#suttanta-pada-desc {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* විස්තර දත්ත කොටස් justify කරන්න */
+#suttanta-skandha-list,
+#suttanta-ayatana-list,
+#suttanta-dhatu-list,
+#suttanta-sathya-list,
+#suttanta-bookmarks-container,
+#artha-vistara-content {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Breakdown items වල text justify කරන්න */
+.breakdown-item .name {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* ශීර්ෂක left aligned තබන්න */
+h1, h2, h3, h4, h5, h6 {
+  text-align: left;
+}
+
+/* බටන් center aligned තබන්න */
+button, .btn, .badge {
+  text-align: center;
+}
+
+/* ටේබල් හෙඩර් left aligned තබන්න */
+th {
+  text-align: left;
+}
+
+/* Tailwind text-justify class override */
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* ============================================================ */
+/* වෙනත් ස්ටයිල් */
+/* ============================================================ */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ============================================================ */
+/* BREAKDOWN ITEMS */
+/* ============================================================ */
+.breakdown-item {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 0.65rem 0.5rem; border-bottom: 1px solid #fef3c7;
+  gap: 0.75rem; border-radius: 0.5rem; transition: background 0.15s;
+}
+.breakdown-item:hover { background: rgba(251, 191, 36, 0.06); }
+.breakdown-item:last-child { border-bottom: none; }
+.breakdown-item .num {
+  font-weight: 700; color: #92400e; min-width: 1.8rem; flex-shrink: 0;
+  background: rgba(251, 191, 36, 0.15); border-radius: 50%;
+  width: 1.8rem; height: 1.8rem;
+  display: flex; align-items: center; justify-content: center; font-size: 0.75rem;
+}
+.breakdown-item .name { color: #78350f; flex: 1; font-weight: 500; }
+.breakdown-item .value {
+  color: #b45309; font-weight: 600; text-align: right;
+  flex-shrink: 0; max-width: 60%; font-size: 0.85rem;
+}
+.dark .breakdown-item { border-bottom-color: #334155; }
+.dark .breakdown-item .num { color: #fcd34d; background: rgba(252, 211, 77, 0.15); }
+.dark .breakdown-item .name { color: #fde68a; }
+.dark .breakdown-item .value { color: #fbbf24; }
+
+/* ============================================================ */
+/* පදයේ අර්ථය box */
+/* ============================================================ */
+.artha-box {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  white-space: pre-line;
+  line-height: 1.8;
+  font-size: 0.9rem;
+  color: #0f172a;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.dark .artha-box {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+/* ============================================================ */
+/* ස්වරූපාර්ථ box */
+/* ============================================================ */
+.svartha-box {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  white-space: pre-line;
+  line-height: 1.8;
+  font-size: 0.9rem;
+  color: #052e16;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.dark .svartha-box {
+  background: #14532d;
+  border-color: #166534;
+  color: #dcfce7;
+}
+
+/* ═══ NEW: විස්තරාත්මක විවරණය box ═══ */
+.artha-vistara-box {
+  background: #faf5ff;
+  border: 1px solid #e9d5ff;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  line-height: 1.8;
+  font-size: 0.9rem;
+  color: #3b0764;
+}
+.dark .artha-vistara-box {
+  background: #2e1065;
+  border-color: #6b21a8;
+  color: #e9d5ff;
+}
+
+/* ═══ NEW: Accordion transition ═══ */
+#artha-vistara-content {
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+#artha-vistara-chevron,
+[id^="av-chevron-"] {
+  transition: transform 0.25s ease;
+}
+
+/* ═══ NEW: Artha Vistara block hover ═══ */
+[id^="av-body-"] {
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.3s ease-out; }
+</style>
+</head>
+
+<body class="h-full flex flex-col text-slate-800 dark:text-slate-100 bg-amber-50/30 dark:bg-slate-900 antialiased">
+
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-30 bg-maroon-900 text-amber-100 shadow-md border-b-2 border-saffron-500">
+  <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <a href="index.html" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="මුල් පිටුවට">
+        <i class="fa-solid fa-house text-lg"></i>
+      </a>
+      <button onclick="showSuttantaBookmarksView()" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 relative transition-colors" title="සුරැකි මාතිකා">
+        <i class="fa-solid fa-bookmark text-lg"></i>
+        <span id="suttanta-fav-badge" class="hidden absolute -top-1 -right-1 bg-saffron-500 text-maroon-950 font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+      </button>
+    </div>
+
+    <div class="flex items-center">
+      <div class="w-9 h-9 rounded-full bg-saffron-500/20 border border-saffron-400 flex items-center justify-center text-saffron-300 shrink-0">
+        <i class="fa-solid fa-dharmachakra text-xl"></i>
+      </div>
+      <h1 class="font-bold text-lg sm:text-xl ml-2 text-saffron-100">සුත්තන්ත මාතිකා</h1>
+    </div>
+
+    <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="තේමාව">
+      <i id="theme-toggle-icon" class="fa-solid fa-moon text-lg"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ============ BREADCRUMB ============ -->
+<nav class="max-w-3xl w-full mx-auto px-4 pt-3 text-xs text-amber-800 dark:text-saffron-300 flex items-center gap-2 flex-wrap">
+  <a href="index.html" class="hover:underline flex items-center gap-1">
+    <i class="fa-solid fa-house text-[10px]"></i> මුල් පිටුව
+  </a>
+  <i class="fa-solid fa-chevron-right text-[10px] text-amber-400"></i>
+  <button onclick="backToSuttantaList()" class="hover:underline font-bold text-amber-900 dark:text-saffron-200">සුත්තන්ත මාතිකා</button>
+  <i id="bc-sep-suttanta" class="fa-solid fa-chevron-right text-[10px] text-amber-400 hidden"></i>
+  <span id="bc-suttanta" class="text-amber-700 dark:text-saffron-400 hidden truncate max-w-[200px]"></span>
+</nav>
+
+<!-- ============ MAIN ============ -->
+<main class="flex-1 max-w-3xl w-full mx-auto p-4 sm:p-6 pb-12">
+
+  <!-- ============================================================ -->
+  <!-- VIEW 1: සුත්තන්ත ලැයිස්තුව -->
+  <!-- ============================================================ -->
+  <section id="suttanta-view-list" class="space-y-4 fade-in">
+    
+    <!-- බැනරය -->
+    <button onclick="scrollToSuttantaList()" class="w-full text-left bg-gradient-to-br from-maroon-900 to-amber-900 text-amber-50 rounded-2xl p-5 shadow-lg hover:shadow-2xl border border-amber-600/30 relative overflow-hidden transition-all group cursor-pointer">
+      <div class="absolute -right-6 -bottom-6 opacity-10 text-amber-100 text-9xl pointer-events-none">
+        <i class="fa-solid fa-scroll"></i>
+      </div>
+      <span class="inline-block px-3 py-1 bg-saffron-500/20 border border-saffron-400/40 rounded-full text-xs text-saffron-300 font-medium mb-2">
+        අභිධර්ම පිටකය
+      </span>
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <h2 class="text-xl sm:text-2xl font-bold text-saffron-200 mb-2">සුත්තන්ත මාතිකා (42)</h2>
+          <p class="text-sm text-amber-100/90 leading-relaxed text-justify">
+            සුත්තන්තික මාතිකා පද සහ ස්වරූපාර්ථ, ස්කන්ධ, ආයතන, ධාතු සහ සත්‍ය බෙදීම් විස්තරාත්මකව අධ්‍යයනය කරන්න.
+          </p>
+        </div>
+        <i class="fa-solid fa-arrow-down text-saffron-300 text-2xl group-hover:translate-y-1 transition-transform shrink-0"></i>
+      </div>
+      <div class="mt-3 pt-3 border-t border-saffron-500/30 text-xs text-saffron-300 font-medium flex items-center gap-1.5">
+        <i class="fa-solid fa-hand-pointer"></i> සුත්තන්ත මාතිකා 42 බැලීමට ක්ලික් කරන්න
+      </div>
+    </button>
+
+    <!-- සෙවුම් තීරුව -->
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-amber-700 dark:text-saffron-400">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <input type="text" id="suttanta-search" oninput="handleSuttantaSearch(this.value)"
+             placeholder="මාතිකා පදය, ස්වරූපාර්ථ අනුව සොයන්න..."
+             class="w-full pl-10 pr-10 py-3 bg-white dark:bg-slate-800 border border-amber-300 dark:border-slate-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-saffron-500 text-sm">
+      <button id="suttanta-search-clear" onclick="clearSuttantaSearch()" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+
+    <!-- සුත්තන්ත ලැයිස්තුව -->
+    <div id="suttanta-list-container" class="space-y-3"></div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- VIEW 2: පද විස්තර -->
+  <!-- ============================================================ -->
+  <section id="suttanta-view-pada-detail" class="hidden space-y-4 fade-in">
+    <div class="bg-amber-100/80 dark:bg-slate-800 border border-amber-300 dark:border-slate-700 rounded-2xl p-4 shadow-sm">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-saffron-500 text-maroon-950">සුත්තන්ත මාතිකා</span>
+          <h2 id="suttanta-detail-title" class="text-lg sm:text-xl font-bold text-maroon-900 dark:text-saffron-200 mt-1"></h2>
+          <p id="suttanta-detail-subtitle" class="text-xs text-amber-800 dark:text-saffron-400"></p>
+        </div>
+        <button onclick="backToSuttantaList()" class="shrink-0 text-xs text-amber-900 dark:text-saffron-200 bg-white dark:bg-slate-900 border border-amber-300 dark:border-slate-700 px-3 py-1.5 rounded-lg hover:bg-amber-50 dark:hover:bg-slate-800 transition-colors">
+          <i class="fa-solid fa-arrow-left"></i> ලැයිස්තුවට
+        </button>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-amber-900 dark:text-saffron-300">
+        <i class="fa-solid fa-layer-group text-saffron-600"></i> මාතිකා පද තෝරන්න:
+      </h3>
+    </div>
+    <div id="suttanta-pada-tabs-container" class="grid grid-cols-1 gap-2"></div>
+
+    <div id="suttanta-pada-detail-breakdown" class="hidden flex flex-col space-y-4 pt-2 w-full">
+      
+      <!-- ============================================================ -->
+      <!-- තෝරාගත් පදය -->
+      <!-- ============================================================ -->
+      <div class="bg-[#fdf2f2] dark:bg-gradient-to-br dark:from-[#4a1a1c] dark:to-[#2a0a0c] text-slate-900 dark:text-amber-50 p-4 rounded-xl shadow-lg border border-rose-200 dark:border-amber-600/40 w-full">
+        <div class="flex justify-between items-start gap-3">
+          <div class="flex-1 min-w-0">
+            <div class="text-xs text-rose-700 dark:text-saffron-300 font-medium mb-1 flex items-center gap-1.5">
+              <i class="fa-solid fa-bookmark"></i> තෝරාගත් මාතිකා පදය
+            </div>
+            <h3 id="suttanta-pada-name" class="text-lg font-bold text-maroon-900 dark:text-saffron-100"></h3>
+          </div>
+          <button onclick="toggleSuttantaBookmark()" class="text-2xl text-rose-500 dark:text-amber-300 hover:text-rose-700 dark:hover:text-saffron-400 p-1 transition-colors shrink-0" title="සුරකින්න">
+            <i id="suttanta-bookmark-icon" class="fa-regular fa-bookmark"></i>
+          </button>
+        </div>
+        <p id="suttanta-pada-desc" class="text-xs text-slate-600 dark:text-amber-200/90 mt-2 text-justify"></p>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- පදයේ අර්ථය -->
+      <!-- ============================================================ -->
+      <div id="suttanta-pada-artha-section" class="hidden bg-slate-100 dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 p-4 rounded-xl shadow-lg border border-slate-300 dark:border-slate-600/40 w-full">
+        <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-300 dark:border-slate-500/30">
+          <i class="fa-solid fa-book text-blue-600 dark:text-blue-300"></i>
+          <span class="text-sm font-bold text-slate-800 dark:text-blue-200">පදයේ අර්ථය</span>
+        </div>
+        <div id="suttanta-pada-artha-text" class="artha-box"></div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <!-- ═══ NEW: විස්තරාත්මක විවරණය (Artha Vistara) ═══ -->
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <div id="suttanta-artha-vistara-section" class="hidden bg-white dark:bg-slate-800 rounded-2xl border border-purple-200 dark:border-purple-700/40 shadow-sm overflow-hidden w-full">
+        <!-- Section header (toggle) -->
+        <button onclick="toggleArthaVistaraSection()" 
+                class="w-full flex items-center justify-between gap-2 p-4 hover:bg-purple-50 dark:hover:bg-slate-700 transition-colors">
+          <span class="flex items-center gap-2 min-w-0">
+            <span class="w-8 h-8 rounded-lg bg-purple-200 dark:bg-purple-700 text-purple-700 dark:text-purple-100 flex items-center justify-center text-sm shrink-0">
+              <i class="fa-solid fa-magnifying-glass-chart"></i>
+            </span>
+            <span class="text-left min-w-0">
+              <span class="block font-bold text-sm text-maroon-900 dark:text-purple-200 truncate">විස්තරාත්මක විවරණය</span>
+              <span class="block text-[10px] text-purple-700 dark:text-purple-300/80">නිරුක්ති · අභිධෙය්‍ය · සංග්‍රහ · විශේෂ සටහන්</span>
+            </span>
+          </span>
+          <i id="artha-vistara-chevron" class="fa-solid fa-chevron-down text-purple-600 dark:text-purple-300 text-sm transition-transform shrink-0"></i>
+        </button>
+
+        <!-- Section body (dynamic content) -->
+        <div id="artha-vistara-content" class="hidden p-4 pt-0 space-y-3"></div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- ස්වරූපාර්ථ -->
+      <!-- ============================================================ -->
+      <div class="bg-emerald-50 dark:bg-gradient-to-br dark:from-emerald-900 dark:to-green-950 text-slate-900 dark:text-emerald-50 p-4 rounded-xl shadow-lg border border-emerald-200 dark:border-emerald-600/40 w-full">
+        <div class="flex items-center gap-2 mb-3 pb-2 border-b border-emerald-200 dark:border-emerald-500/30">
+          <i class="fa-solid fa-book-bookmark text-emerald-600 dark:text-emerald-300"></i>
+          <span class="text-sm font-bold text-emerald-800 dark:text-emerald-200">ස්වරූපාර්ථ</span>
+        </div>
+        <div id="suttanta-pada-svartha" class="svartha-box"></div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- Tabs -->
+      <!-- ============================================================ -->
+      <div class="bg-white dark:bg-slate-800 rounded-2xl border border-amber-200 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div class="flex border-b border-amber-200 dark:border-slate-700 overflow-x-auto hide-scrollbar">
+          <button onclick="switchSuttantaTab('skandha')" id="suttanta-tab-btn-skandha"
+                  class="tab-btn flex-1 min-w-[110px] px-3 py-3 text-xs sm:text-sm font-bold whitespace-nowrap transition-colors border-b-2 border-saffron-600 text-saffron-700 dark:text-saffron-400 bg-saffron-500/10">
+            <i class="fa-solid fa-cubes"></i> ස්කන්ධ
+            <span class="block text-[10px] font-normal opacity-75">(5)</span>
+          </button>
+          <button onclick="switchSuttantaTab('ayatana')" id="suttanta-tab-btn-ayatana"
+                  class="tab-btn flex-1 min-w-[110px] px-3 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors border-b-2 border-transparent text-amber-800 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700">
+            <i class="fa-solid fa-door-open"></i> ආයතන
+            <span class="block text-[10px] font-normal opacity-75">(12)</span>
+          </button>
+          <button onclick="switchSuttantaTab('dhatu')" id="suttanta-tab-btn-dhatu"
+                  class="tab-btn flex-1 min-w-[110px] px-3 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors border-b-2 border-transparent text-amber-800 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700">
+            <i class="fa-solid fa-circle-nodes"></i> ධාතු
+            <span class="block text-[10px] font-normal opacity-75">(18)</span>
+          </button>
+          <button onclick="switchSuttantaTab('sathya')" id="suttanta-tab-btn-sathya"
+                  class="tab-btn flex-1 min-w-[110px] px-3 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors border-b-2 border-transparent text-amber-800 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700">
+            <i class="fa-solid fa-scale-balanced"></i> සත්‍ය
+            <span class="block text-[10px] font-normal opacity-75">(4)</span>
+          </button>
+        </div>
+
+        <div class="p-4 sm:p-5">
+          <!-- ස්කන්ධ -->
+          <div id="suttanta-panel-skandha" class="space-y-3">
+            <div class="flex items-center justify-between bg-amber-50 dark:bg-slate-900 p-3 rounded-lg border border-amber-200 dark:border-slate-700">
+              <span class="font-bold text-amber-900 dark:text-saffron-300 text-sm">
+                <i class="fa-solid fa-cubes text-saffron-600"></i> පරමාර්ථ ධර්ම ස්කන්ධ 5 ට බෙදීම
+              </span>
+              <span id="suttanta-skandha-count" class="bg-saffron-500 text-maroon-950 font-bold px-3 py-0.5 rounded-full text-xs">0</span>
+            </div>
+            <div id="suttanta-skandha-list" class="text-sm"></div>
+          </div>
+
+          <!-- ආයතන -->
+          <div id="suttanta-panel-ayatana" class="hidden space-y-3">
+            <div class="flex items-center justify-between bg-amber-50 dark:bg-slate-900 p-3 rounded-lg border border-amber-200 dark:border-slate-700">
+              <span class="font-bold text-amber-900 dark:text-saffron-300 text-sm">
+                <i class="fa-solid fa-door-open text-saffron-600"></i> පරමාර්ථ ධර්ම ආයතන 12 ට බෙදීම
+              </span>
+              <span id="suttanta-ayatana-count" class="bg-saffron-500 text-maroon-950 font-bold px-3 py-0.5 rounded-full text-xs">0</span>
+            </div>
+            <div id="suttanta-ayatana-list" class="text-sm"></div>
+          </div>
+
+          <!-- ධාතු -->
+          <div id="suttanta-panel-dhatu" class="hidden space-y-3">
+            <div class="flex items-center justify-between bg-amber-50 dark:bg-slate-900 p-3 rounded-lg border border-amber-200 dark:border-slate-700">
+              <span class="font-bold text-amber-900 dark:text-saffron-300 text-sm">
+                <i class="fa-solid fa-circle-nodes text-saffron-600"></i> පරමාර්ථ ධර්ම ධාතු 18 ට බෙදීම
+              </span>
+              <span id="suttanta-dhatu-count" class="bg-saffron-500 text-maroon-950 font-bold px-3 py-0.5 rounded-full text-xs">0</span>
+            </div>
+            <div id="suttanta-dhatu-list" class="text-sm"></div>
+          </div>
+
+          <!-- සත්‍ය -->
+          <div id="suttanta-panel-sathya" class="hidden space-y-3">
+            <div class="flex items-center justify-between bg-amber-50 dark:bg-slate-900 p-3 rounded-lg border border-amber-200 dark:border-slate-700">
+              <span class="font-bold text-amber-900 dark:text-saffron-300 text-sm">
+                <i class="fa-solid fa-scale-balanced text-saffron-600"></i> චතුරාර්ය සත්‍යය
+              </span>
+              <span id="suttanta-sathya-count" class="bg-saffron-500 text-maroon-950 font-bold px-3 py-0.5 rounded-full text-xs">0</span>
+            </div>
+            <div id="suttanta-sathya-list" class="text-sm"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- දුක මුක්ත ධර්ම -->
+      <!-- ============================================================ -->
+      <div id="suttanta-mukta-section" class="hidden bg-purple-50 dark:bg-gradient-to-br dark:from-purple-900 dark:to-indigo-950 border border-purple-200 dark:border-purple-600/40 rounded-2xl p-4 shadow-lg">
+        <div class="flex items-center gap-2 mb-3 border-b border-purple-200 dark:border-purple-500/30 pb-2">
+          <span class="w-9 h-9 rounded-xl bg-purple-200 dark:bg-purple-700 text-purple-700 dark:text-purple-100 flex items-center justify-center text-sm shrink-0">
+            <i class="fa-solid fa-circle-notch"></i>
+          </span>
+          <div>
+            <h3 class="font-bold text-sm text-purple-900 dark:text-purple-200">දුක මුක්ත ධර්ම</h3>
+            <p class="text-[10px] text-purple-700 dark:text-purple-300/80">මෙම දුකයට ඇතුළත් නොවන ධර්ම</p>
+          </div>
+        </div>
+        <p id="suttanta-mukta-content" class="text-xs text-purple-900 dark:text-purple-100 leading-relaxed whitespace-pre-line text-justify"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- VIEW 3: සුරැකි මාතිකා -->
+  <!-- ============================================================ -->
+  <section id="suttanta-view-bookmarks" class="hidden space-y-4 fade-in">
+    <div class="bg-gradient-to-br from-amber-700 to-maroon-900 text-amber-50 rounded-2xl p-5 shadow-lg border border-amber-600/30">
+      <div class="flex items-center gap-2 mb-2">
+        <i class="fa-solid fa-bookmark text-saffron-300 text-2xl"></i>
+        <h2 class="text-xl font-bold text-saffron-200">සුරැකි මාතිකා</h2>
+      </div>
+      <p class="text-xs text-amber-100/90 text-justify">ඔබ විසින් සුරකිමින් අධ්‍යයනය කරන මාතිකා පද</p>
+    </div>
+    <button onclick="backToSuttantaList()" class="w-full text-xs text-amber-900 dark:text-saffron-200 bg-white dark:bg-slate-900 border border-amber-300 dark:border-slate-700 px-3 py-2 rounded-lg hover:bg-amber-50 dark:hover:bg-slate-800 transition-colors">
+      <i class="fa-solid fa-arrow-left"></i> ලැයිස්තුවට
+    </button>
+    <div id="suttanta-bookmarks-container" class="space-y-2"></div>
+  </section>
+
+</main>
+
+<footer class="bg-maroon-900 text-amber-100 text-center py-4 border-t-2 border-saffron-500">
+  <p class="text-xs text-amber-200/70">අභිධර්ම මාතිකා &copy; 2026</p>
+</footer>
+
+<!-- ============================================================ -->
+<!-- SCRIPT ගොනු -->
+<!-- ============================================================ -->
+
+<!-- 1. සුත්තන්ත දුක මාතිකා දත්ත -->
+<script src="suttanta-data.js"></script>
+
+<!-- 2. සුත්තන්ත යෙදුම් logic -->
+<script>
+// ============================================================
+// APPLICATION STATE
+// ============================================================
+var suttantaCurrentView = 'list';
+var suttantaCurrentMatikaIndex = 0;
+var suttantaCurrentPadaIndex = 0;
+var suttantaActiveTab = 'skandha';
+var suttantaBookmarks = JSON.parse(localStorage.getItem('suttanta_bookmarks') || '[]');
+
+// ============================================================
+// THEME TOGGLE
+// ============================================================
+function toggleDarkMode() {
+  var html = document.documentElement;
+  var icon = document.getElementById('theme-toggle-icon');
+  if (html.classList.contains('dark')) {
+    html.classList.remove('dark');
+    localStorage.setItem('abhidhamma_theme', 'light');
+    icon.className = 'fa-solid fa-moon text-lg';
+  } else {
+    html.classList.add('dark');
+    localStorage.setItem('abhidhamma_theme', 'dark');
+    icon.className = 'fa-solid fa-sun text-lg';
+  }
+}
+
+if (localStorage.getItem('abhidhamma_theme') === 'dark' || 
+    (!localStorage.getItem('abhidhamma_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.classList.add('dark');
+  document.getElementById('theme-toggle-icon').className = 'fa-solid fa-sun text-lg';
+}
+
+// ============================================================
+// VIEW NAVIGATION
+// ============================================================
+function showSuttantaView(viewName) {
+  suttantaCurrentView = viewName;
+  document.querySelectorAll('main > section').forEach(function(sec) {
+    sec.classList.add('hidden');
+  });
+  
+  var targetSec = document.getElementById('suttanta-view-' + viewName);
+  if (targetSec) targetSec.classList.remove('hidden');
+  
+  updateSuttantaBreadcrumb();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateSuttantaBreadcrumb() {
+  var sep = document.getElementById('bc-sep-suttanta');
+  var bcText = document.getElementById('bc-suttanta');
+  
+  if (suttantaCurrentView === 'list' || suttantaCurrentView === 'bookmarks') {
+    sep.classList.add('hidden');
+    bcText.classList.add('hidden');
+  } else if (suttantaCurrentView === 'pada-detail') {
+    sep.classList.remove('hidden');
+    bcText.classList.remove('hidden');
+    if (suttantaFullData[suttantaCurrentMatikaIndex]) {
+      bcText.innerText = suttantaFullData[suttantaCurrentMatikaIndex].title;
+    }
+  }
+}
+
+function backToSuttantaList() {
+  showSuttantaView('list');
+  renderSuttantaList();
+}
+
+function scrollToSuttantaList() {
+  var container = document.getElementById('suttanta-list-container');
+  if (container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============================================================
+// LIST RENDERING
+// ============================================================
+function renderSuttantaList() {
+  var container = document.getElementById('suttanta-list-container');
+  container.innerHTML = '';
+  
+  if (!suttantaFullData || suttantaFullData.length === 0) {
+    container.innerHTML = 
+      '<div class="text-center py-8 text-slate-500 text-sm">' +
+        '<i class="fa-solid fa-circle-info text-2xl mb-2 opacity-30"></i><br>' +
+        'දත්ත නොමැත.' +
+      '</div>';
+    return;
+  }
+  
+  suttantaFullData.forEach(function(item, index) {
+    var card = document.createElement('div');
+    card.className = 'bg-white dark:bg-slate-800 border border-amber-200 dark:border-slate-700 rounded-xl p-4 shadow-sm hover:shadow-md transition-all flex items-center justify-between cursor-pointer';
+    card.onclick = function() { openSuttantaMatikaDetails(index); };
+    
+    var padasHtml = item.padas.map(function(p) { 
+      return '<span class="inline-block bg-amber-50 dark:bg-slate-900 border border-amber-200 dark:border-slate-700 text-amber-900 dark:text-saffron-300 text-xs px-2 py-1 rounded-lg mr-1 mb-1">' + p.name + '</span>'; 
+    }).join('');
+    
+    card.innerHTML = '<div class="flex-1 min-w-0 pr-3"><div class="flex items-center gap-2 mb-1"><span class="w-6 h-6 rounded-full bg-saffron-500/20 text-saffron-600 font-bold text-xs flex items-center justify-center shrink-0">' + (index+1) + '</span><h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200 truncate">' + item.title + '</h3></div><div class="flex flex-wrap mt-2">' + padasHtml + '</div></div><i class="fa-solid fa-chevron-right text-slate-400"></i>';
+    container.appendChild(card);
+  });
+}
+
+function openSuttantaMatikaDetails(matikaIndex, padaIndex) {
+  suttantaCurrentMatikaIndex = matikaIndex;
+  suttantaCurrentPadaIndex = (typeof padaIndex === 'number') ? padaIndex : 0;
+  
+  showSuttantaView('pada-detail');
+  
+  var item = suttantaFullData[suttantaCurrentMatikaIndex];
+  
+  document.getElementById('suttanta-detail-title').innerText = item.title;
+  document.getElementById('suttanta-detail-subtitle').innerText = item.padas.length + ' පද';
+  
+  renderSuttantaPadaTabs(item.padas);
+  selectSuttantaPada(suttantaCurrentPadaIndex);
+}
+
+// ============================================================
+// PADA TABS
+// ============================================================
+function renderSuttantaPadaTabs(padas) {
+  var container = document.getElementById('suttanta-pada-tabs-container');
+  container.innerHTML = '';
+  
+  if (!padas || padas.length === 0) {
+    container.innerHTML = '<div class="text-slate-500 text-xs">පද නොමැත.</div>';
+    document.getElementById('suttanta-pada-detail-breakdown').classList.add('hidden');
+    return;
+  }
+  
+  document.getElementById('suttanta-pada-detail-breakdown').classList.remove('hidden');
+  
+  padas.forEach(function(pada, index) {
+    var btn = document.createElement('button');
+    btn.id = 'suttanta-pada-tab-' + index;
+    btn.className = 'w-full text-right p-3 rounded-xl border transition-all flex items-center justify-between ' + 
+      (index === 0 ? 'bg-saffron-500/20 border-saffron-500 text-maroon-900 dark:text-saffron-200 font-bold' : 'bg-white dark:bg-slate-800 border-amber-200 dark:border-slate-700 text-slate-700 dark:text-slate-300');
+    btn.onclick = function() { selectSuttantaPada(index); };
+    btn.innerHTML = '<div class="flex items-center gap-2"><span class="w-5 h-5 rounded-full bg-saffron-500 text-maroon-950 font-bold text-xs flex items-center justify-center">' + (index+1) + '</span><span class="text-sm font-bold">' + pada.name + '</span></div><span class="text-xs text-slate-500 truncate max-w-[50%]">' + (pada.desc || '') + '</span>';
+    container.appendChild(btn);
+  });
+}
+
+function selectSuttantaPada(padaIndex) {
+  suttantaCurrentPadaIndex = padaIndex;
+  var item = suttantaFullData[suttantaCurrentMatikaIndex];
+  var pada = item.padas[padaIndex];
+  
+  // Update tab styles
+  item.padas.forEach(function(_, idx) {
+    var b = document.getElementById('suttanta-pada-tab-' + idx);
+    if (b) {
+      if (idx === padaIndex) {
+        b.className = 'w-full text-right p-3 rounded-xl border transition-all flex items-center justify-between bg-saffron-500/20 border-saffron-500 text-maroon-900 dark:text-saffron-200 font-bold';
+      } else {
+        b.className = 'w-full text-right p-3 rounded-xl border transition-all flex items-center justify-between bg-white dark:bg-slate-800 border-amber-200 dark:border-slate-700 text-slate-700 dark:text-slate-300';
+      }
+    }
+  });
+  
+  document.getElementById('suttanta-pada-name').innerText = pada.name;
+  document.getElementById('suttanta-pada-desc').innerText = pada.desc || '';
+  
+  // පදයේ අර්ථය
+  var arthaSection = document.getElementById('suttanta-pada-artha-section');
+  var arthaText = document.getElementById('suttanta-pada-artha-text');
+  if (pada.padaArtha && String(pada.padaArtha).trim() !== '') {
+    arthaText.innerText = pada.padaArtha;
+    arthaSection.classList.remove('hidden');
+  } else {
+    arthaSection.classList.add('hidden');
+  }
+  
+  // ස්වරූපාර්ථ
+  document.getElementById('suttanta-pada-svartha').innerText = pada.svartha || 'ස්වරූපාර්ථ විස්තරය ඇතුළත් කර නැත.';
+  
+  // ═══ NEW: විස්තරාත්මක විවරණය ═══
+  renderArthaVistara(pada.arthaVistara);
+  
+  // ═══ NEW: දුක මුක්ත ධර්ම ═══
+  renderSuttantaMukta(item.mukta);
+  
+  updateSuttantaBookmarkState();
+  renderSuttantaBreakdowns(pada);
+  switchSuttantaTab('skandha');
+}
+
+// ============================================================
+// ARTHA VISTARA (විස්තරාත්මක විවරණය)
+// ============================================================
+function renderArthaVistara(arthaVistara) {
+  var section = document.getElementById('suttanta-artha-vistara-section');
+  var content = document.getElementById('artha-vistara-content');
+  
+  if (!arthaVistara || (!arthaVistara.nirukthi && !arthaVistara.abhidheya && !arthaVistara.sangraha)) {
+    section.classList.add('hidden');
+    return;
+  }
+  
+  section.classList.remove('hidden');
+  content.innerHTML = '';
+  
+  // නිරුක්ති විශ්ලේෂණය
+  if (arthaVistara.nirukthi) {
+    var nirukthi = arthaVistara.nirukthi;
+    var nHtml = '<div class="artha-vistara-box">' +
+      '<div class="flex items-center gap-2 mb-2 pb-2 border-b border-purple-200 dark:border-purple-500/30">' +
+        '<i class="fa-solid fa-book text-purple-600 dark:text-purple-300"></i>' +
+        '<span class="font-bold text-sm text-purple-900 dark:text-purple-200">' + nirukthi.title + '</span>' +
+      '</div>' +
+      '<p class="text-xs text-purple-700 dark:text-purple-300/80 italic mb-3">' + nirukthi.intro + '</p>';
+    
+    nirukthi.items.forEach(function(item) {
+      nHtml += '<div class="mt-3 pt-3 border-t border-purple-100 dark:border-purple-800/40">' +
+        '<div class="font-bold text-xs text-purple-900 dark:text-purple-100 mb-1">' + item.name + '</div>' +
+        '<div class="text-[11px] text-purple-700 dark:text-purple-300/80 mb-1"><span class="font-semibold">පාලි:</span> ' + item.pali + '</div>' +
+        '<div class="text-xs text-purple-900 dark:text-purple-100 mb-1"><span class="font-semibold">අර්ථය:</span> ' + item.artha + '</div>' +
+        '<div class="text-xs text-purple-800 dark:text-purple-200/90 leading-relaxed">' + item.vistara + '</div>' +
+      '</div>';
+    });
+    
+    nHtml += '</div>';
+    content.innerHTML += nHtml;
+  }
+  
+  // අභිදෙය්‍යාර්ථ විස්තරය
+  if (arthaVistara.abhidheya) {
+    var abhidheya = arthaVistara.abhidheya;
+    var aHtml = '<div class="artha-vistara-box">' +
+      '<div class="flex items-center gap-2 mb-2 pb-2 border-b border-purple-200 dark:border-purple-500/30">' +
+        '<i class="fa-solid fa-list text-purple-600 dark:text-purple-300"></i>' +
+        '<span class="font-bold text-sm text-purple-900 dark:text-purple-200">' + abhidheya.title + '</span>' +
+      '</div>' +
+      '<p class="text-xs text-purple-700 dark:text-purple-300/80 italic mb-3">' + abhidheya.intro + '</p>';
+    
+    abhidheya.items.forEach(function(item) {
+      aHtml += '<div class="flex items-start gap-2 py-1.5 border-b border-purple-100 dark:border-purple-800/40 last:border-0">' +
+        '<i class="fa-solid fa-circle text-[6px] text-purple-500 mt-1.5"></i>' +
+        '<div class="flex-1">' +
+          '<span class="font-semibold text-xs text-purple-900 dark:text-purple-100">' + item.name + '</span>' +
+          (item.count ? '<span class="ml-1 text-[10px] bg-purple-200 dark:bg-purple-700 text-purple-800 dark:text-purple-200 px-1.5 py-0.5 rounded">' + item.count + '</span>' : '') +
+          '<div class="text-xs text-purple-700 dark:text-purple-300/80 mt-0.5">' + (item.vistara || '') + '</div>' +
+        '</div>' +
+      '</div>';
+    });
+    
+    aHtml += '</div>';
+    content.innerHTML += aHtml;
+  }
+  
+  // සංග්‍රහ විස්තරය
+  if (arthaVistara.sangraha) {
+    var sangraha = arthaVistara.sangraha;
+    var sHtml = '<div class="artha-vistara-box">' +
+      '<div class="flex items-center gap-2 mb-2 pb-2 border-b border-purple-200 dark:border-purple-500/30">' +
+        '<i class="fa-solid fa-layer-group text-purple-600 dark:text-purple-300"></i>' +
+        '<span class="font-bold text-sm text-purple-900 dark:text-purple-200">' + sangraha.title + '</span>' +
+      '</div>' +
+      '<p class="text-xs text-purple-700 dark:text-purple-300/80 italic mb-3">' + sangraha.intro + '</p>';
+    
+    sangraha.items.forEach(function(item) {
+      sHtml += '<div class="flex items-start gap-2 py-1.5 border-b border-purple-100 dark:border-purple-800/40 last:border-0">' +
+        '<i class="fa-solid fa-circle text-[6px] text-purple-500 mt-1.5"></i>' +
+        '<div class="flex-1">' +
+          '<span class="font-semibold text-xs text-purple-900 dark:text-purple-100">' + item.name + '</span>' +
+          (item.count ? '<span class="ml-1 text-[10px] bg-purple-200 dark:bg-purple-700 text-purple-800 dark:text-purple-200 px-1.5 py-0.5 rounded">' + item.count + '</span>' : '') +
+          '<div class="text-xs text-purple-700 dark:text-purple-300/80 mt-0.5">' + (item.vistara || '') + '</div>' +
+        '</div>' +
+      '</div>';
+    });
+    
+    sHtml += '</div>';
+    content.innerHTML += sHtml;
+  }
+}
+
+function toggleArthaVistaraSection() {
+  var content = document.getElementById('artha-vistara-content');
+  var chevron = document.getElementById('artha-vistara-chevron');
+  
+  if (content.classList.contains('hidden')) {
+    content.classList.remove('hidden');
+    chevron.style.transform = 'rotate(180deg)';
+  } else {
+    content.classList.add('hidden');
+    chevron.style.transform = 'rotate(0deg)';
+  }
+}
+
+// ============================================================
+// SUTTANTA MUKTA (දුක මුක්ත ධර්ම)
+// ============================================================
+function renderSuttantaMukta(mukta) {
+  var section = document.getElementById('suttanta-mukta-section');
+  var content = document.getElementById('suttanta-mukta-content');
+  
+  if (!mukta || String(mukta).trim() === '') {
+    section.classList.add('hidden');
+    return;
+  }
+  
+  section.classList.remove('hidden');
+  content.innerText = mukta;
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+function switchSuttantaTab(tabName) {
+  suttantaActiveTab = tabName;
+  ['skandha', 'ayatana', 'dhatu', 'sathya'].forEach(function(t) {
+    var btn = document.getElementById('suttanta-tab-btn-' + t);
+    var panel = document.getElementById('suttanta-panel-' + t);
+    if (t === tabName) {
+      btn.className = 'tab-btn flex-1 min-w-[110px] px-3 py-3 text-xs sm:text-sm font-bold whitespace-nowrap transition-colors border-b-2 border-saffron-600 text-saffron-700 dark:text-saffron-400 bg-saffron-500/10';
+      panel.classList.remove('hidden');
+    } else {
+      btn.className = 'tab-btn flex-1 min-w-[110px] px-3 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors border-b-2 border-transparent text-amber-800 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700';
+      panel.classList.add('hidden');
+    }
+  });
+}
+
+// ============================================================
+// BREAKDOWN RENDERING
+// ============================================================
+function renderSuttantaBreakdowns(pada) {
+  // ස්කන්ධ
+  var sList = document.getElementById('suttanta-skandha-list');
+  sList.innerHTML = '';
+  var sCount = 0;
+  if (pada.skandha) {
+    pada.skandha.forEach(function(s) {
+      if (s.value && s.value !== 'නැත' && s.value !== '-' && s.value !== '×') sCount++;
+      var div = document.createElement('div');
+      div.className = 'breakdown-item';
+      div.innerHTML = '<span class="num">' + s.num + '.</span><span class="name">' + s.name + '</span><span class="value">' + s.value + '</span>';
+      sList.appendChild(div);
+    });
+  }
+  document.getElementById('suttanta-skandha-count').innerText = sCount + ' / 5';
+
+  // ආයතන
+  var aList = document.getElementById('suttanta-ayatana-list');
+  aList.innerHTML = '';
+  var aCount = 0;
+  if (pada.ayatana) {
+    pada.ayatana.forEach(function(a) {
+      aCount++;
+      var div = document.createElement('div');
+      div.className = 'breakdown-item';
+      div.innerHTML = '<span class="num">' + a.num + '.</span><span class="name">' + a.name + '</span><span class="value">' + a.value + '</span>';
+      aList.appendChild(div);
+    });
+  }
+  document.getElementById('suttanta-ayatana-count').innerText = aCount + ' / ' + (pada.ayatana ? pada.ayatana.length : 0);
+
+  // ධාතු
+  var dList = document.getElementById('suttanta-dhatu-list');
+  dList.innerHTML = '';
+  var dCount = 0;
+  if (pada.dhatu) {
+    pada.dhatu.forEach(function(d) {
+      dCount++;
+      var div = document.createElement('div');
+      div.className = 'breakdown-item';
+      div.innerHTML = '<span class="num">' + d.num + '.</span><span class="name">' + d.name + '</span><span class="value">' + d.value + '</span>';
+      dList.appendChild(div);
+    });
+  }
+  document.getElementById('suttanta-dhatu-count').innerText = dCount + ' / ' + (pada.dhatu ? pada.dhatu.length : 0);
+
+  // සත්‍ය
+  var satList = document.getElementById('suttanta-sathya-list');
+  satList.innerHTML = '';
+  var satCount = 0;
+  if (pada.sathya) {
+    pada.sathya.forEach(function(sat) {
+      if (sat.value && sat.value !== 'නැත' && sat.value !== '-' && sat.value !== '×' && sat.value !== 'සතය විනිර්මුක්ත') satCount++;
+      var div = document.createElement('div');
+      div.className = 'breakdown-item';
+      div.innerHTML = '<span class="num">' + sat.num + '.</span><span class="name">' + sat.name + '</span><span class="value">' + sat.value + '</span>';
+      satList.appendChild(div);
+    });
+  }
+  document.getElementById('suttanta-sathya-count').innerText = satCount + ' / 4';
+}
+
+// ============================================================
+// BOOKMARKS
+// ============================================================
+function toggleSuttantaBookmark() {
+  var id = suttantaCurrentMatikaIndex + '_' + suttantaCurrentPadaIndex;
+  var matika = suttantaFullData[suttantaCurrentMatikaIndex];
+  var pada = matika.padas[suttantaCurrentPadaIndex];
+  
+  var existingIdx = suttantaBookmarks.findIndex(function(b) { return b.id === id; });
+  if (existingIdx > -1) {
+    suttantaBookmarks.splice(existingIdx, 1);
+  } else {
+    suttantaBookmarks.push({
+      id: id,
+      matikaIndex: suttantaCurrentMatikaIndex,
+      padaIndex: suttantaCurrentPadaIndex,
+      matikaTitle: matika.title,
+      padaName: pada.name
+    });
+  }
+  
+  localStorage.setItem('suttanta_bookmarks', JSON.stringify(suttantaBookmarks));
+  updateSuttantaBookmarksBadge();
+  updateSuttantaBookmarkState();
+}
+
+function updateSuttantaBookmarkState() {
+  var id = suttantaCurrentMatikaIndex + '_' + suttantaCurrentPadaIndex;
+  var icon = document.getElementById('suttanta-bookmark-icon');
+  if (!icon) return;
+  var isFav = suttantaBookmarks.some(function(b) { return b.id === id; });
+  if (isFav) {
+    icon.className = 'fa-solid fa-bookmark text-saffron-500';
+  } else {
+    icon.className = 'fa-regular fa-bookmark';
+  }
+}
+
+function updateSuttantaBookmarksBadge() {
+  var badge = document.getElementById('suttanta-fav-badge');
+  if (!badge) return;
+  if (suttantaBookmarks.length > 0) {
+    badge.classList.remove('hidden');
+    badge.innerText = suttantaBookmarks.length;
+  } else {
+    badge.classList.add('hidden');
+  }
+}
+
+function showSuttantaBookmarksView() {
+  showSuttantaView('bookmarks');
+  var container = document.getElementById('suttanta-bookmarks-container');
+  container.innerHTML = '';
+  
+  if (suttantaBookmarks.length === 0) {
+    container.innerHTML = '<div class="text-center py-8 text-slate-500 text-sm">සුරැකි මාතිකා පද කිසිවක් නොමැත.</div>';
+    return;
+  }
+  
+  suttantaBookmarks.forEach(function(b) {
+    var card = document.createElement('div');
+    card.className = 'bg-white dark:bg-slate-800 border border-amber-200 dark:border-slate-700 rounded-xl p-4 shadow-sm flex items-center justify-between cursor-pointer hover:shadow-md';
+    card.onclick = function() {
+      openSuttantaMatikaDetails(b.matikaIndex, b.padaIndex);
+    };
+    
+    card.innerHTML = '<div><span class="text-[10px] font-bold px-2 py-0.5 rounded bg-saffron-500/20 text-saffron-600 mb-1 inline-block">සුත්තන්ත මාතිකා</span><h4 class="font-bold text-sm text-maroon-900 dark:text-saffron-200">' + b.matikaTitle + ' - <span class="text-saffron-600">' + b.padaName + '</span></h4></div><button onclick="event.stopPropagation(); removeSuttantaBookmark(\'' + b.id + '\')" class="text-slate-400 hover:text-red-500 p-2"><i class="fa-solid fa-trash-can text-sm"></i></button>';
+    container.appendChild(card);
+  });
+}
+
+function removeSuttantaBookmark(id) {
+  suttantaBookmarks = suttantaBookmarks.filter(function(b) { return b.id !== id; });
+  localStorage.setItem('suttanta_bookmarks', JSON.stringify(suttantaBookmarks));
+  updateSuttantaBookmarksBadge();
+  showSuttantaBookmarksView();
+}
+
+// ============================================================
+// SEARCH
+// ============================================================
+function handleSuttantaSearch(query) {
+  var container = document.getElementById('suttanta-list-container');
+  var clearBtn = document.getElementById('suttanta-search-clear');
+  
+  if (!query || query.trim() === '') {
+    clearBtn.classList.add('hidden');
+    renderSuttantaList();
+    return;
+  }
+  
+  clearBtn.classList.remove('hidden');
+  
+  var q = query.toLowerCase();
+  var results = [];
+  
+  suttantaFullData.forEach(function(matika, mIdx) {
+    matika.padas.forEach(function(pada, pIdx) {
+      if (pada.name.toLowerCase().indexOf(q) > -1 || 
+          (pada.svartha && pada.svartha.toLowerCase().indexOf(q) > -1) || 
+          (pada.desc && pada.desc.toLowerCase().indexOf(q) > -1) ||
+          (pada.padaArtha && String(pada.padaArtha).toLowerCase().indexOf(q) > -1) ||
+          matika.title.toLowerCase().indexOf(q) > -1) {
+        results.push({ matikaIndex: mIdx, padaIndex: pIdx, matika: matika, pada: pada });
+      }
+    });
+  });
+  
+  container.innerHTML = '';
+  
+  if (results.length === 0) {
+    container.innerHTML = '<div class="text-center py-8 text-slate-500 text-sm"><i class="fa-solid fa-circle-info text-2xl mb-2 opacity-30"></i><br>ගැලපෙන ප්‍රතිඵල හමු නොවීය.</div>';
+    return;
+  }
+  
+  results.forEach(function(r) {
+    var card = document.createElement('div');
+    card.className = 'bg-white dark:bg-slate-800 border border-amber-200 dark:border-slate-700 rounded-xl p-4 shadow-sm hover:shadow-md transition-all flex items-center justify-between cursor-pointer';
+    card.onclick = function() { openSuttantaMatikaDetails(r.matikaIndex, r.padaIndex); };
+    
+    card.innerHTML = '<div class="flex-1 min-w-0 pr-3"><div class="text-xs text-saffron-600 font-bold mb-1">' + r.matika.title + '</div><h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200 truncate">' + r.pada.name + '</h3><p class="text-xs text-slate-500 mt-1 truncate">' + (r.pada.desc || '') + '</p></div><i class="fa-solid fa-chevron-right text-slate-400"></i>';
+    container.appendChild(card);
+  });
+}
+
+function clearSuttantaSearch() {
+  document.getElementById('suttanta-search').value = '';
+  document.getElementById('suttanta-search-clear').classList.add('hidden');
+  renderSuttantaList();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('DOMContentLoaded', function() {
+  renderSuttantaList();
+  updateSuttantaBookmarksBadge();
+});
+</script>
+
+</body>
+</html>

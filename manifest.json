@@ -1,0 +1,184 @@
+{
+  "name": "අභිධර්ම මාතිකා අධ්‍යයනය",
+  "short_name": "මාතිකා",
+  "description": "සර්වසංග්‍රාහී සබ්බත්තික මාතිකා, සුත්තන්ත මාතිකා, තික මාතිකා 22, දුක මාතිකා 100 සහ රූප 28 වර්ගීකරණය හා සමුට්ඨාන නය විස්තරාත්මකව අධ්‍යයනය කරන්න.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#fffbeedb",
+  "theme_color": "#3f0a0c",
+  "lang": "si",
+  "dir": "ltr",
+  "categories": [
+    "education",
+    "books",
+    "reference"
+  ],
+  "icons": [
+    {
+      "src": "./icons/16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/100.png",
+      "sizes": "100x100",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/114.png",
+      "sizes": "114x114",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/120.png",
+      "sizes": "120x120",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/167.png",
+      "sizes": "167x167",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "තික මාතිකා",
+      "short_name": "තික",
+      "description": "තික මාතිකා 22 අධ්‍යයනය කරන්න",
+      "url": "./tika-matika.html",
+      "icons": [
+        {
+          "src": "./icons/192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "දුක මාතිකා",
+      "short_name": "දුක",
+      "description": "දුක මාතිකා 100 අධ්‍යයනය කරන්න",
+      "url": "./duka-matika.html",
+      "icons": [
+        {
+          "src": "./icons/192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "සුත්තන්ත මාතිකා",
+      "short_name": "සුත්තන්ත",
+      "description": "සුත්තන්ත මාතිකා අධ්‍යයනය කරන්න",
+      "url": "./suttanta-matika.html",
+      "icons": [
+        {
+          "src": "./icons/192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "රූප විභාගය",
+      "short_name": "රූප",
+      "description": "රූප 28 වර්ගීකරණය සහ සමුට්ඨාන නය අධ්‍යයනය කරන්න",
+      "url": "./Rupa/rupa.html",
+      "icons": [
+        {
+          "src": "./icons/192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "id": "abhidhamma-matika-app",
+  "screenshots": [
+    {
+      "src": "./screenshots/screenshot1.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "මුල් පිටුව - ජංගම දුරකථනය"
+    },
+    {
+      "src": "./screenshots/screenshot2.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "තික මාතිකා - ජංගම දුරකථනය"
+    },
+    {
+      "src": "./screenshots/screenshot3.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "දුක මාතිකා - ජංගම දුරකථනය"
+    },
+    {
+      "src": "./screenshots/screenshot4.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "සුත්තන්ත මාතිකා - ජංගම දුරකථනය"
+    },
+    {
+      "src": "./screenshots/screenshot5.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "රූප විභාගය - ජංගම දුරකථනය"
+    }
+  ],
+  "display": "fullscreen"
+}

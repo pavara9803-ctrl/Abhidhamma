@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="si" class="h-full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>තික මාතිකා - අභිධර්ම මාතිකා</title>
+
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./launchericon-48x48.png">
+
+<meta name="theme-color" content="#3f0a0c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="තික මාතිකා">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        saffron: { 50:'#fffbeedb',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',800:'#92400e',900:'#78350f',950:'#451a03' },
+        maroon: { 700:'#701a1d',800:'#581113',900:'#3f0a0c',950:'#260507' }
+      },
+      fontFamily: { sans: ['Inter','Noto Serif Sinhala','sans-serif'] }
+    }
+  }
+};
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+body { font-family: 'Noto Serif Sinhala', 'Inter', serif; -webkit-tap-highlight-color: transparent; }
+
+/* ============================================================ */
+/* ✅ Justify සැකසුම් - සියලුම වචන පේළි */
+/* ============================================================ */
+
+/* සියලුම ඡේද (paragraphs) justify කරන්න */
+p {
+  text-align: justify;
+  text-justify: inter-word;
+  word-spacing: 0.05em;
+  line-height: 1.8;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* ලැයිස්තු අයිතම justify කරන්න */
+li {
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.7;
+}
+
+/* ස්වරූපාර්ථ box එකේ වචන justify කරන්න */
+.svartha-box,
+.artha-box {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  word-spacing: 0.05em;
+}
+
+/* අර්ථ box එකේ වචන justify කරන්න */
+#tika-pada-artha-text,
+#tika-pada-svartha,
+#tika-pada-desc {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* විස්තර දත්ත කොටස් justify කරන්න */
+#tika-skandha-list,
+#tika-ayatana-list,
+#tika-dhatu-list,
+#tika-sathya-list,
+#tika-mukta-content,
+#mg-nirukthi-list,
+#mg-detailed-list,
+#mg-artavikalpa-list,
+#mg-paccaya-list,
+#mg-maggaNaKarana-list,
+#mg-related-list,
+#mg-specialnotes-list,
+#tika-bookmarks-container,
+#artha-vistara-content {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Breakdown items වල text justify කරන්න */
+.breakdown-item .name {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* ශීර්ෂක left aligned තබන්න */
+h1, h2, h3, h4, h5, h6 {
+  text-align: left;
+}
+
+/* බටන් center aligned තබන්න */
+button, .btn, .badge {
+  text-align: center;
+}
+
+/* ටේබල් හෙඩර් left aligned තබන්න */
+th {
+  text-align: left;
+}
+
+/* Tailwind text-justify class override */
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* ============================================================ */
+/* වෙනත් ස්ටයිල් */
+/* ============================================================ */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ============================================================ */
+/* BREAKDOWN ITEMS */
+/* ============================================================ */
+.breakdown-item {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 0.65rem 0.5rem; border-bottom: 1px solid #fef3c7;
+  gap: 0.75rem; border-radius: 0.5rem; transition: background 0.15s;
+}
+.breakdown-item:hover { background: rgba(251, 191, 36, 0.06); }
+.breakdown-item:last-child { border-bottom: none; }
+.breakdown-item .num {
+  font-weight: 700; color: #92400e; min-width: 1.8rem; flex-shrink: 0;
+  background: rgba(251, 191, 36, 0.15); border-radius: 50%;
+  width: 1.8rem; height: 1.8rem;
+  display: flex; align-items: center; justify-content: center; font-size: 0.75rem;
+}
+.breakdown-item .name { color: #78350f; flex: 1; font-weight: 500; }
+.breakdown-item .value {
+  color: #b45309; font-weight: 600; text-align: right;
+  flex-shrink: 0; max-width: 60%; font-size: 0.85rem;
+}
+.dark .breakdown-item { border-bottom-color: #334155; }
+.dark .breakdown-item .num { color: #fcd34d; background: rgba(252, 211, 77, 0.15); }
+.dark .breakdown-item .name { color: #fde68a; }
+.dark .breakdown-item .value { color: #fbbf24; }
+
+/* ============================================================ */
+/* පදයේ අර්ථය box */
+/* ============================================================ */
+.artha-box {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  white-space: pre-line;
+  line-height: 1.8;
+  font-size: 0.9rem;
+  color: #0f172a;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.dark .artha-box {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+/* ============================================================ */
+/* ස්වරූපාර්ථ box */
+/* ============================================================ */
+.svartha-box {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  white-space: pre-line;
+  line-height: 1.8;
+  font-size: 0.9rem;
+  color: #052e16;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.dark .svartha-box {
+  background: #14532d;
+  border-color: #166534;
+  color: #dcfce7;
+}
+
+/* ═══ NEW: විස්තරාත්මක විවරණය box ═══ */
+.artha-vistara-box {
+  background: #faf5ff;
+  border: 1px solid #e9d5ff;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  line-height: 1.8;
+  font-size: 0.9rem;
+  color: #3b0764;
+}
+.dark .artha-vistara-box {
+  background: #2e1065;
+  border-color: #6b21a8;
+  color: #e9d5ff;
+}
+
+/* ═══ NEW: Accordion transition ═══ */
+#artha-vistara-content {
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+#artha-vistara-chevron,
+[id^="av-chevron-"] {
+  transition: transform 0.25s ease;
+}
+
+/* ═══ NEW: Artha Vistara block hover ═══ */
+[id^="av-body-"] {
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.3s ease-out; }
+</style>
+</head>
+
+<body class="h-full flex flex-col text-slate-800 dark:text-slate-100 bg-amber-50/30 dark:bg-slate-900 antialiased">
+
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-30 bg-maroon-900 text-amber-100 shadow-md border-b-2 border-saffron-500">
+  <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <a href="index.html" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="මුල් පිටුවට">
+        <i class="fa-solid fa-house text-lg"></i>
+      </a>
+      <button onclick="showTikaBookmarksView()" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 relative transition-colors" title="සුරැකි මාතිකා">
+        <i class="fa-solid fa-bookmark text-lg"></i>
+        <span id="tika-fav-badge" class="hidden absolute -top-1 -right-1 bg-saffron-500 text-maroon-950 font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+      </button>
+    </div>
+
+    <div class="flex items-center">
+      <div class="w-9 h-9 rounded-full bg-saffron-500/20 border border-saffron-400 flex items-center justify-center text-saffron-300 shrink-0">
+        <i class="fa-solid fa-dharmachakra text-xl"></i>
+      </div>
+      <h1 class="font-bold text-lg sm:text-xl ml-2 text-saffron-100">තික මාතිකා</h1>
+    </div>
+
+    <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="තේමාව">
+      <i id="theme-toggle-icon" class="fa-solid fa-moon text-lg"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ============ BREADCRUMB ============ -->
+<nav class="max-w-3xl w-full mx-auto px-4 pt-3 text-xs text-amber-800 dark:text-saffron-300 flex items-center gap-2 flex-wrap">
+  <a href="index.html" class="hover:underline flex items-center gap-1">
+    <i class="fa-solid fa-house text-[10px]"></i> මුල් පිටුව
+  </a>
+  <i class="fa-solid fa-chevron-right text-[10px] text-amber-400"></i>
+  <button onclick="backToTikaList()" class="hover:underline font-bold text-amber-900 dark:text-saffron-200">තික මාතිකා</button>
+  <i id="bc-sep-tika" class="fa-solid fa-chevron-right text-[10px] text-amber-400 hidden"></i>
+  <span id="bc-tika" class="text-amber-700 dark:text-saffron-400 hidden truncate max-w-[200px]"></span>
+</nav>
+
+<!-- ============ MAIN ============ -->
+<main class="flex-1 max-w-3xl w-full mx-auto p-4 sm:p-6 pb-12">
+
+  <!-- ============================================================ -->
+  <!-- VIEW 1: තික ලැයිස්තුව -->
+  <!-- ============================================================ -->
+  <section id="tika-view-list" class="space-y-4 fade-in">
+    
+    <!-- බැනරය - ක්ලික් කළ විට ලැයිස්තුවට scroll වේ -->
+    <button onclick="scrollToTikaList()" class="w-full text-left bg-gradient-to-br from-amber-800 to-maroon-900 text-amber-50 rounded-2xl p-5 shadow-lg hover:shadow-2xl border border-amber-600/30 relative overflow-hidden transition-all group cursor-pointer">
+      <div class="absolute -right-6 -bottom-6 opacity-10 text-amber-100 text-9xl pointer-events-none">
+        <i class="fa-solid fa-dharmachakra"></i>
+      </div>
+      <span class="inline-block px-3 py-1 bg-saffron-500/20 border border-saffron-400/40 rounded-full text-xs text-saffron-300 font-medium mb-2">
+        අභිධර්ම පිටකය
+      </span>
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <h2 class="text-xl sm:text-2xl font-bold text-saffron-200 mb-2">තික මාතිකා (22)</h2>
+          <p class="text-sm text-amber-100/90 leading-relaxed text-justify">
+            ත්‍රික කොටස් 22 කින් යුක්ත මාතිකා පද 66 හි ස්වරූපාර්ථ, ස්කන්ධ, ආයතන, ධාතු සහ සත්‍ය බෙදීම් විස්තරාත්මකව අධ්‍යයනය කරන්න.
+          </p>
+        </div>
+        <i class="fa-solid fa-arrow-down text-saffron-300 text-2xl group-hover:translate-y-1 transition-transform shrink-0"></i>
+      </div>
+      <div class="mt-3 pt-3 border-t border-saffron-500/30 text-xs text-saffron-300 font-medium flex items-center gap-1.5">
+        <i class="fa-solid fa-hand-pointer"></i> තික මාතිකා 22 බැලීමට ක්ලික් කරන්න
+      </div>
+    </button>
+
+    <!-- සෙවුම් තීරුව -->
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-amber-700 dark:text-saffron-400">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <input type="text" id="tika-search" oninput="handleTikaSearch(this.value)"
+             placeholder="මාතිකා පදය, ස්වරූපාර්ථ අනුව සොයන්න..."
+             class="w-full pl-10 pr-10 py-3 bg-white dark:bg-slate-800 border border-amber-300 dark:border-slate-700 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-saffron-500 text-sm">
+      <button id="tika-search-clear" onclick="clearTikaSearch()" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+
+    <!-- තික ලැයිස්තුව -->
+    <div id="tika-list-container" class="space-y-3"></div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- VIEW 2: පද විස්තර -->
+  <!-- ============================================================ -->
+  <section id="tika-view-pada-detail" class="hidden space-y-4 fade-in">
+    <div class="bg-amber-100/80 dark:bg-slate-800 border border-amber-300 dark:border-slate-700 rounded-2xl p-4 shadow-sm">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-saffron-500 text-maroon-950">තික මාතිකා</span>
+          <h2 id="tika-detail-title" class="text-lg sm:text-xl font-bold text-maroon-900 dark:text-saffron-200 mt-1"></h2>
+          <p id="tika-detail-subtitle" class="text-xs text-amber-800 dark:text-saffron-400"></p>
+        </div>
+        <button onclick="backToTikaList()" class="shrink-0 text-xs text-amber-900 dark:text-saffron-200 bg-white dark:bg-slate-900 border border-amber-300 dark:border-slate-700 px-3 py-1.5 rounded-lg hover:bg-amber-50 dark:hover:bg-slate-800 transition-colors">
+          <i class="fa-solid fa-arrow-left"></i> ලැයිස්තුවට
+        </button>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <h3 class="text-sm font-semibold text-amber-900 dark:text-saffron-300">
+        <i class="fa-solid fa-layer-group text-saffron-600"></i> මාතිකා පද තෝරන්න:
+      </h3>
+    </div>
+    <div id="tika-pada-tabs-container" class="grid grid-cols-1 gap-2"></div>
+
+    <div id="tika-pada-detail-breakdown" class="hidden flex flex-col space-y-4 pt-2 w-full">
+      
+      <!-- ============================================================ -->
+      <!-- තෝරාගත් පදය -->
+      <!-- ============================================================ -->
+      <div class="bg-[#fdf2f2] dark:bg-gradient-to-br dark:from-[#4a1a1c] dark:to-[#2a0a0c] text-slate-900 dark:text-amber-50 p-4 rounded-xl shadow-lg border border-rose-200 dark:border-amber-600/40 w-full">
+        <div class="flex justify-between items-start gap-3">
+          <div class="flex-1 min-w-0">
+            <div class="text-xs text-rose-700 dark:text-saffron-300 font-medium mb-1 flex items-center gap-1.5">
+              <i class="fa-solid fa-bookmark"></i> තෝරාගත් මාතිකා පදය
+            </div>
+            <h3 id="tika-pada-name" class="text-lg font-bold text-maroon-900 dark:text-saffron-100"></h3>
+          </div>
+          <button onclick="toggleTikaBookmark()" class="text-2xl text-rose-500 dark:text-amber-300 hover:text-rose-700 dark:hover:text-saffron-400 p-1 transition-colors shrink-0" title="සුරකින්න">
+            <i id="tika-bookmark-icon" class="fa-regular fa-bookmark"></i>
+          </button>
+        </div>
+        <p id="tika-pada-desc" class="text-xs text-slate-600 dark:text-amber-200/90 mt-2 text-justify"></p>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- පදයේ අර්ථය -->
+      <!-- ============================================================ -->
+      <div id="tika-pada-artha-section" class="hidden bg-slate-100 dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 p-4 rounded-xl shadow-lg border border-slate-300 dark:border-slate-600/40 w-full">
+        <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-300 dark:border-slate-500/30">
+          <i class="fa-solid fa-book text-blue-600 dark:text-blue-300"></i>
+          <span class="text-sm font-bold text-slate-800 dark:text-blue-200">පදයේ අර්ථය</span>
+        </div>
+        <div id="tika-pada-artha-text" class="artha-box"></div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <!-- ═══ NEW: විස්තරාත්මක විවරණය (Artha Vistara) ═══ -->
+      <!-- ═══════════════════════════════════════════════════════════ -->
+      <div id="tika-artha-vistara-section" class="hidden bg-white dark:bg-slate-800 rounded-2xl border border-purple-200 dark:border-purple-700/40 shadow-sm overflow-hidden w-full">
+        <!-- Section header (toggle) -->
+        <button onclick="toggleArthaVistaraSection()" 
+                class="w-full flex items-center justify-between gap-2 p-4 hover:bg-purple-50 dark:hover:bg-slate-700 transition-colors">
+          <span class="flex items-center gap-2 min-w-0">
+            <span class="w-8 h-8 rounded-lg bg-purple-200 dark:bg-purple-700 text-purple-700 dark:text-purple-100 flex items-center justify-center text-sm shrink-0">
+              <i class="fa-solid fa-magnifying-glass-chart"></i>
+            </span>
+            <span class="text-left min-w-0">
+              <span class="block font-bold text-sm text-maroon-900 dark:text-purple-200 truncate">විස්තරාත්මක විවරණය</span>
+              <span class="block text-[10px] text-purple-700 dark:text-purple-300/80">නිරුක්ති · අභිධෙය්‍ය · සංග්‍රහ · විශේෂ සටහන්</span>
+            </span>
+          </span>
+          <i id="artha-vistara-chevron" class="fa-solid fa-chevron-down text-purple-600 dark:text-purple-300 text-sm transition-transform shrink-0"></i>
+        </button>
+
+        <!-- Section body (dynamic content) -->
+        <div id="artha-vistara-content" class="hidden p-4 pt-0 space-y-3"></div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- ස්වරූපාර්ථ -->
+      <!-- ============================================================ -->
+      <div class="bg-emerald-50 dark:bg-gradient-to-br dark:from-emerald-900 dark:to-green-950 text-slate-900 dark:text-emerald-50 p-4 rounded-xl shadow-lg border border-emerald-200 dark:border-emerald-600/40 w-full">
+        <div class="flex items-center gap-2 mb-3 pb-2 border-b border-emerald-200 dark:border-emerald-500/30">
+          <i class="fa-solid fa-book-bookmark text-emerald-600 dark:text-emerald-300"></i>
+          <span class="text-sm font-bold text-emerald-800 dark:text-emerald-200">ස්වරූපාර්ථ</span>
+        </div>
+        <div id="tika-pada-svartha" class="svartha-box"></div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- Tabs -->
+      <!-- ============================================================ -->
+      <div class="bg-white dark:bg-slate-800 rounded-2xl border border-amber-200 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div class="flex border-b border-amber-200 dark:border-slate-700 overflow-x-auto hide-scrollbar">
+          <button onclick="switchTikaTab('skandha')" id="tika-tab-btn-skandha"
+                  class="tab-btn flex-1 min-w-[110px] px-3 py-3 text-xs sm:text-sm font-bold whitespace-nowrap transition-colors border-b-2 border-saffron-600 text-saffron-700 dark:text-saffron-400 bg-saffron-500/10">
+            <i class="fa-solid fa-cubes"></i> ස්කන්ධ
+            <span class="block text-[10px] font-normal opacity-75">(5)</span>
+          </button>
+          <button onclick="switchTikaTab('ayatana')" id="tika-tab-btn-ayatana"
+                  class="tab-btn flex-1 min-w-[110px] px-3 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors border-b-2 border-transparent text-amber-800 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700">
+            <i class="fa-solid fa-door-open"></i> ආයතන
+            <span class="block text-[10px] font-normal opacity-75">(12)</span>
+          </button>
+          <button onclick="switchTikaTab('dhatu')" id="tika-tab-btn-dhatu"
+                  class="tab-btn flex-1 min-w-[110px] px-3 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors border-b-2 border-transparent text-amber-800 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700">
+            <i class="fa-solid fa-circle-nodes"></i> ධාතු
+            <span class="block text-[10px] font-normal opacity-75">(18)</span>
+          </button>
+          <button onclick="switchTikaTab('sathya')" id="tika-tab-btn-sathya"
+                  class="tab-btn flex-1 min-w-[110px] px-3 py-3 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors border-b-2 border-transparent text-amber-800 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-slate-700">
+            <i class="fa-solid fa-scale-balanced"></i> සත්‍ය
+            <span class="block text-[10px] font-normal opacity-75">(4)</span>
+          </button>
+        </div>
+
+        <div class="p-4 sm:p-5">
+          <!-- ස්කන්ධ -->
+          <div id="tika-panel-skandha" class="space-y-3">
+            <div class="flex items-center justify-between bg-amber-50 dark:bg-slate-900 p-3 rounded-lg border border-amber-200 dark:border-slate-700">
+              <span class="font-bold text-amber-900 dark:text-saffron-300 text-sm">
+                <i class="fa-solid fa-cubes text-saffron-600"></i> පරමාර්ථ ධර්ම ස්කන්ධ 5 ට බෙදීම
+              </span>
+              <span id="tika-skandha-count" class="bg-saffron-500 text-maroon-950 font-bold px-3 py-0.5 rounded-full text-xs">0</span>
+            </div>
+            <div id="tika-skandha-list" class="text-sm"></div>
+          </div>
+
+          <!-- ආයතන -->
+          <div id="tika-panel-ayatana" class="hidden space-y-3">
+            <div class="flex items-center justify-between bg-amber-50 dark:bg-slate-900 p-3 rounded-lg border border-amber-200 dark:border-slate-700">
+              <span class="font-bold text-amber-900 dark:text-saffron-300 text-sm">
+                <i class="fa-solid fa-door-open text-saffron-600"></i> පරමාර්ථ ධර්ම ආයතන 12 ට බෙදීම
+              </span>
+              <span id="tika-ayatana-count" class="bg-saffron-500 text-maroon-950 font-bold px-3 py-0.5 rounded-full text-xs">0</span>
+            </div>
+            <div id="tika-ayatana-list" class="text-sm"></div>
+          </div>
+
+          <!-- ධාතු -->
+          <div id="tika-panel-dhatu" class="hidden space-y-3">
+            <div class="flex items-center justify-between bg-amber-50 dark:bg-slate-900 p-3 rounded-lg border border-amber-200 dark:border-slate-700">
+              <span class="font-bold text-amber-900 dark:text-saffron-300 text-sm">
+                <i class="fa-solid fa-circle-nodes text-saffron-600"></i> පරමාර්ථ ධර්ම ධාතු 18 ට බෙදීම
+              </span>
+              <span id="tika-dhatu-count" class="bg-saffron-500 text-maroon-950 font-bold px-3 py-0.5 rounded-full text-xs">0</span>
+            </div>
+            <div id="tika-dhatu-list" class="text-sm"></div>
+          </div>
+
+          <!-- සත්‍ය -->
+          <div id="tika-panel-sathya" class="hidden space-y-3">
+            <div class="flex items-center justify-between bg-amber-50 dark:bg-slate-900 p-3 rounded-lg border border-amber-200 dark:border-slate-700">
+              <span class="font-bold text-amber-900 dark:text-saffron-300 text-sm">
+                <i class="fa-solid fa-scale-balanced text-saffron-600"></i> චතුරාර්ය සත්‍යය
+              </span>
+              <span id="tika-sathya-count" class="bg-saffron-500 text-maroon-950 font-bold px-3 py-0.5 rounded-full text-xs">0</span>
+            </div>
+            <div id="tika-sathya-list" class="text-sm"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- ත්‍රික මුක්ත ධර්ම -->
+      <!-- ============================================================ -->
+      <div id="tika-mukta-section" class="hidden bg-purple-50 dark:bg-gradient-to-br dark:from-purple-900 dark:to-indigo-950 border border-purple-200 dark:border-purple-600/40 rounded-2xl p-4 shadow-lg">
+        <div class="flex items-center gap-2 mb-3 border-b border-purple-200 dark:border-purple-500/30 pb-2">
+          <span class="w-9 h-9 rounded-xl bg-purple-200 dark:bg-purple-700 text-purple-700 dark:text-purple-100 flex items-center justify-center text-sm shrink-0">
+            <i class="fa-solid fa-circle-notch"></i>
+          </span>
+          <div>
+            <h3 class="font-bold text-sm text-purple-900 dark:text-purple-200">ත්‍රික මුක්ත ධර්ම</h3>
+            <p class="text-[10px] text-purple-700 dark:text-purple-300/80">මෙම තිකයට ඇතුළත් නොවන ධර්ම</p>
+          </div>
+        </div>
+        <p id="tika-mukta-content" class="text-xs text-purple-900 dark:text-purple-100 leading-relaxed whitespace-pre-line text-justify"></p>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- මග්ගාරම්මණ තිකයට විශේෂිත අමතර කොටස් -->
+      <!-- ============================================================ -->
+      <div id="maggarammana-extras" class="hidden space-y-4 mt-4">
+        
+        <!-- නිරුක්ති විශ්ලේෂණය -->
+        <div id="mg-nirukthi-section" class="hidden bg-white dark:bg-slate-800 rounded-2xl p-5 border border-amber-200 dark:border-slate-700 shadow-sm space-y-3">
+          <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200 border-b border-amber-100 dark:border-slate-700 pb-2">
+            <i class="fa-solid fa-book text-blue-600"></i> නිරුක්ති විශ්ලේෂණය
+          </h3>
+          <p id="mg-nirukthi-intro" class="text-xs text-slate-600 dark:text-slate-300 italic text-justify"></p>
+          <div id="mg-nirukthi-list" class="space-y-3"></div>
+        </div>
+
+        <!-- විස්තරාත්මක විශ්ලේෂණය -->
+        <div id="mg-detailed-section" class="hidden bg-white dark:bg-slate-800 rounded-2xl p-5 border border-amber-200 dark:border-slate-700 shadow-sm space-y-3">
+          <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200 border-b border-amber-100 dark:border-slate-700 pb-2">
+            <i class="fa-solid fa-magnifying-glass-chart text-purple-600"></i> විස්තරාත්මක විශ්ලේෂණය
+          </h3>
+          <p id="mg-detailed-intro" class="text-xs text-slate-600 dark:text-slate-300 italic text-justify"></p>
+          <div id="mg-detailed-list" class="space-y-4"></div>
+        </div>
+
+        <!-- අර්ථ විකල්ප -->
+        <div id="mg-artavikalpa-section" class="hidden bg-white dark:bg-slate-800 rounded-2xl p-5 border border-amber-200 dark:border-slate-700 shadow-sm space-y-3">
+          <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200 border-b border-amber-100 dark:border-slate-700 pb-2">
+            <i class="fa-solid fa-diagram-project text-green-600"></i> අර්ථ විකල්ප
+          </h3>
+          <div id="mg-artavikalpa-list" class="space-y-3"></div>
+        </div>
+
+        <!-- ප්‍රත්‍ය විශ්ලේෂණය -->
+        <div id="mg-paccaya-section" class="hidden bg-white dark:bg-slate-800 rounded-2xl p-5 border border-amber-200 dark:border-slate-700 shadow-sm space-y-3">
+          <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200 border-b border-amber-100 dark:border-slate-700 pb-2">
+            <i class="fa-solid fa-link text-saffron-600"></i> ප්‍රත්‍ය විශ්ලේෂණය
+          </h3>
+          <p id="mg-paccaya-intro" class="text-xs text-slate-600 dark:text-slate-300 italic text-justify"></p>
+          <div id="mg-paccaya-list" class="space-y-2"></div>
+        </div>
+
+        <!-- මාර්ගය අරමුණු නොකරන ධර්ම -->
+        <div id="mg-maggaNaKarana-section" class="hidden bg-white dark:bg-slate-800 rounded-2xl p-5 border border-amber-200 dark:border-slate-700 shadow-sm space-y-3">
+          <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200 border-b border-amber-100 dark:border-slate-700 pb-2">
+            <i class="fa-solid fa-ban text-red-600"></i> මාර්ගය අරමුණු නොකරන ධර්ම
+          </h3>
+          <p id="mg-maggaNaKarana-desc" class="text-xs text-slate-600 dark:text-slate-300 italic text-justify"></p>
+          <div id="mg-maggaNaKarana-list" class="space-y-1 text-sm"></div>
+          <div class="bg-amber-50 dark:bg-slate-900 border border-amber-200 dark:border-slate-700 p-3 rounded-lg mt-2">
+            <div class="text-xs font-bold text-maroon-900 dark:text-saffron-300 mb-1"><i class="fa-solid fa-lightbulb"></i> සාරාංශය:</div>
+            <p id="mg-maggaNaKarana-summary" class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed text-justify"></p>
+          </div>
+        </div>
+
+        <!-- සම්බන්ධිත තික -->
+        <div id="mg-related-section" class="hidden bg-white dark:bg-slate-800 rounded-2xl p-5 border border-amber-200 dark:border-slate-700 shadow-sm space-y-3">
+          <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200 border-b border-amber-100 dark:border-slate-700 pb-2">
+            <i class="fa-solid fa-sitemap text-blue-600"></i> සම්බන්ධිත තික
+          </h3>
+          <div id="mg-related-list" class="space-y-2"></div>
+        </div>
+
+        <!-- විශේෂ සටහන් -->
+        <div id="mg-specialnotes-section" class="hidden bg-white dark:bg-slate-800 rounded-2xl p-5 border border-amber-200 dark:border-slate-700 shadow-sm space-y-3">
+          <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200 border-b border-amber-100 dark:border-slate-700 pb-2">
+            <i class="fa-solid fa-circle-info text-saffron-600"></i> විශේෂ සටහන්
+          </h3>
+          <div id="mg-specialnotes-list" class="space-y-3"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- VIEW 3: සුරැකි මාතිකා -->
+  <!-- ============================================================ -->
+  <section id="tika-view-bookmarks" class="hidden space-y-4 fade-in">
+    <div class="bg-gradient-to-br from-amber-700 to-maroon-900 text-amber-50 rounded-2xl p-5 shadow-lg border border-amber-600/30">
+      <div class="flex items-center gap-2 mb-2">
+        <i class="fa-solid fa-bookmark text-saffron-300 text-2xl"></i>
+        <h2 class="text-xl font-bold text-saffron-200">සුරැකි මාතිකා</h2>
+      </div>
+      <p class="text-xs text-amber-100/90 text-justify">ඔබ විසින් සුරකිමින් අධ්‍යයනය කරන මාතිකා පද</p>
+    </div>
+    <button onclick="backToTikaList()" class="w-full text-xs text-amber-900 dark:text-saffron-200 bg-white dark:bg-slate-900 border border-amber-300 dark:border-slate-700 px-3 py-2 rounded-lg hover:bg-amber-50 dark:hover:bg-slate-800 transition-colors">
+      <i class="fa-solid fa-arrow-left"></i> ලැයිස්තුවට
+    </button>
+    <div id="tika-bookmarks-container" class="space-y-2"></div>
+  </section>
+
+</main>
+
+<footer class="bg-maroon-900 text-amber-100 text-center py-4 border-t-2 border-saffron-500">
+  <p class="text-xs text-amber-200/70">අභිධර්ම මාතිකා  &copy; 2026</p>
+</footer>
+
+<!-- ============================================================ -->
+<!-- SCRIPT ගොනු -->
+<!-- ============================================================ -->
+
+<!-- 1. Helper functions + tikaFullData array + registerTika() + fillMissingTikas() -->
+<script src="tika-data.js"></script>
+
+<!-- 2. තික ගොනු 22 (registerTika() call කරයි) -->
+<script src="tika/01-kusala-tika.js"></script>
+<script src="tika/02-vedana-tika.js"></script>
+<script src="tika/03-vipaka-tika.js"></script>
+<script src="tika/04-upadinnna-tika.js"></script>
+<script src="tika/05-sankilittha-tika.js"></script>
+<script src="tika/06-vitakka-tika.js"></script>
+<script src="tika/07-piti-tika.js"></script>
+<script src="tika/08-dassana-tika.js"></script>
+<script src="tika/09-dassanahetu-tika.js"></script>
+<script src="tika/10-avayagami-tika.js"></script>
+<script src="tika/11-sekha-tika.js"></script>
+<script src="tika/12-paritta-tika.js"></script>
+<script src="tika/13-parittarammana-tika.js"></script>
+<script src="tika/14-hina-tika.js"></script>
+<script src="tika/15-micchatta-tika.js"></script>
+<script src="tika/16-maggarammana-tika.js"></script>
+<script src="tika/17-uppanna-tika.js"></script>
+<script src="tika/18-atita-tika.js"></script>
+<script src="tika/19-atitarammana-tika.js"></script>
+<script src="tika/20-ajjhatta-tika.js"></script>
+<script src="tika/21-ajjhattarammana-tika.js"></script>
+<script src="tika/22-sanidassana-tika.js"></script>
+
+<!-- 3. තික යෙදුම් logic -->
+<script src="tika-app.js"></script>
+
+</body>
+</html>

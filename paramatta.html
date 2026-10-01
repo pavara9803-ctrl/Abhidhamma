@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="si" class="h-full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>සතර පරමාර්ථ - අභිධර්ම මාතිකා</title>
+
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./launchericon-48x48.png">
+
+<meta name="theme-color" content="#3f0a0c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="සතර පරමාර්ථ">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        saffron: { 50:'#fffbeedb',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',800:'#92400e',900:'#78350f',950:'#451a03' },
+        maroon: { 700:'#701a1d',800:'#581113',900:'#3f0a0c',950:'#260507' }
+      },
+      fontFamily: { sans: ['Inter','Noto Serif Sinhala','sans-serif'] }
+    }
+  }
+};
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+body { 
+  font-family: 'Noto Serif Sinhala', 'Inter', serif; 
+  -webkit-tap-highlight-color: transparent; 
+  font-size: 16px;
+}
+
+p {
+  text-align: justify;
+  text-justify: inter-word;
+  word-spacing: 0.05em;
+  line-height: 1.8;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+li {
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-align: left;
+}
+
+button, .btn, .badge {
+  text-align: center;
+}
+
+th {
+  text-align: left;
+}
+
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* PARAMATTHA CARD STYLES */
+.paramattha-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  color: white;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.paramattha-card:hover {
+  box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+  transform: translateY(-6px);
+  border-color: rgba(255,255,255,0.35);
+}
+
+.paramattha-card .bg-icon {
+  position: absolute;
+  right: -1rem;
+  bottom: -1.5rem;
+  font-size: 9rem;
+  opacity: 0.14;
+  pointer-events: none;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.paramattha-card:hover .bg-icon {
+  opacity: 0.24;
+  transform: scale(1.15) rotate(-10deg);
+}
+
+.paramattha-card .icon-wrapper {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 1.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.875rem;
+  background: rgba(255,255,255,0.24);
+  border: 1px solid rgba(255,255,255,0.35);
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.15);
+}
+
+.paramattha-card .count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.8rem;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.24);
+  border: 1px solid rgba(255,255,255,0.4);
+  font-size: 0.75rem;
+  font-weight: 800;
+  backdrop-filter: blur(8px);
+  letter-spacing: 0.02em;
+}
+
+/* COLOR VARIATIONS */
+.card-citta {
+  background: linear-gradient(135deg, #059669 0%, #047857 40%, #064e3b 100%);
+}
+.card-citta .bg-icon { color: #6ee7b7; }
+.card-citta .icon-wrapper {
+  background: linear-gradient(135deg, rgba(110, 231, 183, 0.4), rgba(110, 231, 183, 0.15));
+  border-color: rgba(110, 231, 183, 0.5);
+}
+
+.card-cetasika {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 40%, #7c2d12 100%);
+}
+.card-cetasika .bg-icon { color: #fdba74; }
+.card-cetasika .icon-wrapper {
+  background: linear-gradient(135deg, rgba(253, 186, 116, 0.4), rgba(253, 186, 116, 0.15));
+  border-color: rgba(253, 186, 116, 0.5);
+}
+
+.card-rupa {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 40%, #451a03 100%);
+}
+.card-rupa .bg-icon { color: #fde68a; }
+.card-rupa .icon-wrapper {
+  background: linear-gradient(135deg, rgba(253, 230, 138, 0.4), rgba(253, 230, 138, 0.15));
+  border-color: rgba(253, 230, 138, 0.5);
+}
+
+.card-nibbana {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 40%, #312e81 100%);
+}
+.card-nibbana .bg-icon { color: #c4b5fd; }
+.card-nibbana .icon-wrapper {
+  background: linear-gradient(135deg, rgba(196, 181, 253, 0.4), rgba(196, 181, 253, 0.15));
+  border-color: rgba(196, 181, 253, 0.5);
+}
+
+/* DETAILS ACCORDION BOX STYLES */
+.paramattha-detail-citta {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-left: 4px solid #059669;
+}
+.dark .paramattha-detail-citta {
+  background: linear-gradient(135deg, #064e3b, #022c22);
+  border-color: #065f46;
+  border-left-color: #10b981;
+}
+
+.paramattha-detail-cetasika {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-left: 4px solid #e11d48;
+}
+.dark .paramattha-detail-cetasika {
+  background: linear-gradient(135deg, #4c0519, #1c0208);
+  border-color: #9f1239;
+  border-left-color: #f43f5e;
+}
+
+.paramattha-detail-rupa {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-left: 4px solid #d97706;
+}
+.dark .paramattha-detail-rupa {
+  background: linear-gradient(135deg, #451a03, #1c0a02);
+  border-color: #92400e;
+  border-left-color: #f59e0b;
+}
+
+.paramattha-detail-nibbana {
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+  border-left: 4px solid #8b5cf6;
+}
+.dark .paramattha-detail-nibbana {
+  background: linear-gradient(135deg, #312e81, #1e1b4b);
+  border-color: #5b21b6;
+  border-left-color: #a78bfa;
+}
+
+.num-pill-citta { background: linear-gradient(135deg, #10b981, #047857); color: white; }
+.num-pill-cetasika { background: linear-gradient(135deg, #f43f5e, #be123c); color: white; }
+.num-pill-rupa { background: linear-gradient(135deg, #f59e0b, #b45309); color: white; }
+.num-pill-nibbana { background: linear-gradient(135deg, #a78bfa, #7c3aed); color: white; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.4s ease-out; }
+
+.paramattha-card .arrow-icon {
+  transition: transform 0.3s ease;
+}
+.paramattha-card:hover .arrow-icon {
+  transform: translateX(6px);
+}
+</style>
+</head>
+
+<body class="h-full flex flex-col text-slate-800 dark:text-slate-100 bg-amber-50/30 dark:bg-slate-900 antialiased">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-30 bg-maroon-900 text-amber-100 shadow-md border-b-2 border-saffron-500">
+  <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <a href="index.html" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="මුල් පිටුවට">
+        <i class="fa-solid fa-house text-lg"></i>
+      </a>
+      <button onclick="scrollToTop()" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="ඉහළට">
+        <i class="fa-solid fa-arrow-up text-lg"></i>
+      </button>
+    </div>
+
+    <div class="flex items-center">
+      <div class="w-9 h-9 rounded-full bg-saffron-500/20 border border-saffron-400 flex items-center justify-center text-saffron-300 shrink-0">
+        <i class="fa-solid fa-gem text-xl"></i>
+      </div>
+      <h1 class="font-bold text-base sm:text-xl ml-2 text-saffron-100">සතර පරමාර්ථ</h1>
+    </div>
+
+    <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="තේමාව">
+      <i id="theme-toggle-icon" class="fa-solid fa-moon text-lg"></i>
+    </button>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<nav class="max-w-4xl w-full mx-auto px-4 pt-3 text-xs text-amber-800 dark:text-saffron-300 flex items-center gap-2 flex-wrap">
+  <a href="index.html" class="hover:underline flex items-center gap-1">
+    <i class="fa-solid fa-house text-[10px]"></i> මුල් පිටුව
+  </a>
+  <i class="fa-solid fa-chevron-right text-[10px] text-amber-400"></i>
+  <span class="font-bold text-amber-900 dark:text-saffron-200">සතර පරමාර්ථ</span>
+</nav>
+
+<!-- MAIN -->
+<main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 pb-12 space-y-6">
+
+  <!-- HERO BANNER -->
+  <section class="bg-gradient-to-br from-amber-700 via-saffron-500 to-amber-600 text-white rounded-2xl p-6 shadow-xl border border-saffron-400/60 relative overflow-hidden fade-in">
+    <div class="absolute -right-8 -bottom-8 opacity-15 text-white text-9xl pointer-events-none">
+      <i class="fa-solid fa-gem"></i>
+    </div>
+    <div class="relative">
+      <span class="inline-block px-3 py-1 bg-white/25 border border-white/40 rounded-full text-xs text-white font-medium mb-3 backdrop-blur-sm">
+        අභිධර්ම පිටකය • පරමාර්ථ ධර්ම
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-bold text-white mb-3 drop-shadow-md">
+        සතර පරමාර්ථ
+      </h1>
+      
+      <!-- මුල් ගාථාව -->
+      <div class="bg-white/15 backdrop-blur-sm border border-white/30 rounded-xl p-4 mb-4">
+        <p class="text-sm sm:text-base text-white/95 leading-relaxed italic text-justify">
+          <strong>“තත්ථ වුත්තාභිධම්මත්ථා - චතූධා පරමත්ථතො,<br>
+          චිත්තං චෙතසිකං රූපං - නිබ්බාණමිති සබ්බථා”</strong>
+        </p>
+      </div>
+
+      <p class="text-sm sm:text-base text-white/95 leading-relaxed mb-4 text-justify">
+        1-චිත්ත, 2-චෛතසික, 3-රූප, 4-නිර්වාණය යි අභිධර්මපිටකයෙහි වදාළ තාක් අර්ථ පරමාර්ථ වශයෙන් සිව් වැදෑරුම් වේ. මෙහි අර්ථ නම් කුශලාදිය හා ස්කන්ධාදිය යි. (අභිධර්ම චන්ද්‍රිකාව)
+      </p>
+
+      <!-- පාලි විවරණය සහ සිංහල පරිවර්තනය -->
+      <div class="bg-amber-50/95 backdrop-blur-md border border-amber-300 rounded-xl p-4 sm:p-5 mt-4 space-y-3 text-slate-900 shadow-md">
+        <div class="border-b border-amber-300/80 pb-2">
+          <span class="text-xs uppercase tracking-wider font-bold text-amber-900">අභිධම්මත්ථ විවරණය • පාලි පාඨය</span>
+          <p class="text-xs sm:text-sm italic leading-relaxed text-justify mt-1 text-slate-900">
+            "තත්‌ථ තස්‌මිං අභිධම්‌මෙ සබ්‌බථා කුසලාදිවසෙන, ඛන්‌ධාදිවසෙන ච වුත්‌තා අභිධම්‌මත්‌ථා පරමත්‌ථතො සම්‌මුතිං ඨපෙත්‌වා නිබ්‌බත්‌තිතපරමත්‌ථවසෙන චිත්‌තං විඤ්‌ඤාණක්‌ඛන්‌ධො, චෙතසිකං වෙදනාදික්‌ඛන්‌ධත්‌තයං, රූපං භූතුපාදායභෙදභින්‌නො රූපක්‌ඛන්‌ධො, නිබ්‌බානං මග්‌ගඵලානමාරම්‌මණභූතො අසඞ්‌ඛතධම්‌මොති එවං චතුධා චතූහාකාරෙහි ඨිතාති යොජනා. තත්‌ථ පරමො උත්‌තමො අවිපරීතො අත්‌ථො, පරමස්‌ස වා උත්‌තමස්‌ස ඤාණස්‌ස අත්‌ථො ගොචරොති පරමත්‌ථො."
+          </p>
+        </div>
+
+        <div class="pt-1">
+          <span class="text-xs uppercase tracking-wider font-bold text-amber-900">සිංහල අර්ථ විවරණය</span>
+          <p class="text-xs sm:text-sm leading-relaxed text-justify mt-1 text-slate-900">
+            "එහි (එම අභිධර්ම සංග්‍රහයෙහි), ඒ අභිධර්මය තුළ සියලු ආකාරයෙන් කුසල් ආදී වශයෙන් ද, ස්කන්ධ ආදී වශයෙන් ද දේශනා කරන ලද අභිධර්මාර්ථයෝ සම්මුතිය බැහැර කොට (සම්මුතිය පසෙක තබා), යථාර්ථ වශයෙන් පහළ වූ පරමාර්ථ වශයෙන්:
+          </p>
+          <ul class="list-disc list-inside text-xs sm:text-sm pl-2 my-2 space-y-1 text-slate-900 font-medium">
+            <li><strong>චිත්තය</strong> — විඤ්ඤාණස්කන්ධය යි,</li>
+            <li><strong>චෛතසිකය</strong> — වේදනාදී වූ (වේදනා, සඤ්ඤා, සංඛාර යන) ස්කන්ධත්‍රය යි,</li>
+            <li><strong>රූපය</strong> — භූත (මහාභූත) සහ උපාදාය වශයෙන් භේදයට පැමිණි රූපස්කන්ධය යි,</li>
+            <li><strong>නිර්වාණය</strong> — මාර්ග ඵලයන්ට අරමුණු වූ අසංඛත ධර්මය යි.</li>
+          </ul>
+          <p class="text-xs sm:text-sm leading-relaxed text-justify text-slate-900">
+            මෙසේ සිව් ආකාරයකින්, ආකාර සතරකින් පිහිටා තිබේ යැයි යෙදුම (යෝජනාව) දත යුතුය. එහි 'පරමාර්ථ' යනු: පරම වූ හෙවත් උතුම් වූ, අවිපරීත වූ (වෙනස් නොවන සත්‍ය) අර්ථය 'පරමාර්ථ' නම් වේ. නැතහොත් පරම වූ, උතුම් වූ (සර්වඥතා/ලෝකෝත්තර) ඥානයාගේ අර්ථය හෙවත් ගෝචරය (අරමුණ) වන බැවින් 'පරමාර්ථ' නම් වේ."
+          </p>
+        </div>
+      </div>
+      
+      <!-- ගණන් සාරාංශ කොටු -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+          <div class="text-2xl font-bold text-white drop-shadow-sm">89/121</div>
+          <div class="text-[10px] text-white/90 font-medium mt-1">චිත්ත</div>
+        </div>
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+          <div class="text-2xl font-bold text-white drop-shadow-sm">52</div>
+          <div class="text-[10px] text-white/90 font-medium mt-1">චෛතසික</div>
+        </div>
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+          <div class="text-2xl font-bold text-white drop-shadow-sm">28</div>
+          <div class="text-[10px] text-white/90 font-medium mt-1">රූප</div>
+        </div>
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+          <div class="text-2xl font-bold text-white drop-shadow-sm">1</div>
+          <div class="text-[10px] text-white/90 font-medium mt-1">නිබ්බාන</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO INFO CARD -->
+  <section class="bg-white dark:bg-slate-800 rounded-2xl border border-amber-200 dark:border-slate-700 p-5 shadow-sm fade-in">
+    <div class="flex items-start gap-3">
+      <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-300 shrink-0">
+        <i class="fa-solid fa-circle-info text-lg"></i>
+      </div>
+      <div class="flex-1">
+        <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200 mb-3">
+          පරමාර්ථ ධර්ම යනු මොනවා ද?
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed text-justify">
+          සත්ත්වයන් සහිත වූ මේ ලෝකය ඉතා සියුම් ලෙස විභාග කළා ම අන්තිමට ම ලැබෙන ඉතා ම සියුම් ස්වභාවයෝ පරමාර්ථ ධර්මයෝ ය. ලෝකයට අයත් සියල්ලේ ම මූලික ධර්මයෝ පරමාර්ථයෝ ය. ඒවා ගල් කැට මැටි කැට ආදිය බඳු ද්‍රව්‍යයන් නොව, බල වේගයෝ ය. එබැවින් දික් බව, කෙටි බව, කුඩා බව, මහත් බව, වට බව, සතරැස් බව, ආදි සටහන් ඒවාට නැත්තේ ය.
+          <br><br>
+          චිත්තය, චෛතසිකය, රූපය, නිර්වාණය යි කොටින් කියන කල්හි පරමාර්ථ සතරෙකි. (අභිධර්ම මාර්ගය)
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- ✅ සතර පරමාර්ථ විස්තර - ක්ලික් කළ පසු විවෘත වන ලිස්ට් එක (ACCORDION LIST) -->
+  <!-- ============================================================ -->
+  <section class="space-y-3">
+    
+    <!-- Section Title -->
+    <div class="flex items-center gap-3 pb-2 border-b-2 border-amber-200 dark:border-slate-700">
+      <div class="w-8 h-8 rounded-lg bg-saffron-500/20 flex items-center justify-center text-saffron-600 dark:text-saffron-400">
+        <i class="fa-solid fa-book-open-reader text-sm"></i>
+      </div>
+      <div>
+        <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200">සතර පරමාර්ථ විස්තරය</h3>
+        <p class="text-[11px] text-slate-500 dark:text-slate-400">විස්තර බැලීමට අදාළ පරමාර්ථය මත ක්ලික් කරන්න</p>
+      </div>
+      <span class="ml-auto text-xs bg-saffron-500/20 text-saffron-700 dark:text-saffron-300 px-2 py-0.5 rounded-full font-bold">4 ධර්ම</span>
+    </div>
+
+    <!-- 1. චිත්තය -->
+    <div class="paramattha-detail-citta rounded-2xl overflow-hidden shadow-sm transition-all duration-200">
+      <button 
+        type="button" 
+        onclick="toggleParamattha('detail-citta')" 
+        class="w-full p-4 sm:p-5 flex items-center justify-between text-left focus:outline-none transition hover:bg-emerald-100/40 dark:hover:bg-emerald-950/40">
+        <div class="flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl num-pill-citta flex items-center justify-center text-lg shrink-0 shadow-md">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full num-pill-citta">පරමාර්ථ 1</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-800 dark:text-emerald-300">89 / 121</span>
+            </div>
+            <h4 class="font-bold text-base sm:text-lg text-emerald-950 dark:text-emerald-200">චිත්තය</h4>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-emerald-700 dark:text-emerald-300 pr-1">
+          <span class="text-xs font-semibold hidden sm:inline">විස්තරය</span>
+          <i id="detail-citta-icon" class="fa-solid fa-chevron-down text-sm transition-transform duration-200"></i>
+        </div>
+      </button>
+
+      <div id="detail-citta" class="hidden p-5 pt-1 border-t border-emerald-200/60 dark:border-emerald-800/60">
+        <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed text-justify">
+          පරමාර්ථ සතර අතුරෙන් චිත්තය යනු දැනීම ය. සිතය කියනුයේ ද එයට ය. ඇස, කන, නාසය, දිව, කය යන මේ ඉන්ද්‍රිය පස නිසාත්, ශුද්ධ මනෝද්වාරය නිසාත් ඒ දැනීම ඇති වේ. ඇස නිසා ඇති වන දැනීමට දැකීමය යි ද, කන නිසා ඇති වන දැනීමට ඇසීම යයි ද කියති. දැකීම පෙනීම කල්පනා වීම අදහස් පහළ වීම යන මේ වචනවලින් කියැවෙන්නේ චිත්තය හෙවත් සිත ය. දැනෙන දේවලට අරමුණ යයි කියනු ලැබේ. අරමුණක සම්බන්ධයක් නැතිව කිසි කලෙක සිතක් ඇති නොවේ. බෙරයකට ගසන කල්හි වදින පහරින් වෙන වෙන ම බෙර හඬ ඇති වන්නාක් මෙන් ඉන්ද්‍රියයන්හි අරමුණු ගැටෙන කල්හි ඒවා සම්බන්ධයෙන් වෙන වෙන ම සිත් ඇති වේ. ඒ දැනීම් සියල්ල ම ක්‍රියාවෝ ය. එබැවින් ඇති වන සිත් සියල්ල ම එකෙණෙහි ම නැති වේ. දැනීම් මාත්‍රය ම චිත්තය හෙවත් සිත බව මතක තබා ගත යුතුය.
+        </p>
+      </div>
+    </div>
+
+    <!-- 2. චෛතසිකය -->
+    <div class="paramattha-detail-cetasika rounded-2xl overflow-hidden shadow-sm transition-all duration-200">
+      <button 
+        type="button" 
+        onclick="toggleParamattha('detail-cetasika')" 
+        class="w-full p-4 sm:p-5 flex items-center justify-between text-left focus:outline-none transition hover:bg-rose-100/40 dark:hover:bg-rose-950/40">
+        <div class="flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl num-pill-cetasika flex items-center justify-center text-lg shrink-0 shadow-md">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full num-pill-cetasika">පරමාර්ථ 2</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-800 dark:text-rose-300">52</span>
+            </div>
+            <h4 class="font-bold text-base sm:text-lg text-rose-950 dark:text-rose-200">චෛතසිකය</h4>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-rose-700 dark:text-rose-300 pr-1">
+          <span class="text-xs font-semibold hidden sm:inline">විස්තරය</span>
+          <i id="detail-cetasika-icon" class="fa-solid fa-chevron-down text-sm transition-transform duration-200"></i>
+        </div>
+      </button>
+
+      <div id="detail-cetasika" class="hidden p-5 pt-1 border-t border-rose-200/60 dark:border-rose-800/60 space-y-2">
+        <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed text-justify">
+          සිතක් හෙවත් අරමුණු දැනීමක් ඇති වන කල්හි ඒ දැනීම් ක්‍රියාව හා මිශ්‍ර ව ඇති වන්නා වූ අන්‍ය ක්‍රියාවෝ චෛතසිකයෝ ය. චෛතසික දෙපනසක් ඇත්තේ ය. සිත සමඟ එකට ඉපදීම ය, එකට නැති වීම ය, සිතින් ගන්නා අරමුණ ගැනීම ය, සිතට නිඃශ්‍රය වූ වස්තුව ම නිඃශ්‍රය කර ගැනීම ය යන මේ කරුණු සතර චෛතසිකයන් ගේ සාමාන්‍ය ලක්ෂණයෝ ය.
+        </p>
+        <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed text-justify">
+          සිතින් වෙන්ව කිසි කලෙක චෛතසිකයෝ නූපදිති. සිතක් නැති ව ඉපදිය හැකි ශක්තියක් ඒවාට ඇත්තේ ද නැත. සම්පූර්ණයෙන් ම චෛතසිකයන්ගෙන් තොරව ඉපදීමේ ශක්තියක් සිතට ද නැත. එහෙත් සිත සමහර චෛතසිකයන්ගෙන් තොරව ද උපදී. එක් සිතක් සියලු ම චෛතසිකයන් සමග උපදින්නේ ද නැත.
+        </p>
+      </div>
+    </div>
+
+    <!-- 3. රූපය -->
+    <div class="paramattha-detail-rupa rounded-2xl overflow-hidden shadow-sm transition-all duration-200">
+      <button 
+        type="button" 
+        onclick="toggleParamattha('detail-rupa')" 
+        class="w-full p-4 sm:p-5 flex items-center justify-between text-left focus:outline-none transition hover:bg-amber-100/40 dark:hover:bg-amber-950/40">
+        <div class="flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl num-pill-rupa flex items-center justify-center text-lg shrink-0 shadow-md">
+            <i class="fa-solid fa-cube"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full num-pill-rupa">පරමාර්ථ 3</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300">28</span>
+            </div>
+            <h4 class="font-bold text-base sm:text-lg text-amber-950 dark:text-amber-200">රූපය</h4>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-amber-700 dark:text-amber-300 pr-1">
+          <span class="text-xs font-semibold hidden sm:inline">විස්තරය</span>
+          <i id="detail-rupa-icon" class="fa-solid fa-chevron-down text-sm transition-transform duration-200"></i>
+        </div>
+      </button>
+
+      <div id="detail-rupa" class="hidden p-5 pt-1 border-t border-amber-200/60 dark:border-amber-800/60">
+        <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed text-justify">
+          සත්ත්ව ශරීර හා බාහිර වස්තූන් සෑදී ඇති මූලික ධර්ම රාශිය රූපයෝ ය. රූප විසි අටක් ඇත්තේ ය. එයින් ඇසට පෙනෙන්නේ වර්ණ ධාතුව නැමති එක් රූපයක් පමණෙකි. ඉතිරි සත්විස්ස ඇසට පෙනෙන රූප නො වේ. රූප යන වචනයේ තේරුම ශීතෝෂ්ණාදි විරුද්ධ දෙය හා එක් වීමෙන් විකාරයට පැමිණෙන දෙය ය යනුයි. චිත්ත චෛතසිකයන් ඉතා සියුම් බැවින් ශීතෝෂ්ණාදිය හා ඒවායේ ගැටීමක් සිදු නොවේ.
+        </p>
+      </div>
+    </div>
+
+    <!-- 4. නිර්වාණය -->
+    <div class="paramattha-detail-nibbana rounded-2xl overflow-hidden shadow-sm transition-all duration-200">
+      <button 
+        type="button" 
+        onclick="toggleParamattha('detail-nibbana')" 
+        class="w-full p-4 sm:p-5 flex items-center justify-between text-left focus:outline-none transition hover:bg-violet-100/40 dark:hover:bg-violet-950/40">
+        <div class="flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl num-pill-nibbana flex items-center justify-center text-lg shrink-0 shadow-md">
+            <i class="fa-solid fa-circle-notch"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full num-pill-nibbana">පරමාර්ථ 4</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-800 dark:text-violet-300">1</span>
+            </div>
+            <h4 class="font-bold text-base sm:text-lg text-violet-950 dark:text-violet-200">නිර්වාණය</h4>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-violet-700 dark:text-violet-300 pr-1">
+          <span class="text-xs font-semibold hidden sm:inline">විස්තරය</span>
+          <i id="detail-nibbana-icon" class="fa-solid fa-chevron-down text-sm transition-transform duration-200"></i>
+        </div>
+      </button>
+
+      <div id="detail-nibbana" class="hidden p-5 pt-1 border-t border-violet-200/60 dark:border-violet-800/60 space-y-2">
+        <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed text-justify">
+          රාගාදි කෙලෙස් ගිනිවලින් හා ජාති ජරා ව්‍යාධි මරණාදි දුක් ගිනිවලින් තොර වූ ශාන්ත සුඛ ස්වභාවය නිර්වාණය ය. චිත්ත චෛතසික රූප පරමාර්ථයෝ ඒ ඒ ධර්මය ඇති කිරීමට නිසි හේතූන් එක් රැස් වීමෙන් ම ඇති වන ධර්මයෝ ය. ප්‍රත්‍යයෙන් ඇති කරන බැවින් ඒවාට සඞ්ඛත ධර්මයෝ ය යි කියනු ලැබේ. සඞ්ඛත ධර්මයෝ ඇති වීමෙන් පසු මොහොතකුදු නො පැවතී බිඳෙන්නෝ ය. එබැවින් ඒවා අනිත්‍ය ධර්මයෝ ය.
+        </p>
+        <p class="text-sm text-slate-700 dark:text-slate-200 leading-relaxed text-justify">
+          නිර්වාණ ධාතුව යම්කිසි හේතුවකින් හටගැන්වීමක් නැති ව ම ඇති ධර්මයෙකි. එබැවින් එයට අසඞ්ඛත ධාතුව යයි කියනු ලැබේ. එය කවදාවත් නැති නො වන සෑම කල්හි ම පවත්නා ධර්මයෙකි. එය ඉතා ගැඹුරු ධර්මයෙකි. මහත් වූ වීර්‍ය්‍යයකින් ම ප්‍රත්‍යක්ෂ කරගත හැකි ධර්මයෙකි. ලොකොත්තර මාර්ගය වඩා එය ප්‍රත්‍යක්ෂ කර ගැනීමෙන් ආර්‍ය්‍යයෝ සසර දුකින් මිදෙති. බුද්ධාගමට අනුව පිළිවෙත් පිරීමෙන් බලාපොරොත්තු විය යුතු උසස් ම දෙය ඒ නිර්වාණය ය.
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- PARAMATTHA CARDS (4 BUTTONS - ඉවත් නොකළ ප්‍රධාන බොත්තම් 4) -->
+  <!-- ============================================================ -->
+  <section class="space-y-4 pt-2">
+    
+    <div class="flex items-center gap-3 pb-2 border-b-2 border-amber-200 dark:border-slate-700">
+      <div class="w-8 h-8 rounded-lg bg-saffron-500/20 flex items-center justify-center text-saffron-600 dark:text-saffron-400">
+        <i class="fa-solid fa-list-ul text-sm"></i>
+      </div>
+      <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200">පරමාර්ථ ධර්ම 4 - විස්තරාත්මකව බලන්න</h3>
+      <span class="ml-auto text-xs bg-saffron-500/20 text-saffron-700 dark:text-saffron-300 px-2 py-0.5 rounded-full font-bold">4 ධර්ම</span>
+    </div>
+
+    <!-- BUTTON 1: චිත්ත පරමාර්ථය -->
+    <a href="./Citta/citta.html" class="paramattha-card card-citta">
+      <div class="bg-icon"><i class="fa-solid fa-brain"></i></div>
+      <div class="relative flex items-start gap-4">
+        <div class="icon-wrapper shrink-0">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-2 flex-wrap">
+            <span class="count-badge">
+              <i class="fa-solid fa-hashtag mr-1 text-[10px]"></i> 89 / 121
+            </span>
+            <span class="text-[10px] uppercase tracking-wider opacity-90 font-bold">පරමාර්ථ ධර්ම 1</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold mb-2 drop-shadow-md">චිත්ත පරමාර්ථය</h3>
+          <p class="text-xs sm:text-sm opacity-95 leading-relaxed mb-3 text-justify">
+            අරමුණ දැන ගැනීමේ ස්වභාවය ඇති, සිත හෙවත් චිත්ත ධර්ම. සම්පූර්ණ සිත් 89ක් හෝ විස්තාර වශයෙන් 121ක් ඇත.
+          </p>
+          <div class="flex items-center justify-between pt-3 border-t border-white/25">
+            <span class="text-[11px] opacity-95 font-medium">
+              <i class="fa-solid fa-arrow-right mr-1"></i> චිත්ත විභාගය බලන්න
+            </span>
+            <i class="fa-solid fa-circle-arrow-right text-2xl arrow-icon"></i>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- BUTTON 2: චෛතසික පරමාර්ථය -->
+    <a href="./caitasika/caitasika.html" class="paramattha-card card-cetasika">
+      <div class="bg-icon"><i class="fa-solid fa-heart"></i></div>
+      <div class="relative flex items-start gap-4">
+        <div class="icon-wrapper shrink-0">
+          <i class="fa-solid fa-heart"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-2 flex-wrap">
+            <span class="count-badge">
+              <i class="fa-solid fa-hashtag mr-1 text-[10px]"></i> 52
+            </span>
+            <span class="text-[10px] uppercase tracking-wider opacity-90 font-bold">පරමාර්ථ ධර්ම 2</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold mb-2 drop-shadow-md">චෛතසික පරමාර්ථය</h3>
+          <p class="text-xs sm:text-sm opacity-95 leading-relaxed mb-3 text-justify">
+            සිත හා එකට උපදින, එකට නිරුද්ධ වන, එකම අරමුණක් ගන්නා ධර්ම. සම්පූර්ණ චෛතසික 52ක් ඇත.
+          </p>
+          <div class="flex items-center justify-between pt-3 border-t border-white/25">
+            <span class="text-[11px] opacity-95 font-medium">
+              <i class="fa-solid fa-arrow-right mr-1"></i> චෛතසික විභාගය බලන්න
+            </span>
+            <i class="fa-solid fa-circle-arrow-right text-2xl arrow-icon"></i>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- BUTTON 3: රූප පරමාර්ථය -->
+    <a href="./Rupa/rupa.html" class="paramattha-card card-rupa">
+      <div class="bg-icon"><i class="fa-solid fa-cube"></i></div>
+      <div class="relative flex items-start gap-4">
+        <div class="icon-wrapper shrink-0">
+          <i class="fa-solid fa-cube"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-2 flex-wrap">
+            <span class="count-badge">
+              <i class="fa-solid fa-hashtag mr-1 text-[10px]"></i> 28
+            </span>
+            <span class="text-[10px] uppercase tracking-wider opacity-90 font-bold">පරමාර්ථ ධර්ම 3</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold mb-2 drop-shadow-md">රූප පරමාර්ථය</h3>
+          <p class="text-xs sm:text-sm opacity-95 leading-relaxed mb-3 text-justify">
+            අරමුණ දැන ගැනීමේ ස්වභාවය නැති, කිසිවක් නොදන්නා, රූපී ස්වභාවය ඇති ධර්ම. සම්පූර්ණ රූප 28ක් ඇත.
+          </p>
+          <div class="flex items-center justify-between pt-3 border-t border-white/25">
+            <span class="text-[11px] opacity-95 font-medium">
+              <i class="fa-solid fa-arrow-right mr-1"></i> රූප විභාගය බලන්න
+            </span>
+            <i class="fa-solid fa-circle-arrow-right text-2xl arrow-icon"></i>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- BUTTON 4: නිබ්බාන පරමාර්ථය -->
+    <a href="./nibbana/nibbana.html" class="paramattha-card card-nibbana">
+      <div class="bg-icon"><i class="fa-solid fa-circle-notch"></i></div>
+      <div class="relative flex items-start gap-4">
+        <div class="icon-wrapper shrink-0">
+          <i class="fa-solid fa-circle-notch"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-2 flex-wrap">
+            <span class="count-badge">
+              <i class="fa-solid fa-hashtag mr-1 text-[10px]"></i> 1
+            </span>
+            <span class="text-[10px] uppercase tracking-wider opacity-90 font-bold">පරමාර්ථ ධර්ම 4</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold mb-2 drop-shadow-md">නිබ්බාන පරමාර්ථය</h3>
+          <p class="text-xs sm:text-sm opacity-95 leading-relaxed mb-3 text-justify">
+            අමතය ධාතුව, අජාත, අභූත, අකත, අසංඛත, නිරෝධ, නිබ්බාන යන නම්වලින් හැඳින්වෙන එකම එක පරමාර්ථ ධර්මයයි.
+          </p>
+          <div class="flex items-center justify-between pt-3 border-t border-white/25">
+            <span class="text-[11px] opacity-95 font-medium">
+              <i class="fa-solid fa-arrow-right mr-1"></i> නිබ්බානය ගැන බලන්න
+            </span>
+            <i class="fa-solid fa-circle-arrow-right text-2xl arrow-icon"></i>
+          </div>
+        </div>
+      </div>
+    </a>
+
+  </section>
+
+  <!-- QUICK SUMMARY TABLE -->
+  <section class="bg-white dark:bg-slate-800 rounded-2xl border border-amber-200 dark:border-slate-700 p-5 shadow-sm fade-in">
+    <div class="flex items-center gap-3 pb-3 mb-3 border-b-2 border-amber-200 dark:border-slate-700">
+      <div class="w-8 h-8 rounded-lg bg-saffron-500/20 flex items-center justify-center text-saffron-600 dark:text-saffron-400">
+        <i class="fa-solid fa-table-cells text-sm"></i>
+      </div>
+      <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200">සතර පරමාර්ථ සාරාංශය</h3>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-xs">
+        <thead>
+          <tr class="bg-gradient-to-r from-amber-100 to-amber-50 dark:from-slate-900 dark:to-slate-800">
+            <th class="text-left p-2.5 font-bold text-amber-900 dark:text-saffron-300 rounded-tl-lg border-b border-amber-200 dark:border-slate-700">පරමාර්ථ ධර්මය</th>
+            <th class="text-center p-2.5 font-bold text-amber-900 dark:text-saffron-300 border-b border-amber-200 dark:border-slate-700">ගණන</th>
+            <th class="text-left p-2.5 font-bold text-amber-900 dark:text-saffron-300 rounded-tr-lg border-b border-amber-200 dark:border-slate-700">විස්තරය</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-amber-100 dark:border-slate-700 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/10 transition-colors">
+            <td class="p-2.5 font-bold text-emerald-700 dark:text-emerald-400">
+              <i class="fa-solid fa-brain mr-1.5"></i> චිත්ත
+            </td>
+            <td class="p-2.5 text-center font-bold text-emerald-700 dark:text-emerald-400">89/121</td>
+            <td class="p-2.5 text-slate-600 dark:text-slate-300">අරමුණ දැන ගැනීමේ ස්වභාවය ඇති සිත</td>
+          </tr>
+          <tr class="border-b border-amber-100 dark:border-slate-700 hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-colors">
+            <td class="p-2.5 font-bold text-rose-700 dark:text-rose-400">
+              <i class="fa-solid fa-heart mr-1.5"></i> චෛතසික
+            </td>
+            <td class="p-2.5 text-center font-bold text-rose-700 dark:text-rose-400">52</td>
+            <td class="p-2.5 text-slate-600 dark:text-slate-300">සිත හා එකට උපදින ධර්ම</td>
+          </tr>
+          <tr class="border-b border-amber-100 dark:border-slate-700 hover:bg-amber-50/50 dark:hover:bg-amber-900/10 transition-colors">
+            <td class="p-2.5 font-bold text-amber-700 dark:text-amber-400">
+              <i class="fa-solid fa-cube mr-1.5"></i> රූප
+            </td>
+            <td class="p-2.5 text-center font-bold text-amber-700 dark:text-amber-400">28</td>
+            <td class="p-2.5 text-slate-600 dark:text-slate-300">අරමුණ නොදන්නා රූපී ස්වභාවය</td>
+          </tr>
+          <tr class="hover:bg-violet-50/50 dark:hover:bg-violet-900/10 transition-colors">
+            <td class="p-2.5 font-bold text-violet-700 dark:text-violet-400">
+              <i class="fa-solid fa-circle-notch mr-1.5"></i> නිබ්බාන
+            </td>
+            <td class="p-2.5 text-center font-bold text-violet-700 dark:text-violet-400">1</td>
+            <td class="p-2.5 text-slate-600 dark:text-slate-300">අසංඛත ධාතුව, නිර්වාණය</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FOOTER INFO -->
+  <div class="text-center text-xs text-amber-700 dark:text-saffron-400 py-4">
+    <i class="fa-solid fa-gem text-saffron-500 mr-2"></i>
+    සතර පරමාර්ථ ධර්ම • අභිධර්ම මාතිකා අධ්‍යයනය
+  </div>
+
+</main>
+
+<footer class="bg-maroon-900 text-amber-100 text-center py-4 border-t-2 border-saffron-500">
+  <p class="text-xs text-amber-200/70">අභිධර්ම මාතිකා &copy; 2026</p>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+function toggleDarkMode() {
+  var html = document.documentElement;
+  var icon = document.getElementById('theme-toggle-icon');
+  if (html.classList.contains('dark')) {
+    html.classList.remove('dark');
+    localStorage.setItem('abhidhamma_theme', 'light');
+    if (icon) icon.className = 'fa-solid fa-moon text-lg';
+  } else {
+    html.classList.add('dark');
+    localStorage.setItem('abhidhamma_theme', 'dark');
+    if (icon) icon.className = 'fa-solid fa-sun text-lg';
+  }
+}
+
+(function initTheme() {
+  var savedTheme = localStorage.getItem('abhidhamma_theme');
+  if (savedTheme === 'dark' ||
+      (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+    var icon = document.getElementById('theme-toggle-icon');
+    if (icon) icon.className = 'fa-solid fa-sun text-lg';
+  }
+})();
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ලිස්ට් එකේ අයිතමයක් ක්ලික් කළ විට විස්තර පෙන්වීම/සැඟවීම (Accordion)
+function toggleParamattha(id) {
+  var element = document.getElementById(id);
+  var icon = document.getElementById(id + '-icon');
+  
+  if (element.classList.contains('hidden')) {
+    element.classList.remove('hidden');
+    if (icon) icon.classList.add('rotate-180');
+  } else {
+    element.classList.add('hidden');
+    if (icon) icon.classList.remove('rotate-180');
+  }
+}
+
+console.log('[paramatta.html] Loaded successfully - සතර පරමාර්ථ ධර්ම');
+</script>
+
+</body>
+</html>

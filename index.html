@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="si" class="h-full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>අභිධර්ම මාතිකා අධ්‍යයනය</title>
+
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./launchericon-48x48.png">
+
+<!-- ============ PWA META TAGS ============ -->
+<meta name="description" content="සර්වසංග්‍රාහී සබ්බත්තික මාතිකා, සුත්තන්ත මාතිකා, තික මාතිකා 22 සහ ගොච්ඡක 13 ට අයත් දුක මාතිකා 100 හි මාතිකා පදවල ස්වරූපාර්ථ, ස්කන්ධ, ආයතන, ධාතු සහ සත්‍ය බෙදීම් විස්තරාත්මකව අධ්‍යයනය කරන්න.">
+<meta name="theme-color" content="#3f0a0c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="මාතිකා">
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="apple-touch-icon" sizes="180x180" href="launchericon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="launchericon-48x48.png">
+<link rel="icon" type="image/png" sizes="16x16" href="launchericon-48x48.png">
+<meta name="msapplication-TileColor" content="#3f0a0c">
+
+<!-- ============ DATA FILES ============ -->
+<!-- 1. Helper functions + data arrays + registerTika() -->
+<script src="sabbatika-data.js"></script>
+<script src="tika-data.js"></script>
+<script src="tika-app.js"></script>
+
+<!-- 2. තික ගොනු 22 (registerTika() call කරයි) -->
+<script src="tika/01-kusala-tika.js"></script>
+<script src="tika/02-vedana-tika.js"></script>
+<script src="tika/03-vipaka-tika.js"></script>
+<script src="tika/04-upadinnna-tika.js"></script>
+<script src="tika/05-sankilittha-tika.js"></script>
+<script src="tika/06-vitakka-tika.js"></script>
+<script src="tika/07-piti-tika.js"></script>
+<script src="tika/08-dassana-tika.js"></script>
+<script src="tika/09-dassanahetu-tika.js"></script>
+<script src="tika/10-avayagami-tika.js"></script>
+<script src="tika/11-sekha-tika.js"></script>
+<script src="tika/12-paritta-tika.js"></script>
+<script src="tika/13-parittarammana-tika.js"></script>
+<script src="tika/14-hina-tika.js"></script>
+<script src="tika/15-micchatta-tika.js"></script>
+<script src="tika/16-maggarammana-tika.js"></script>
+<script src="tika/17-uppanna-tika.js"></script>
+<script src="tika/18-atita-tika.js"></script>
+<script src="tika/19-atitarammana-tika.js"></script>
+<script src="tika/20-ajjhatta-tika.js"></script>
+<script src="tika/21-ajjhattarammana-tika.js"></script>
+<script src="tika/22-sanidassana-tika.js"></script>
+
+<!-- 3. Feedback Logic -->
+<script src="feedback.js"></script>
+
+<script src="https://cdn.tailwindcss.com"></script><script src="./tailwind.min.js"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        saffron: {
+          50: '#fffbeedb', 100: '#fef3c7', 200: '#fde68a', 300: '#fcd34d',
+          400: '#fbbf24', 500: '#f59e0b', 600: '#d97706', 700: '#b45309',
+          800: '#92400e', 900: '#78350f', 950: '#451a03'
+        },
+        maroon: {
+          700: '#701a1d', 800: '#581113', 900: '#3f0a0c', 950: '#260507'
+        }
+      },
+      fontFamily: {
+        sans: ['Inter', 'Noto Serif Sinhala', 'Segoe UI', 'sans-serif']
+      }
+    }
+  }
+};
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+body { font-family: 'Noto Serif Sinhala', 'Inter', serif; -webkit-tap-highlight-color: transparent; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.breakdown-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 0.6rem 0; border-bottom: 1px solid #fef3c7; gap: 1rem; }
+.breakdown-item:last-child { border-bottom: none; }
+.breakdown-item .num { font-weight: 700; color: #92400e; min-width: 1.8rem; flex-shrink: 0; }
+.breakdown-item .name { color: #78350f; flex: 1; }
+.breakdown-item .value { color: #b45309; font-weight: 600; text-align: right; flex-shrink: 0; max-width: 55%; }
+.dark .breakdown-item { border-bottom-color: #334155; }
+.dark .breakdown-item .num { color: #fcd34d; }
+.dark .breakdown-item .name { color: #fde68a; }
+.dark .breakdown-item .value { color: #fbbf24; }
+
+/* ============================================================ */
+/* FEEDBACK BUTTON ANIMATION */
+/* ============================================================ */
+@keyframes pulse-soft {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6); }
+  50% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+}
+.feedback-pulse {
+  animation: pulse-soft 2.5s infinite;
+}
+
+#pwa-install-banner {
+  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, #bc7d2f, #78350f);
+  color: #fef3c7; padding: 12px 16px; border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(42, 5, 5, 0.13); border: 1px solid #f59e0b;
+  display: none; align-items: center; gap: 12px; z-index: 100;
+  max-width: calc(100% - 32px); width: 420px;
+  animation: slideUp 0.4s ease-out;
+}
+#pwa-install-banner.show { display: flex; }
+@keyframes slideUp { from { transform: translate(-50%, 100px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+#pwa-install-banner button { white-space: nowrap; }
+
+#offline-indicator {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  background: #dc2626; color: white; text-align: center;
+  padding: 6px; font-size: 12px; font-weight: bold;
+  transform: translateY(-100%); transition: transform 0.3s;
+}
+#offline-indicator.show { transform: translateY(0); }
+</style>
+</head>
+<body class="h-full flex flex-col text-slate-800 dark:text-slate-100 bg-amber-50/30 dark:bg-slate-900 antialiased">
+
+<div id="offline-indicator"><i class="fa-solid fa-wifi"></i> ඔබ දැන් නොබැඳි තත්ත්වයේ සිටී</div>
+
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-30 bg-maroon-900 text-amber-100 shadow-md border-b-2 border-saffron-500">
+<div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+<div class="flex items-center space-x-2 space-x-reverse">
+<button onclick="navigateTo('home')" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200" title="මුල් පිටුව"><i class="fa-solid fa-house text-lg"></i></button>
+</div>
+<div class="flex items-center mx-auto cursor-pointer" onclick="navigateTo('home')">
+<div class="w-9 h-9 rounded-full bg-saffron-500/20 border border-saffron-400 flex items-center justify-center text-saffron-300 shrink-0"><i class="fa-solid fa-dharmachakra text-xl"></i></div>
+<h1 class="font-bold text-xl sm:text-2xl ml-2 text-saffron-100">අභිධර්ම මාතිකා</h1>
+ <P> <h2 class="text-xs sm:text-sm text-amber-100/90 ml-2"> Currently under development </h2></P>
+</div>
+<button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200" title="තේමාව"><i id="theme-toggle-icon" class="fa-solid fa-moon text-lg"></i></button>
+
+<!-- ✅ නව: Feedback බොත්තම -->
+<button onclick="openFeedbackModal()" class="p-2 rounded-lg bg-gradient-to-br from-saffron-500 to-amber-600 hover:from-saffron-400 hover:to-amber-500 text-maroon-950 feedback-pulse transition-all ml-1" title="ඔබගේ අදහස් එවන්න">
+  <i class="fa-solid fa-comment-dots text-lg"></i>
+</button>
+
+<button onclick="toggleMenu()" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 ml-1" title="මෙනුව">
+    <i class="fa-solid fa-bars text-lg"></i>
+</button>
+</div>
+</header>
+
+<!-- ============ මෙනු ලැයිස්තුව ============ -->
+<div id="custom-menu" class="hidden fixed top-16 right-4 z-50 bg-white dark:bg-slate-800 border border-amber-300 dark:border-slate-700 rounded-xl shadow-2xl w-64 overflow-hidden">
+    <div class="py-1">
+        <button onclick="menuAction('star')" class="w-full text-left px-4 py-3 hover:bg-amber-100 dark:hover:bg-slate-700 flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-200 border-b border-amber-100 dark:border-slate-700">
+            <i class="fa-solid fa-star text-yellow-500 text-lg w-5"></i> 0 තරු යෙදුම
+        </button>
+        <button onclick="menuAction('pali')" class="w-full text-left px-4 py-3 hover:bg-amber-100 dark:hover:bg-slate-700 flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-200 border-b border-amber-100 dark:border-slate-700">
+            <i class="fa-solid fa-language text-blue-600 text-lg w-5"></i> පාලි අකුරු පරිවර්තකය
+        </button>
+        <button onclick="menuAction('about')" class="w-full text-left px-4 py-3 hover:bg-amber-100 dark:hover:bg-slate-700 flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-200 border-b border-amber-100 dark:border-slate-700">
+            <i class="fa-solid fa-circle-info text-saffron-600 text-lg w-5"></i> අප ගැන
+        </button>
+        <button onclick="menuAction('help')" class="w-full text-left px-4 py-3 hover:bg-amber-100 dark:hover:bg-slate-700 flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-200 border-b border-amber-100 dark:border-slate-700">
+            <i class="fa-solid fa-circle-question text-purple-600 text-lg w-5"></i> උදව්
+        </button>
+
+        <!-- ✅ නව: Feedback (මෙනුවේ) -->
+        <button onclick="menuAction('feedback')" class="w-full text-left px-4 py-3 hover:bg-amber-100 dark:hover:bg-slate-700 flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-200 border-b border-amber-100 dark:border-slate-700">
+            <i class="fa-solid fa-comment-dots text-saffron-600 text-lg w-5"></i> අදහස් එවන්න
+        </button>
+
+        <button onclick="menuAction('facebook')" class="w-full text-left px-4 py-3 hover:bg-amber-100 dark:hover:bg-slate-700 flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-200">
+            <i class="fa-brands fa-facebook text-blue-700 text-lg w-5"></i> Facebook පිටුව
+        </button>
+    </div>
+</div>
+
+<main class="flex-1 max-w-3xl w-full mx-auto p-4 sm:p-6 pb-12">
+
+<div id="view-container">
+
+<!-- ============================================================ -->
+<!-- HOME VIEW -->
+<!-- ============================================================ -->
+<section id="view-home" class="space-y-6">
+<div class="bg-gradient-to-br from-amber-800 to-maroon-900 text-amber-50 rounded-2xl p-5 shadow-lg border border-amber-600/30 relative overflow-hidden">
+<div class="absolute -right-6 -bottom-6 opacity-10 text-amber-100 text-9xl pointer-events-none"><i class="fa-solid fa-dharmachakra"></i></div>
+<span class="inline-block px-3 py-1 bg-saffron-500/20 border border-saffron-400/40 rounded-full text-xs text-saffron-300 font-medium mb-2">අභිධර්ම පිටකය</span>
+<h2 class="text-xl sm:text-2xl font-bold text-saffron-200 mb-2">අභිධර්ම මාතිකා අධ්‍යයනය</h2>
+<p class="text-sm text-amber-100/90 leading-relaxed">සර්වසංග්‍රාහී සබ්බත්තික මාතිකා, සුත්තන්ත මාතිකා, තික මාතිකා 22 සහ ගොච්ඡක 13 ට අයත් දුක මාතිකා 100 හි මාතිකා පදවල ස්වරූපාර්ථ, ස්කන්ධ, ආයතන, ධාතු සහ සත්‍ය බෙදීම් විස්තරාත්මකව අධ්‍යයනය කරන්න.</p>
+</div>
+
+<!-- මාතිකා කාඩ්පත් -->
+<div class="grid grid-cols-1 gap-4">
+
+<!-- සබ්බත්තික මාතිකා -->
+<a href="sabbattika.html" class="group bg-gradient-to-r from-amber-700 via-saffron-600 to-amber-700 text-white rounded-2xl p-5 text-left shadow-md hover:shadow-xl w-full block">
+<div class="flex items-center justify-between mb-2">
+<div class="w-10 h-10 rounded-xl bg-white/25 flex items-center justify-center text-xl text-saffron-100"><i class="fa-solid fa-book-open"></i></div>
+<i class="fa-solid fa-arrow-right text-saffron-200 text-xl group-hover:translate-x-1 transition-transform"></i>
+</div>
+<h3 class="text-lg font-bold mb-1">සබ්බත්තික මාතිකා සහ ස්වරූපාර්ථ</h3>
+<p class="text-xs text-amber-100/90">සියලු තිකදුකයන්හි සමස්ත පද සහ පරමාර්ථ ධර්ම විශ්ලේෂණය</p>
+</a>
+
+<!-- තික + දුක + සුත්තන්ත + සතර පරමාර්ථ -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+<!-- ✅ තික මාතිකා -->
+<a href="tika-matika.html" class="group bg-gradient-to-r from-saffron-500 to-amber-600 text-white rounded-2xl p-5 text-left shadow-md hover:shadow-xl block">
+<div class="flex items-center justify-between mb-3">
+<div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl font-bold text-amber-100">22</div>
+<i class="fa-solid fa-arrow-right text-saffron-200 group-hover:translate-x-1 transition-transform"></i>
+</div>
+<h3 class="text-lg font-bold mb-1">තික මාතිකා</h3>
+<p class="text-xs text-amber-100/80">ත්‍රික කොටස් 22 කින් යුක්ත මාතිකා පද 66 සහ ස්වරූපාර්ථ</p>
+</a>
+
+<!-- ✅ දුක මාතිකා -->
+<a href="duka-matika.html" class="group bg-gradient-to-r from-amber-800 to-maroon-800 text-white rounded-2xl p-5 text-left shadow-md hover:shadow-xl block">
+<div class="flex items-center justify-between mb-3">
+<div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-xl font-bold text-saffron-300">100</div>
+<i class="fa-solid fa-arrow-right text-amber-300 group-hover:translate-x-1 transition-transform"></i>
+</div>
+<h3 class="text-lg font-bold text-saffron-100 mb-1">දුක මාතිකා</h3>
+<p class="text-xs text-amber-200/80">ගොච්ඡක 13 ට අයත් දුක මාතිකා 100 හි පද සහ ස්වරූපාර්ථ</p>
+</a>
+
+<!-- ✅ සුත්තන්ත මාතිකා -->
+<a href="suttanta-matika.html" class="group bg-gradient-to-r from-maroon-900 to-amber-900 text-white rounded-2xl p-5 text-left shadow-md hover:shadow-xl block">
+<div class="flex items-center justify-between mb-2">
+<div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl text-saffron-300"><i class="fa-solid fa-scroll"></i></div>
+<i class="fa-solid fa-arrow-right text-saffron-200 group-hover:translate-x-1"></i>
+</div>
+<h3 class="text-lg font-bold text-saffron-100 mb-1">සුත්තන්ත මාතිකා</h3>
+<p class="text-xs text-amber-100/90">සුත්තන්තික මාතිකා පද සහ ස්වරූපාර්ථ</p>
+</a>
+
+<!-- ✅ නවතම: සතර පරමාර්ථ - පරමාර්ථ ධර්ම 4 (චිත්ත, චෛතසික, රූප, නිබ්බාන) -->
+<a href="paramatta.html" class="group bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 text-white rounded-2xl p-5 text-left shadow-md hover:shadow-xl block relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 opacity-15 text-white text-8xl pointer-events-none"><i class="fa-solid fa-gem"></i></div>
+<div class="relative">
+<div class="flex items-center justify-between mb-3">
+<div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl text-purple-100"><i class="fa-solid fa-gem"></i></div>
+<i class="fa-solid fa-arrow-right text-purple-200 group-hover:translate-x-1 transition-transform"></i>
+</div>
+<h3 class="text-lg font-bold text-purple-100 mb-1">සතර පරමාර්ථ</h3>
+<p class="text-xs text-purple-100/90">මාතිකා අධ්‍යනය පිණිස උපාකාරී වන චිත්ත, චෛතසික, රූප සහ නිබ්බාන යන පරමාර්ථ ධර්ම විභාගය</p>
+</div>
+</a>
+
+</div>
+
+</div>
+
+
+<!-- Install Section -->
+<div id="install-section" class="bg-white dark:bg-slate-800 border border-amber-200 dark:border-slate-700 rounded-2xl p-4 shadow-sm">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-8 h-8 rounded-lg bg-saffron-500/20 flex items-center justify-center text-saffron-600"><i class="fa-solid fa-mobile-screen-button"></i></div>
+<h3 class="font-bold text-sm text-maroon-900 dark:text-saffron-200">යෙදුම ලෙස ස්ථාපනය කරන්න</h3>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-3">මෙම යෙදුම ඔබගේ දුරකථනයේ හෝ පරිගණකයේ යෙදුමක් ලෙස ස්ථාපනය කර නොබැඳි තත්ත්වයේද කියවීමට හැකිය.</p>
+<button onclick="triggerInstall()" id="install-btn-main" class="w-full bg-gradient-to-r from-saffron-500 to-amber-600 text-maroon-950 font-bold py-2.5 rounded-xl text-sm shadow hover:shadow-lg transition-all flex items-center justify-center gap-2">
+<i class="fa-solid fa-download"></i> යෙදුම ස්ථාපනය කරන්න
+</button>
+</div>
+</section>
+
+</div>
+</main>
+
+<!-- ============================================================ -->
+<!-- FEEDBACK MODAL (feedback.js මගින් පාලනය වේ) -->
+<!-- ============================================================ -->
+<div id="feedback-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+  <div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-2xl p-5 shadow-2xl border border-amber-300 dark:border-slate-700 max-h-[90vh] overflow-y-auto space-y-4">
+    
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center border-b border-amber-200 dark:border-slate-700 pb-3">
+      <div class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-saffron-500 to-amber-600 flex items-center justify-center text-maroon-950">
+          <i class="fa-solid fa-comment-dots"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-base text-maroon-900 dark:text-saffron-200">ඔබගේ අදහස් එවන්න</h3>
+          <p class="text-[10px] text-slate-500 dark:text-slate-400">Feedback & Suggestions</p>
+        </div>
+      </div>
+      <button onclick="closeFeedbackModal()" class="text-slate-400 hover:text-red-500 text-lg transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Modal Form -->
+    <form id="feedback-form" onsubmit="submitFeedback(event)" class="space-y-4 text-sm">
+      
+      <!-- නම -->
+      <div>
+        <label class="block font-semibold mb-1.5 text-xs text-maroon-900 dark:text-saffron-200">
+          <i class="fa-solid fa-user text-saffron-600"></i> ඔබගේ නම <span class="text-slate-400 font-normal">(අවශ්‍ය නැත)</span>
+        </label>
+        <input type="text" id="feedback-name" 
+               placeholder="උදා: සුනිල් පෙරේරා"
+               class="w-full p-2.5 rounded-lg border border-amber-200 dark:border-slate-700 dark:bg-slate-900 text-xs focus:ring-2 focus:ring-saffron-500 focus:border-transparent outline-none transition-all">
+      </div>
+
+      <!-- විශේෂය -->
+      <div>
+        <label class="block font-semibold mb-1.5 text-xs text-maroon-900 dark:text-saffron-200">
+          <i class="fa-solid fa-tag text-saffron-600"></i> ප්‍රතිචාරයේ වර්ගය <span class="text-red-500">*</span>
+        </label>
+        <select id="feedback-type" required
+                class="w-full p-2.5 rounded-lg border border-amber-200 dark:border-slate-700 dark:bg-slate-900 text-xs focus:ring-2 focus:ring-saffron-500 focus:border-transparent outline-none transition-all">
+          <option value="">-- තෝරන්න --</option>
+          <option value="bug">🐞 දෝෂයක් (Bug)</option>
+          <option value="suggestion">💡 යෝජනාවක් (Suggestion)</option>
+          <option value="content">📖 අන්තර්ගතය ගැන (Content)</option>
+          <option value="design">🎨 නිර්මාණය ගැන (Design)</option>
+          <option value="praise">👏 ප්‍රශංසාවක් (Praise)</option>
+          <option value="other">📝 වෙනත් (Other)</option>
+        </select>
+      </div>
+
+      <!-- පණිවිඩය -->
+      <div>
+        <label class="block font-semibold mb-1.5 text-xs text-maroon-900 dark:text-saffron-200">
+          <i class="fa-solid fa-message text-saffron-600"></i> ඔබගේ පණිවිඩය <span class="text-red-500">*</span>
+        </label>
+        <textarea id="feedback-message" required rows="5"
+                  placeholder="ඔබගේ අදහස්, යෝජනා, හෝ දෝෂ පිළිබඳ විස්තරය මෙහි ලියන්න..."
+                  class="w-full p-2.5 rounded-lg border border-amber-200 dark:border-slate-700 dark:bg-slate-900 text-xs focus:ring-2 focus:ring-saffron-500 focus:border-transparent outline-none transition-all resize-none"></textarea>
+      </div>
+
+      <!-- Email (Optional) -->
+      <div>
+        <label class="block font-semibold mb-1.5 text-xs text-maroon-900 dark:text-saffron-200">
+          <i class="fa-solid fa-envelope text-saffron-600"></i> ඊමේල් ලිපිනය <span class="text-slate-400 font-normal">(පිළිතුරු ලබා ගැනීමට)</span>
+        </label>
+        <input type="email" id="feedback-email" 
+               placeholder="your.email@example.com"
+               class="w-full p-2.5 rounded-lg border border-amber-200 dark:border-slate-700 dark:bg-slate-900 text-xs focus:ring-2 focus:ring-saffron-500 focus:border-transparent outline-none transition-all">
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-end gap-2 pt-2 border-t border-amber-100 dark:border-slate-700">
+        <button type="button" onclick="closeFeedbackModal()" 
+                class="px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 rounded-lg text-xs font-medium transition-colors">
+          අවලංගු කරන්න
+        </button>
+        <button type="submit" id="feedback-submit-btn"
+                class="px-4 py-2 bg-gradient-to-r from-saffron-500 to-amber-600 hover:from-saffron-400 hover:to-amber-500 text-maroon-950 font-bold rounded-lg text-xs shadow hover:shadow-lg transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-paper-plane"></i> එවන්න
+        </button>
+      </div>
+    </form>
+
+    <!-- Info Note -->
+    <div class="bg-amber-50 dark:bg-slate-900 border border-amber-200 dark:border-slate-700 rounded-lg p-3 text-[10px] text-slate-600 dark:text-slate-400 leading-relaxed">
+      <i class="fa-solid fa-circle-info text-saffron-600"></i>
+      ඔබගේ අදහස් අපගේ යෙදුම වැඩිදියුණු කිරීමට උපකාරී වේ. ස්තූතියි! 🙏
+    </div>
+
+  </div>
+</div>
+
+<!-- PWA INSTALL BANNER -->
+<div id="pwa-install-banner">
+<div class="w-10 h-10 rounded-xl bg-saffron-500/20 border border-saffron-400 flex items-center justify-center shrink-0">
+<i class="fa-solid fa-dharmachakra text-saffron-300 text-xl"></i>
+</div>
+<div class="flex-1 min-w-0">
+<div class="font-bold text-sm text-saffron-200">අභිධර්ම මාතිකා</div>
+<div class="text-xs text-amber-100/80 truncate">යෙදුම ලෙස ස්ථාපනය කරන්න</div>
+</div>
+<button onclick="triggerInstall()" class="bg-saffron-500 text-maroon-950 font-bold px-3 py-1.5 rounded-lg text-xs shadow hover:bg-saffron-400">
+<i class="fa-solid fa-download"></i> ස්ථාපනය
+</button>
+<button onclick="dismissInstallBanner()" class="text-amber-200/60 hover:text-amber-100 p-1">
+<i class="fa-solid fa-xmark"></i>
+</button>
+</div>
+
+<script>
+// ============================================================
+// PWA INSTALL LOGIC
+// ============================================================
+var deferredPrompt = null;
+var installBannerDismissed = localStorage.getItem('pwa_banner_dismissed') === 'true';
+
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (!installBannerDismissed && !isStandalone()) {
+    setTimeout(function() {
+      document.getElementById('pwa-install-banner').classList.add('show');
+    }, 3000);
+  }
+});
+
+window.addEventListener('appinstalled', function() {
+  deferredPrompt = null;
+  document.getElementById('pwa-install-banner').classList.remove('show');
+  installBannerDismissed = true;
+  localStorage.setItem('pwa_banner_dismissed', 'true');
+  var installSection = document.getElementById('install-section');
+  if (installSection) installSection.style.display = 'none';
+});
+
+function isStandalone() {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true;
+}
+
+function triggerInstall() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(choiceResult) {
+      deferredPrompt = null;
+      document.getElementById('pwa-install-banner').classList.remove('show');
+    });
+  } else {
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS) {
+      alert('iOS Safari හි: Share (⬆️) බොත්තම → "Add to Home Screen" තෝරන්න.');
+    } else if (isStandalone()) {
+      alert('මෙම යෙදුම දැනටමත් ස්ථාපනය කර ඇත.');
+    } else {
+      alert('ඔබගේ බ්‍රව්සරයේ මෙනුවෙන් (⋮) "Install App" හෝ "Add to Home Screen" තෝරන්න.');
+    }
+  }
+}
+
+function dismissInstallBanner() {
+  document.getElementById('pwa-install-banner').classList.remove('show');
+  installBannerDismissed = true;
+  localStorage.setItem('pwa_banner_dismissed', 'true');
+}
+
+// ============================================================
+// ONLINE/OFFLINE INDICATOR
+// ============================================================
+function updateOnlineStatus() {
+  var indicator = document.getElementById('offline-indicator');
+  if (navigator.onLine) {
+    indicator.classList.remove('show');
+  } else {
+    indicator.classList.add('show');
+  }
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+
+// ============================================================
+// SERVICE WORKER REGISTRATION
+// ============================================================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(registration) {
+        console.log('[App] Service Worker registered:', registration.scope);
+        
+        registration.addEventListener('updatefound', function() {
+          var newWorker = registration.installing;
+          console.log('[App] New Service Worker installing...');
+          
+          newWorker.addEventListener('statechange', function() {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('[App] New version available!');
+              showUpdateNotification();
+            }
+          });
+        });
+        
+        setInterval(function() {
+          registration.update();
+        }, 60 * 60 * 1000);
+      })
+      .catch(function(error) {
+        console.warn('[App] Service Worker registration failed:', error);
+      });
+  });
+  
+  var refreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function() {
+    if (refreshing) return;
+    refreshing = true;
+    console.log('[App] Controller changed, reloading...');
+    window.location.reload();
+  });
+}
+
+function showUpdateNotification() {
+  var banner = document.createElement('div');
+  banner.id = 'update-banner';
+  banner.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-saffron-500 to-amber-600 text-maroon-950 font-bold px-5 py-3 rounded-xl shadow-2xl border-2 border-maroon-900 flex items-center gap-3';
+  banner.innerHTML = 
+    '<i class="fa-solid fa-circle-down text-xl"></i>' +
+    '<span class="text-sm">නව අනුවාදයක් ලබාගත හැක!</span>' +
+    '<button onclick="applyUpdate()" class="bg-maroon-900 text-saffron-200 px-3 py-1.5 rounded-lg text-xs font-bold shadow">යාවත්කාලීන කරන්න</button>' +
+    '<button onclick="dismissUpdate()" class="text-maroon-900/60 hover:text-maroon-900 p-1"><i class="fa-solid fa-xmark"></i></button>';
+  document.body.appendChild(banner);
+}
+
+function applyUpdate() {
+  if (navigator.serviceWorker.controller) {
+    navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+  }
+  window.location.reload();
+}
+
+function dismissUpdate() {
+  var banner = document.getElementById('update-banner');
+  if (banner) banner.remove();
+}
+
+// ============================================================
+// APPLICATION STATE
+// ============================================================
+var currentView = 'home';
+
+function initApp() {
+  updateOnlineStatus();
+  checkIfInstalled();
+}
+
+function checkIfInstalled() {
+  var isInstalled = window.matchMedia('(display-mode: standalone)').matches ||
+                     window.navigator.standalone === true ||
+                     document.referrer.includes('android-app://');
+  
+  if (isInstalled) {
+    var installSection = document.getElementById('install-section');
+    if (installSection) {
+      installSection.style.display = 'none';
+      console.log('[App] App is installed. Hiding install section.');
+    }
+  }
+}
+
+function navigateTo(viewName) {
+  currentView = viewName;
+  document.querySelectorAll('#view-container > section').forEach(function(sec) {
+    sec.classList.add('hidden');
+  });
+  
+  var targetSec = document.getElementById('view-' + viewName);
+  if (targetSec) targetSec.classList.remove('hidden');
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// මෙනු ක්‍රියාකාරීත්වය
+// ============================================================
+function toggleMenu() {
+    var menu = document.getElementById('custom-menu');
+    if (menu) menu.classList.toggle('hidden');
+}
+
+document.addEventListener('click', function(event) {
+    var menu = document.getElementById('custom-menu');
+    if (!menu) return;
+    var menuBtn = event.target.closest('button[onclick="toggleMenu()"]');
+    if (!menu.contains(event.target) && !menuBtn && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+    }
+});
+
+function menuAction(action) {
+    var menu = document.getElementById('custom-menu');
+    if (menu) menu.classList.add('hidden');
+    
+    switch(action) {
+        case 'star':
+            alert('තරු යෙදුම - මෙය ඉදිරියේදී එක් කළ හැක.');
+            break;
+        case 'pali':
+            window.open('https://www.google.com/search?q=pali+unicode+converter', '_blank');
+            break;
+        case 'about':
+            alert('අභිධර්ම මාතිකා අධ්‍යයන යෙදුම\n\nමෙය අභිධර්ම පිටකයේ මාතිකා පද අධ්‍යයනය සඳහා නිර්මාණය කරන ලද යෙදුමකි.');
+            break;
+        case 'help':
+            alert('උදව්\n\n1. මුල් පිටුවේ ඇති මාතිකා කාණ්ඩ තෝරන්න.\n2. අදාළ මාතිකාව ක්ලික් කරන්න.\n3. පද තෝරා එහි ස්වරූපාර්ථ බලන්න.');
+            break;
+        case 'feedback':
+            if (typeof openFeedbackModal === 'function') {
+                openFeedbackModal();
+            } else {
+                alert('Feedback module loading... කරුණාකර නැවත උත්සාහ කරන්න.');
+            }
+            break;
+        case 'facebook':
+            window.open('https://www.facebook.com/', '_blank');
+            break;
+    }
+}
+
+// ============================================================
+// THEME TOGGLE
+// ============================================================
+function toggleDarkMode() {
+  var html = document.documentElement;
+  var icon = document.getElementById('theme-toggle-icon');
+  if (html.classList.contains('dark')) {
+    html.classList.remove('dark');
+    localStorage.setItem('abhidhamma_theme', 'light');
+    icon.className = 'fa-solid fa-moon text-lg';
+  } else {
+    html.classList.add('dark');
+    localStorage.setItem('abhidhamma_theme', 'dark');
+    icon.className = 'fa-solid fa-sun text-lg';
+  }
+}
+
+if (localStorage.getItem('abhidhamma_theme') === 'dark' || 
+    (!localStorage.getItem('abhidhamma_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.classList.add('dark');
+  document.getElementById('theme-toggle-icon').className = 'fa-solid fa-sun text-lg';
+}
+
+window.addEventListener('DOMContentLoaded', initApp);
+</script>
+
+</body>
+</html>
