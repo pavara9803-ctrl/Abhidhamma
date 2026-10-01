@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="si" class="h-full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>නිබ්බාන පරමාර්ථය - අභිධර්ම මාතිකා</title>
+
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../launchericon-48x48.png">
+
+<meta name="theme-color" content="#3f0a0c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="නිබ්බාන පරමාර්ථය">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        saffron: { 50:'#fffbeedb',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',800:'#92400e',900:'#78350f',950:'#451a03' },
+        maroon: { 700:'#701a1d',800:'#581113',900:'#3f0a0c',950:'#260507' }
+      },
+      fontFamily: { sans: ['Inter','Noto Serif Sinhala','sans-serif'] }
+    }
+  }
+};
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Sinhala:wght@400;600;700&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+body { 
+  font-family: 'Noto Serif Sinhala', 'Inter', serif; 
+  -webkit-tap-highlight-color: transparent; 
+  font-size: 15px;
+}
+
+/* ============================================================ */
+/* Justify සැකසුම් */
+/* ============================================================ */
+p, .text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+  word-spacing: 0.04em;
+  line-height: 1.8;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+li {
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.7;
+}
+h1, h2, h3, h4, h5, h6 { text-align: left; }
+button, .btn, .badge { text-align: center; }
+th { text-align: left; }
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ============================================================ */
+/* HERO */
+/* ============================================================ */
+.nibbana-hero {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 30%, #4c1d95 70%, #2e1065 100%);
+  color: #ffffff;
+}
+
+/* ============================================================ */
+/* ගාථා box */
+/* ============================================================ */
+.gatha-box {
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+  border-left: 5px solid #7c3aed;
+  border-radius: 0.85rem;
+  padding: 1.25rem;
+  color: #4c1d95;
+}
+.dark .gatha-box {
+  background: #2e1065;
+  border-color: #6d28d9;
+  border-left-color: #a78bfa;
+  color: #ede9fe;
+}
+
+/* ============================================================ */
+/* කාඩ්පත් */
+/* ============================================================ */
+.nibbana-card {
+  background: #ffffff;
+  border: 1px solid #ddd6fe;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  color: #1e1b4b;
+}
+.dark .nibbana-card {
+  background: #1e293b;
+  border-color: #4c1d95;
+  color: #e2e8f0;
+}
+.nibbana-card:hover {
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15);
+  transform: translateY(-2px);
+}
+.nibbana-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(180deg, #8b5cf6, #6d28d9);
+}
+
+/* ============================================================ */
+/* ශීර්ෂක */
+/* ============================================================ */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: #ede9fe;
+  border-left: 5px solid #7c3aed;
+  border-radius: 0.75rem;
+  font-weight: 800;
+  color: #4c1d95;
+  font-size: 0.95rem;
+  margin-bottom: 0.85rem;
+}
+.dark .section-title {
+  background: #2e1065;
+  color: #ddd6fe;
+  border-left-color: #a78bfa;
+}
+
+/* ============================================================ */
+/* num-pill */
+/* ============================================================ */
+.num-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1rem;
+  box-shadow: 0 3px 8px rgba(124, 58, 237, 0.35);
+  flex-shrink: 0;
+}
+
+/* ============================================================ */
+/* Feature cards */
+/* ============================================================ */
+.feature-card {
+  background: #ffffff;
+  border: 1px solid #ddd6fe;
+  border-radius: 0.85rem;
+  padding: 1rem;
+  transition: all 0.2s;
+  text-align: center;
+  color: #1e1b4b;
+}
+.dark .feature-card {
+  background: #1e293b;
+  border-color: #4c1d95;
+  color: #e2e8f0;
+}
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.15);
+}
+.feature-card .icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+  color: #ffffff;
+}
+
+/* ============================================================ */
+/* variant-card */
+/* ============================================================ */
+.variant-card {
+  background: #ffffff;
+  border: 1px solid #ddd6fe;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  color: #1e1b4b;
+}
+.dark .variant-card {
+  background: #1e293b;
+  border-color: #4c1d95;
+  color: #e2e8f0;
+}
+.variant-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(139, 92, 246, 0.18);
+}
+.variant-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+}
+
+.variant-sunnata::before { background: linear-gradient(180deg, #a78bfa, #7c3aed); }
+.variant-animitta::before { background: linear-gradient(180deg, #818cf8, #4338ca); }
+.variant-appanihita::before { background: linear-gradient(180deg, #c084fc, #9333ea); }
+.variant-sopadisesa::before { background: linear-gradient(180deg, #f472b6, #db2777); }
+.variant-anupadisesa::before { background: linear-gradient(180deg, #fb923c, #ea580c); }
+
+/* ============================================================ */
+/* Badge */
+/* ============================================================ */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+.badge-violet { background: #ede9fe; color: #6d28d9; }
+.dark .badge-violet { background: #4c1d95; color: #e9d5ff; }
+
+.badge-purple { background: #f3e8ff; color: #7e22ce; }
+.dark .badge-purple { background: #581c87; color: #f3e8ff; }
+
+.badge-indigo { background: #e0e7ff; color: #3730a3; }
+.dark .badge-indigo { background: #312e81; color: #c7d2fe; }
+
+.badge-pink { background: #fce7f3; color: #9d174d; }
+.dark .badge-pink { background: #831843; color: #fbcfe8; }
+
+.badge-orange { background: #ffedd5; color: #9a3412; }
+.dark .badge-orange { background: #7c2d12; color: #fed7aa; }
+
+.badge-teal { background: #ccfbf1; color: #115e59; }
+.dark .badge-teal { background: #134e4a; color: #99f6e4; }
+
+/* ============================================================ */
+/* මෘදු පසුබිම් කාඩ්පත් */
+/* ============================================================ */
+.soft-card-violet {
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+  border-left: 4px solid #7c3aed;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  color: #4c1d95;
+}
+.dark .soft-card-violet {
+  background: #2e1065;
+  border-color: #6d28d9;
+  border-left-color: #a78bfa;
+  color: #ede9fe;
+}
+
+.soft-card-teal {
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+  border-left: 4px solid #0d9488;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  color: #134e4a;
+}
+.dark .soft-card-teal {
+  background: #134e4a;
+  border-color: #0f766e;
+  border-left-color: #2dd4bf;
+  color: #ccfbf1;
+}
+
+.soft-card-amber {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-left: 4px solid #d97706;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  color: #78350f;
+}
+.dark .soft-card-amber {
+  background: #451a03;
+  border-color: #92400e;
+  border-left-color: #fbbf24;
+  color: #fef3c7;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.4s ease-out; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.float-anim { animation: float 3s ease-in-out infinite; }
+</style>
+</head>
+
+<body class="h-full flex flex-col text-slate-800 dark:text-slate-100 bg-violet-50/30 dark:bg-slate-900 antialiased">
+
+<!-- ============================================================ -->
+<!-- HEADER -->
+<!-- ============================================================ -->
+<header class="sticky top-0 z-30 bg-maroon-900 text-amber-100 shadow-md border-b-2 border-violet-500">
+  <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <a href="../index.html" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="මුල් පිටුවට">
+        <i class="fa-solid fa-house text-lg"></i>
+      </a>
+      <a href="../paramatta.html" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="සතර පරමාර්ථ">
+        <i class="fa-solid fa-gem text-lg"></i>
+      </a>
+    </div>
+
+    <div class="flex items-center">
+      <div class="w-9 h-9 rounded-full bg-violet-500/20 border border-violet-400 flex items-center justify-center text-violet-300 shrink-0">
+        <i class="fa-solid fa-circle-notch text-xl"></i>
+      </div>
+      <h1 class="font-bold text-base sm:text-xl ml-2 text-saffron-100">නිබ්බාන පරමාර්ථය</h1>
+    </div>
+
+    <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-saffron-200 transition-colors" title="තේමාව">
+      <i id="theme-toggle-icon" class="fa-solid fa-moon text-lg"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- BREADCRUMB -->
+<!-- ============================================================ -->
+<nav class="max-w-4xl w-full mx-auto px-4 pt-3 text-xs text-violet-800 dark:text-violet-300 flex items-center gap-2 flex-wrap">
+  <a href="../index.html" class="hover:underline flex items-center gap-1">
+    <i class="fa-solid fa-house text-[10px]"></i> මුල් පිටුව
+  </a>
+  <i class="fa-solid fa-chevron-right text-[10px] text-violet-400"></i>
+  <a href="../paramatta.html" class="hover:underline flex items-center gap-1">
+    <i class="fa-solid fa-gem text-[10px]"></i> සතර පරමාර්ථ
+  </a>
+  <i class="fa-solid fa-chevron-right text-[10px] text-violet-400"></i>
+  <span class="font-bold text-violet-900 dark:text-violet-200">නිබ්බාන පරමාර්ථය</span>
+</nav>
+
+<!-- ============================================================ -->
+<!-- MAIN -->
+<!-- ============================================================ -->
+<main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 pb-12 space-y-6">
+
+  <!-- ============================================================ -->
+  <!-- HERO BANNER -->
+  <!-- ============================================================ -->
+  <section class="nibbana-hero rounded-2xl p-6 shadow-xl border border-violet-400/40 relative overflow-hidden fade-in">
+    <div class="absolute -right-8 -bottom-8 opacity-15 text-white text-9xl pointer-events-none float-anim">
+      <i class="fa-solid fa-circle-notch"></i>
+    </div>
+    <div class="relative">
+      <span class="inline-block px-3 py-1 bg-white/25 border border-white/40 rounded-full text-xs text-white font-medium mb-3 backdrop-blur-sm">
+        අභිධර්ම පිටකය • පරමාර්ථ ධර්ම 4
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-bold text-white mb-3 drop-shadow-md">නිබ්බාන පරමාර්ථය</h1>
+      
+      <div class="bg-white/15 backdrop-blur-sm border border-white/30 rounded-xl p-4 mb-4">
+        <p class="text-sm sm:text-base text-white/95 leading-relaxed italic text-justify">
+          <i class="fa-solid fa-quote-left text-violet-200 mr-2 opacity-70"></i>
+          <strong>“භවාභවං විනනතො සංසිබ්බනතො වානසඞ්ඛාතාය තණ්හාය නික්ඛන්තං, නිබ්බාති වා එතෙන රාගග්ගිආදිකොති නිබ්බානං.”</strong>
+          <span class="text-xs text-violet-200 ml-2">(අභි.සං)</span>
+        </p>
+      </div>
+
+      <p class="text-sm sm:text-base text-white/95 leading-relaxed mb-4 text-justify">
+        "කුඩා-මහත් භවයන් (නැවත නැවත උපදින භවයන්) එකිනෙක ගලපන, මහන හෙවත් ගැටගසන 'වාන' නම් වූ තෘෂ්ණාවෙන් නික්මුණේ (බැහැර වූයේ) ද, නැතහොත් යමකින් රාගාදී ගිනි නිවී යන්නේ ද, එහෙයින් නිර්වාණ නම් වේ."
+      </p>
+      
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+          <div class="text-xl font-bold text-white">1</div>
+          <div class="text-[10px] text-white/90 font-medium mt-1">පරමාර්ථ ධර්මය</div>
+        </div>
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+          <div class="text-xl font-bold text-white">2</div>
+          <div class="text-[10px] text-white/90 font-medium mt-1">ප්‍රභේද</div>
+        </div>
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+          <div class="text-xl font-bold text-white">3</div>
+          <div class="text-[10px] text-white/90 font-medium mt-1">ආකාර භේද</div>
+        </div>
+        <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-3 text-center">
+          <div class="text-xl font-bold text-white">9+</div>
+          <div class="text-[10px] text-white/90 font-medium mt-1">නාම</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- ✅ අලුතින් එක් කරන ලද නිර්වාණ විවරණ කාඩ්පත (ටීකා පාඨ සහ පරිවර්තනය) -->
+  <!-- ============================================================ -->
+  <section class="bg-white dark:bg-slate-800 rounded-2xl border border-violet-200 dark:border-violet-800 p-5 sm:p-6 shadow-sm fade-in space-y-4">
+    <div class="flex items-center gap-3 border-b border-violet-100 dark:border-violet-900 pb-3">
+      <span class="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 flex items-center justify-center text-lg shrink-0">
+        <i class="fa-solid fa-scroll"></i>
+      </span>
+      <div>
+        <h3 class="font-bold text-base sm:text-lg text-violet-900 dark:text-violet-200">නිර්වාණ නිරුක්ති හා ස්වභාව විවරණය</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400">අටුවා සහ ටීකා අනුව නිබ්බාන නිර්වචනය</p>
+      </div>
+    </div>
+
+    <!-- පාලි පාඨ කොටුව -->
+    <div class="bg-violet-50/80 dark:bg-slate-900/80 p-4 rounded-xl border border-violet-200 dark:border-violet-800/60">
+      <span class="text-xs uppercase tracking-wider font-bold text-violet-900 dark:text-violet-300 flex items-center gap-1.5 mb-1.5">
+        <i class="fa-solid fa-language text-violet-600"></i> පාලි පාඨය
+      </span>
+      <p class="text-xs sm:text-sm italic leading-relaxed text-justify text-violet-950 dark:text-violet-200">
+        "නිබ්‌බානන්‌ති එත්‌ථ නිබ්‌බායන්‌ති සබ්‌බෙ වට්‌ටදුක්‌ඛසන්‌තාපා එතස්‌මින්‌ති නිබ්‌බානං. නිබ්‌බායන්‌තීති යෙ කිලෙසා වා ඛන්‌ධා වා අභාවිතමග්‌ගස්‌ස ආයතිං උප්‌පජ්‌ජනාරහපක්‌ඛෙ ඨිතා හොන්‌ති. තෙ යෙව භාවිතමග්‌ගස්‌ස අනුප්‌පජ්‌ජනාරහපක්‌ඛං පාපුණන්‌තීති අත්‌ථො. න හි ඛණත්‌තයං පත්‌වා නිරුද්‌ධා අතීතධම්‌මා නිබ්‌බායන්‌ති නාම. පච්‌චුප්‌පන්‌නෙසු ආයතිං අවස්‌සං උප්‌පජ්‌ජමානෙසු ච ධම්‌මෙසු වත්‌තබ්‌බමෙව නත්‌ථීති. වට්‌ටදුක්‌ඛසන්‌තාපාති කිලෙසවට්‌ටකම්‌මවට්‌ටවිපාකවට්‌ටදුක්‌ඛසන්‌තාපා. න හි තිවිධවට්‌ටදුක්‌ඛසන්‌තාපරහිතානං රුක්‌ඛාදීනං අනුප්‌පාදනිරොධො නිබ්‌බානං නාම හොතීති. එතස්‌මින්‌ති විසයෙ භුම්‌මං. යථා ආකාසෙ සකුණා පක්‌ඛන්‌තීති. යෙහි තෙ නිබ්‌බායන්‌ති. තෙසං තබ්‌බිනිමුත්‌තං අඤ්‌ඤං නිබ්‌බුතිට්‌ඨානං නාම කිඤ්‌චි නත්‌ථීති. නිබ්‌බායන්‌ති වා අරියජනා එතස්‌මින්‌ති නිබ්‌බානං. නිබ්‌බන්‌ති ධීරා යථායං පදීපොති හි වුත්‌තං. නිබ්‌බායන්‌තීති තං තං කිලෙසානං වා ඛන්‌ධානං වා පුන අප්‌පටිසන්‌ධිකභාවං පාපුණන්‌තීති අත්‌ථො. එකස්‌මින්‌ති විසයෙ එව භුම්‌මං, එතස්‌මිං අධිගතෙතිපි යොජෙන්‌ති. ටීකාසු පන භවාභවං විනනතො සංසිබ්‌බනතො වානං වුච්‌චති තණ්‌හා. තතො නික්‌ඛන්‌තන්‌ති නිබ්‌බානන්‌ති වුත්‌තං."
+      </p>
+    </div>
+
+    <!-- සිංහල අර්ථ විවරණය -->
+    <div class="space-y-2.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
+      <span class="text-xs uppercase tracking-wider font-bold text-violet-900 dark:text-violet-300 flex items-center gap-1.5">
+        <i class="fa-solid fa-book-open text-violet-600"></i> සිංහල පරිවර්තනය
+      </span>
+      <p>
+        මෙහි <strong>'නිබ්බාන'</strong> යනු: යමක සියලු වට්ටදුක්ඛ සන්තාපයෝ (සසර දුක් දැවිලි) නිවී යෙත් ද, එය 'නිබ්බාන' (නිර්වාණය) නම් වේ.
+      </p>
+      <p>
+        <strong>'නිවී යෙත්'</strong> යනු: මාර්ගය නොවැඩූ පෘථග්ජනයාට අනාගතයෙහි යම් ක්ලේශ කෙනෙක් හෝ ස්කන්ධ කෙනෙක් උපදින්නට සුදුසු පක්ෂයෙහි සිටිත් ද, මාර්ගය වැඩූ ආර්යයාට ඒ ක්ලේශයෝ හා ස්කන්ධයෝ ම නැවත නූපදින්නට සුදුසු පක්ෂයට පැමිණෙත් යන අර්ථයයි. උත්පාද-ඨිති-භංග යන ක්ෂණත්‍රයට පැමිණ නිරුද්ධ වූ අතීත ධර්මයෝ වනාහි 'නිවෙත්' යැයි නොකියනු ලැබේ. වර්තමානයෙහි පවත්නා සහ අනාගතයෙහි ඒකාන්තයෙන් ම උපදනා ධර්මයන් කෙරෙහි ද (නිරුද්ධ වී නිවී යෑමක් ගැන) කිවයුතු ම නොවේ.
+      </p>
+      <p>
+        <strong>'වට්ටදුක්ඛසන්තාපා' (වට්ටදුක්ඛ සන්තාපයෝ)</strong> යනු: ක්ලේශ වට්ටය, කර්ම වට්ටය සහ විපාක වට්ටය යන තෙවදෑරුම් වට්ටදුක්ඛයන්ගේ දැවිල්ලයි. තෙවදෑරුම් වට්ටදුක්ඛ සන්තාපයන්ගෙන් තොර වූ ගස්-කොළන් ආදියෙහි නූපැත්ම සහ නිරෝධය 'නිර්වාණ' නම් නොවේ ම ය.
+      </p>
+      <p>
+        <strong>'එතස්මිං' (යමක)</strong> යනු විෂයයෙහි සප්තමී විභක්තියයි. 'අහසෙහි පක්ෂීහු පියාසර කරත්' යන්නාක් මෙනි. යම් ඒ ක්ලේශ-ස්කන්ධයෝ නිවී යෙත් ද, ඔවුනට ඒ නිර්වාණයෙන් තොර වූ අන්‍ය වූ කිසිදු නිවෙන තැනක් (නිවුති ස්ථානයක්) නම් නැත.
+      </p>
+      <p>
+        නැතහොත්, ආර්ය ජනයෝ යමක නිවී යෙත් ද, එය 'නිබ්බාන' නම් වේ. <em>'නිබ්බන්ති ධීරා යථායං පදීපෝ'</em> (මේ පහන නිවී ගියාක් මෙන් ප්‍රඥාවන්තයෝ පිරිනිවෙති) යැයි වදාළේ එහෙයිනි. 'නිවී යෙත්' යනු: ඒ ඒ කෙලෙසුන්ගේ හෝ ස්කන්ධයන්ගේ නැවත ප්‍රතිසන්ධි නොගන්නා භාවයට (අනුත්පාද නිරෝධයට) පැමිණෙත් යන අර්ථයයි. මෙහි 'එතස්මිං' යනු ද විෂය සප්තමියයි; 'ඒ නිර්වාණය අවබෝධ කළ කල්හි' යයි ද යොදත්.
+      </p>
+      <p>
+        ටීකාවන්හි වනාහි: භවයෙන් භවයට ගළපන, මහන (අමුණන) බැවින් තෘෂ්ණාවට <strong>'වාන'</strong> යැයි කියනු ලැබේ. එයින් නික්මුණු හෙයින් (බැහැර වූ හෙයින්) <strong>'නිබ්බාන' (නිර්වාණ)</strong> නම් වේ යැයි වදාරන ලදී.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- සැප දෙකක් -->
+  <!-- ============================================================ -->
+  <section class="space-y-4">
+    <div class="section-title">
+      <i class="fa-solid fa-heart text-violet-600 dark:text-violet-400"></i>
+      <span>සැප දෙකක්</span>
+      <span class="ml-auto badge badge-violet">2</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <!-- වේදයිත සුඛ -->
+      <div class="nibbana-card">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="num-pill">1</div>
+          <div class="flex-1">
+            <div class="badge badge-violet mb-1">ලෞකික සුඛ</div>
+            <h3 class="font-bold text-base text-violet-900 dark:text-violet-100">වේදයිත සුඛය</h3>
+          </div>
+        </div>
+        <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify mb-3">
+          චක්ෂුරාදි ඉන්ද්‍රියයන් කරණකොට ගෙන විඳින්නා වූ සැපය වේදයිත සුඛ නම් වේ.
+        </p>
+        <div class="soft-card-violet">
+          <div class="text-xs font-bold mb-2">
+            <i class="fa-solid fa-list-ul mr-1"></i> උදාහරණ:
+          </div>
+          <ul class="text-xs space-y-1">
+            <li>• හොඳ දේවල් හොඳ පුද්ගලයන් දැකීමෙන්</li>
+            <li>• හොඳ ශබ්ද ඇසීමෙන්</li>
+            <li>• හොඳ ගන්ධ ආඝ්‍රාණය කිරීමෙන්</li>
+            <li>• හොඳ රසයන් වැළඳීමෙන්</li>
+            <li>• ඇඟට හොඳ දේවල් ඇඟේ සැපීමෙන්</li>
+            <li>• යාන වාහන ගෙවල් වතු කුඹුරු ලැබීමෙන්</li>
+            <li>• තනතුරු ගරු බුහුමන් ලැබීමෙන්</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- විමුක්ති සුඛ -->
+      <div class="nibbana-card">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="num-pill" style="background: linear-gradient(135deg, #2dd4bf, #0d9488);">2</div>
+          <div class="flex-1">
+            <div class="badge badge-teal mb-1">ලෝකෝත්තර සුඛ</div>
+            <h3 class="font-bold text-base text-violet-900 dark:text-violet-100 mt-1">විමුක්ති සුඛය</h3>
+          </div>
+        </div>
+        <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify mb-3">
+          පැමිණ ඇත්තා වූ ද, මතු පැමිණෙන්නට ඇත්තා වූ ද, දුක් කරදරවලින් විපත්වලින් මිදීම විමුක්ති සුඛය ය.
+        </p>
+        <div class="soft-card-teal">
+          <p class="text-xs leading-relaxed text-justify">
+            <strong>විශේෂ:</strong> නිවන් සුඛය වේදයිත සුඛයක් නො වේ. එය විමුක්ති සුඛයෙකි.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- විමුක්ති සුඛයේ වැදගත්කම -->
+    <div class="nibbana-card">
+      <div class="flex items-start gap-3">
+        <div class="num-pill"><i class="fa-solid fa-star text-sm"></i></div>
+        <div class="flex-1">
+          <h4 class="font-bold text-sm text-violet-900 dark:text-violet-100 mb-2">විමුක්ති සුඛයේ වැදගත්කම</h4>
+          <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
+            පැමිණියා වූ ඇතැම් දුක්වලින් මිදීම සඳහා මනුෂ්‍යයන් බොහෝ වෙහෙසෙන්නේ, බොහෝ ධනය වියදම් කරන්නේ, මුදල් නැති කල්හි ඉඩ-කඩම් පවා විකුණා වියදම් කරන්නේ, වාසය කරන ගෙය පවා උකස් කොට මුදල් ගෙන වියදම් කරන්නේ ඒ දුකින් මිදීම වූ විමුක්ති සුඛය ඉතා හොඳ දෙයක් - වටිනා දෙයක් නිසා ය.
+          </p>
+          <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify mt-2">
+            බලවත් දුකකින් පෙළෙන්නහුට කොතෙක් ධනය ඇතත් - නෑ මිතුරන් ඇතත් සුවයක් නොලැබිය හැකි ය. ධනාදියෙන් ලබන වේදයිත සුඛයන් විඳිය හැකිවීමටත් විමුක්ති සුඛය තිබිය යුතුම ය. එබැවින් <strong class="text-violet-700 dark:text-violet-300">විමුක්ති සුඛය ලෝකයේ උසස් සුඛය</strong> බව කිය යුතුය.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- සසර දුක් -->
+  <!-- ============================================================ -->
+  <section class="space-y-4">
+    <div class="section-title">
+      <i class="fa-solid fa-triangle-exclamation text-violet-600 dark:text-violet-400"></i>
+      <span>සසර දුක්</span>
+      <span class="ml-auto badge badge-violet">10</span>
+    </div>
+
+    <div class="nibbana-card">
+      <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify mb-4">
+        සසර සැරිසරන්නා වූ මේ සත්ත්වයනට පහත දුක් ඇත්තේ ය:
+      </p>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div class="soft-card-violet">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-circle-dot text-violet-600 dark:text-violet-400 text-xs mt-1"></i>
+            <span class="text-xs">නැවත නැවත ඉපදීමේ දුක</span>
+          </div>
+        </div>
+        <div class="soft-card-violet">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-circle-dot text-violet-600 dark:text-violet-400 text-xs mt-1"></i>
+            <span class="text-xs">උපන් පසු දිරීමේ දුක</span>
+          </div>
+        </div>
+        <div class="soft-card-violet">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-circle-dot text-violet-600 dark:text-violet-400 text-xs mt-1"></i>
+            <span class="text-xs">මැරීමේ දුක</span>
+          </div>
+        </div>
+        <div class="soft-card-violet">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-circle-dot text-violet-600 dark:text-violet-400 text-xs mt-1"></i>
+            <span class="text-xs">ආහාර පානාදිය සැපයීමේ දුක</span>
+          </div>
+        </div>
+        <div class="soft-card-violet">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-circle-dot text-violet-600 dark:text-violet-400 text-xs mt-1"></i>
+            <span class="text-xs">සතුරන්ගෙන් ආරක්ෂා වීමේ දුක</span>
+          </div>
+        </div>
+        <div class="soft-card-violet">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-circle-dot text-violet-600 dark:text-violet-400 text-xs mt-1"></i>
+            <span class="text-xs">නොයෙක් රෝග හට ගැනීමේ දුක</span>
+          </div>
+        </div>
+        <div class="soft-card-violet">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-circle-dot text-violet-600 dark:text-violet-400 text-xs mt-1"></i>
+            <span class="text-xs">සොර සතුරු ආදීන්ගෙන් වන දුක්</span>
+          </div>
+        </div>
+        <div class="soft-card-violet">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-circle-dot text-violet-600 dark:text-violet-400 text-xs mt-1"></i>
+            <span class="text-xs">ස්වභාව ධර්මයෙන් ම වන දුක්</span>
+          </div>
+        </div>
+        <div class="soft-card-violet">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-circle-dot text-violet-600 dark:text-violet-400 text-xs mt-1"></i>
+            <span class="text-xs">තිරිසන් - ප්‍රේත බවට පැමිණීමේ දුක්</span>
+          </div>
+        </div>
+        <div class="soft-card-violet">
+          <div class="flex items-start gap-2">
+            <i class="fa-solid fa-circle-dot text-violet-600 dark:text-violet-400 text-xs mt-1"></i>
+            <span class="text-xs">නරකයන්ට පැමිණෙන්නට වීමේ දුක්</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="soft-card-violet mt-4">
+        <p class="text-sm leading-relaxed text-justify">
+          නිවනට නො පැමිණිය හොත් එක් එක් පුද්ගලයකුට අනාගතයෙහි ලබන්නට ඇත්තා වූ දුඃඛස්කන්ධය ඉතා මහත් ය. ප්‍රමාණ කළ නො හෙන තරමට ජාති ජරා මරණාදි දුක් එයට ඇතුළත් ය. <strong>නිවනට පැමිණීමෙන් ඒ සියල්ලෙන් ම මිදෙන්නේ ය.</strong> නිවන ඒ සියල්ලෙන් ම මිදීම වූ මහා විමුක්ති සුඛය ය.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- නිවන දැකීමේ අපහසුව -->
+  <!-- ============================================================ -->
+  <section class="space-y-4">
+    <div class="section-title">
+      <i class="fa-solid fa-eye text-violet-600 dark:text-violet-400"></i>
+      <span>නිවන දැකීමේ අපහසුව</span>
+    </div>
+
+    <div class="nibbana-card">
+      <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify mb-3">
+        නිවනට පැමිණෙන පුද්ගලයාට නිවී යන දුඃඛස්කන්ධය අනුව කියත හොත් නිවන ඉතා මහත් බව කිය යුතුය. එහෙත් එය <strong>පරම සූක්ෂ්ම දෙයකි</strong>. එබැවින් එය සම්‍යක් ප්‍රතිපත්තියෙන් වෙන් ව කාමයන්හි ඇලී ගැලී වෙසෙන ජනයා විසින් නො දැකිය හැකිය.
+      </p>
+      
+      <div class="soft-card-violet">
+        <p class="text-sm leading-relaxed text-justify">
+          <i class="fa-solid fa-check-circle text-violet-600 dark:text-violet-400 mr-2"></i>
+          එය දැකිය හැකි වන්නේ <strong>සම්‍යක් ප්‍රතිපත්තියෙහි පිහිටා, භාවනාවෙහි යෙදී, සිත පිරිසිදු කොට ලෝකෝත්තර ඥානය ලබා ගත් අයට ය.</strong>
+        </p>
+      </div>
+
+      <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify mt-3">
+        ලෝකෝත්තර ඥානයට මිස ලෞකික ඥානයට එය ප්‍රත්‍යක්ෂ වශයෙන් පෙනෙන්නේ නො වේ. සාමාන්‍ය ජනයාට කළ හැක්කේ නිවන් දුටු ආර්ය්‍යයන්ගේ කීම් අනුව නිවනය කියා හොඳ දෙයක් ඇති බව අනුමානයෙන් සිතා ගැනීම පමණෙකි.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- නිවන ළඟම ඇති බව -->
+  <!-- ============================================================ -->
+  <section class="space-y-4">
+    <div class="section-title">
+      <i class="fa-solid fa-location-dot text-violet-600 dark:text-violet-400"></i>
+      <span>නිවන ළඟම ඇතියකි</span>
+    </div>
+
+    <div class="nibbana-card">
+      <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify mb-3">
+        නිවන ළඟම ඇතියකි. එය වැසී තිබෙන්නේ <strong>පඤ්චස්කන්ධයෙනි</strong>. නැවත නැවත පඤ්චස්කන්ධයන් ලැබීම නැවතුන හොත් නිවන ලැබුණේ වේ.
+      </p>
+
+      <div class="soft-card-amber mb-3">
+        <h4 class="text-xs font-bold mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-lightbulb"></i> උපමාව
+        </h4>
+        <p class="text-xs leading-relaxed text-justify">
+          කලට වැසි නො ලබන ආහාර පාන දුර්ලභ, රෝග බහුල, මැසි මදුරුවන් බහුල, සර්පයන් බහුල, මනා පාලනයක් නැති බැවින් සොර සතුරන් බහුල පෙදෙසක මහ සටනක් කරමින් ඉතා අමාරුවෙන් ජීවත් වූවකුට හොඳ දේශගුණය ඇති, හොඳ වාසස්ථාන ඇති, ආහාර පාන ඇඳුම් පැළඳුම් යාන වාහන සුලභ, ලෙඩදුක් අඩු, සොර සතුරු බිය නැති, යහපත් පෙදෙසකට පැමිණ වාසය කරන්නට ලැබුණ හොත්, ඔහුට පළමු විසූ පෙදෙස හොඳය කියා තුබූ සම්මෝහයත් ඒ පෙදෙස ගැන පැවති ආලයත් දුරු වන්නේ ය.
+        </p>
+      </div>
+
+      <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
+        <strong class="text-violet-700 dark:text-violet-300">ක්ලේශප්‍රහාණය</strong> යි කියනුයේ ඒ දුරු වීමට ය. නැවත නැවත උත්පත්තියට හේතු වන අවිද්‍යාවත් තණ්හාවත් දුරු වීමෙන් පසු ඒ පුද්ගලයා නැවත නූපදින්නේ ය. නිවන වසා ගෙන සිටින පඤ්චස්කන්ධය ඉන් පසු ඔහුට නැති බැවින් ඔහු නිවන් සුවයට හිමියෙක් වේ.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- නිර්වාණයේ ප්‍රභේද -->
+  <!-- ============================================================ -->
+  <section class="space-y-4">
+    <div class="section-title">
+      <i class="fa-solid fa-diagram-project text-violet-600 dark:text-violet-400"></i>
+      <span>නිර්වාණයේ ප්‍රභේද</span>
+      <span class="ml-auto badge badge-violet">2</span>
+    </div>
+
+    <div class="nibbana-card mb-4">
+      <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
+        හට ගැනීමක් ඇති, බිඳීමක් ඇති, පවත්නා ස්ථාන ඇති, හැඩහුරු කම් ඇති සංස්කාරයන්; එකිනෙක වෙන් වශයෙන් ඇති බැවින් ඒවායේ බොහෝ ප්‍රභේද ඇත්තේ ය. හට ගැනීමක් නැති, බිඳීමක් නැති, පවත්නා තැනක් නැති, හැඩහුරු කමක් නැති, මේ නිවනය කියා දැක්වීමට - සිතා ගැනීමට කිසිම ලකුණක් නැති නිවනෙහි, එබඳු ප්‍රභේද නො තිබිය හැකි ය.
+      </p>
+      <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify mt-3">
+        <strong class="text-violet-700 dark:text-violet-300">එකම බව:</strong> අතීතයෙහි විසූ බුදු - පසේ බුදු - රහතුන් විසින් ලැබූ නිවනත්, අනාගතයෙහි ලොව පහළ වන බුදු පසේබුදුවරයන් විසින් බුද්ධශ්‍රාවකයන් විසින් පැමිණෙනු ලබන නිවනත් ශාන්ත ලක්ෂණයෙන් - නිවීම් ස්වභාවයෙන් එක ම ධර්මයෙකි.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <!-- සෝපාදිශේෂ -->
+      <div class="variant-card variant-sopadisesa">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="num-pill" style="background: linear-gradient(135deg, #f472b6, #db2777);">
+            <i class="fa-solid fa-leaf text-sm"></i>
+          </div>
+          <div class="flex-1">
+            <div class="badge badge-pink mb-1">ප්‍රභේද 1</div>
+            <h3 class="font-bold text-base text-pink-900 dark:text-pink-200">සෝපාදිශේෂ නිර්වාණ ධාතුව</h3>
+          </div>
+        </div>
+        <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
+          <strong>උපදි</strong> යනු තෘෂ්ණා දෘෂ්ටීන් විසින් මම ය මාගේ යයි අල්ලා ගන්නා ස්කන්ධයන්ට නමෙකි. ලෝකෝත්තර මාර්ග ඥානයෙන් නිවන ප්‍රත්‍යක්ෂ වශයෙන් දැකීමෙන් කෙලෙස් හා අනාගත ස්කන්ධ නිවී ගියා වූ, වර්තමාන පඤ්චස්කන්ධය පමණක් ඉතිරි ව ඇති තැනැත්තාගේ නිවන, උපදි නම් වූ ස්කන්ධ ශේෂ ව ඇති බැවින් <strong>සෝපදිශේෂ නිර්වාණ ධාතු</strong> නම් වේ.
+        </p>
+      </div>
+
+      <!-- අනුපාදිශේෂ -->
+      <div class="variant-card variant-anupadisesa">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="num-pill" style="background: linear-gradient(135deg, #fb923c, #ea580c);">
+            <i class="fa-solid fa-fire-flame-simple text-sm"></i>
+          </div>
+          <div class="flex-1">
+            <div class="badge badge-orange mb-1">ප්‍රභේද 2</div>
+            <h3 class="font-bold text-base text-orange-900 dark:text-orange-200">අනුපාදිශේෂ නිර්වාණ ධාතුව</h3>
+          </div>
+        </div>
+        <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
+          සකල ක්ලේශයන් ප්‍රහාණය කොට වර්තමාන පඤ්චස්කන්ධය පමණක් ඇති ව සිටි පුද්ගලයා විසින් පිරිනිවීමෙන් පසු ලබන නිර්වාණ ධාතුව ඔහුට උපදි සඞ්ඛ්‍යාත ස්කන්ධ ශේෂ ව නැති බැවින් <strong>අනුපදිශේෂ නිර්වාණ ධාතු</strong> නම් වේ.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- ආකාර භේදයෙන් නිර්වාණය ත්‍රිවිධ වේ -->
+  <!-- ============================================================ -->
+  <section class="space-y-4">
+    <div class="section-title">
+      <i class="fa-solid fa-cubes text-violet-600 dark:text-violet-400"></i>
+      <span>ආකාර භේදයෙන් නිර්වාණය ත්‍රිවිධ වේ</span>
+      <span class="ml-auto badge badge-violet">3</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      
+      <!-- සුඤ්ඤත -->
+      <div class="variant-card variant-sunnata">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="num-pill">1</div>
+          <div class="flex-1">
+            <div class="badge badge-violet mb-1">සුඤ්ඤත</div>
+            <h3 class="font-bold text-base text-violet-900 dark:text-violet-200">සුඤ්ඤත නිර්වාණය</h3>
+          </div>
+        </div>
+        <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed text-justify mb-3">
+          රාගාදි කෙලෙසුන් ඇති කල්හි නොයෙක් පව්කම් කරන්නට සිදු වීමේ පළිබෝධය ද, පව්කම් කොට අපාගත වන්නට වීමේ පළිබෝධය ද, නුවණැතියන්ට පව්කම් වලින් වැළකී ආරක්ෂා වීමේ පළිබෝධය ද. කෙලෙස් මැඩ පැවැත්වීමට, කෙලෙස් ප්‍රහාණය කිරීමට බොහෝ දුක් ගන්නට වීමේ පළිබෝධය ද ඇත්තේ ය. කෙලෙස් නිරෝධයෙන් ඒ පලිබෝධ සියල්ල ම නැති වන්නේ ය.
+        </p>
+        <div class="soft-card-violet">
+          <p class="text-xs leading-relaxed text-justify">
+            <strong>අර්ථය:</strong> කෙලෙසුන්ගේ හා ස්කන්ධයන් ගේ නිරෝධය වූ නිවන ඒ සියලු පළිබෝධයන් දුරු කරන - පළිබෝධයන් නැති තැන වන බැවින් සුඤ්ඤත නම් වේ. සුඤ්ඤත යන්නෙහි තේරුම කෙලෙස් නිසා වන පළිබෝධයන් නැති තැන ය යනු යි.
+          </p>
+        </div>
+      </div>
+
+      <!-- අනිමිත්ත -->
+      <div class="variant-card variant-animitta">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="num-pill" style="background: linear-gradient(135deg, #818cf8, #4338ca);">2</div>
+          <div class="flex-1">
+            <div class="badge badge-indigo mb-1">අනිමිත්ත</div>
+            <h3 class="font-bold text-base text-indigo-900 dark:text-indigo-200">අනිමිත්ත නිර්වාණය</h3>
+          </div>
+        </div>
+        <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed text-justify mb-3">
+          ඉපදීමක් ඇත්තා වූ, පරම්පරා වශයෙන් පැවැත්ම ඇත්තා වූ, බිඳීම ඇත්තා වූ, සංස්කාරයන් කෙරෙහි මේ එකකි, මේ අනිකකි, මෙය හොඳ ය, මෙය නරකය යනාදීන් එකිනෙක වෙන් කර ගැනීමට උපකාර වන ආකාර විශේෂයක් ඇත්තේ ය. එයට <strong>"නිමිත්තය"</strong> යි කියනු ලැබේ.
+        </p>
+        <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed text-justify mb-3">
+          නිමිති ඇත්තා වූ ඒ සංස්කාරයෝ රාගාදි කෙලෙසුන්ට ද, ජරා මරණාදි අනේකප්‍රකාර දුඃඛයන්ට ද වස්තු වෙති. දුකය කියා යමක් ඇති නම් ඒ සියල්ල ම ඇත්තේ නිමිති සහිත ධර්මයන්හි ය.
+        </p>
+        <div class="soft-card-violet">
+          <p class="text-xs leading-relaxed text-justify">
+            <strong>අර්ථය:</strong> කෙලෙසුන්ට ස්ථාන වන නිමිති නැති බැවින් නිර්වාණ ධාතුව අනිමිත්ත නම් වේ.
+          </p>
+        </div>
+      </div>
+
+      <!-- අප්පණිහිත -->
+      <div class="variant-card variant-appanihita">
+        <div class="flex items-start gap-3 mb-3">
+          <div class="num-pill" style="background: linear-gradient(135deg, #c084fc, #9333ea);">3</div>
+          <div class="flex-1">
+            <div class="badge badge-purple mb-1">අප්පණිහිත</div>
+            <h3 class="font-bold text-base text-purple-900 dark:text-purple-200">අප්පණිහිත නිර්වාණය</h3>
+          </div>
+        </div>
+        <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed text-justify mb-3">
+          <strong>"පණිහිත"</strong> යනු ආශාවට නමෙකි. නැති වීම සංස්කාරයන්ගේ ස්වභාවය ය. කොතෙක් ලබා ගත්තක් ලබන ලබන සංස්කාර නැති වී යන බැවින් සත්ත්වයා හට නැවත නැවත ලබා ගැනීමේ ආශාව ඇති වන්නේ ය. සංස්කාරයෝ නැවත නැවත ලැබීමේ ආශාව ඇති කරන්නෝ ය. ඒ ආශාව සකල දුඃඛයන්ට ම මුල ය.
+        </p>
+        <div class="soft-card-violet">
+          <p class="text-xs leading-relaxed text-justify">
+            <strong>අර්ථය:</strong> ආශා දුඃඛය ඇති කරන සංස්කාරයන්ගේ නිරෝධ ස්වභාවය වන නිර්වාණ ධාතුව දිරීමක් බිඳීමක් නැතිව, සැම කල්හි ම පවත්නා ධර්මයක් වන බැවින් නැවත නැවත ලැබීමේ ආශාව ඇති කරන්නක් නො වේ. ඒ ආශාව නිවනෙහි නැත. එබැවින් නිර්වාණ ධාතුව අප්පණිහිත නම් වේ.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="nibbana-card">
+      <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
+        <i class="fa-solid fa-info-circle text-violet-600 dark:text-violet-400 mr-2"></i>
+        සුඤ්ඤත - අනිමිත්ත - අප්පණිහිත යන මේවා ඒ ඒ ගුණ නිමිත්ත කොට නිවනට කියන නාමයෝ ය.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- නිර්වාණයේ නාම -->
+  <!-- ============================================================ -->
+  <section class="space-y-4">
+    <div class="section-title">
+      <i class="fa-solid fa-tags text-violet-600 dark:text-violet-400"></i>
+      <span>නිර්වාණයේ නාම</span>
+      <span class="ml-auto badge badge-violet">9</span>
+    </div>
+
+    <div class="nibbana-card mb-4">
+      <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
+        නිවනට කියන තවත් බොහෝ නම් ඇත්තේ ය. ඒ නාමයන් අතුරෙන් <strong>අතිප්‍රසිද්ධ නාමය නිබ්බාන (නිර්වාණ)</strong> යන්න ය. එහි තේරුම තණ්හාවෙන් බැහැර වූ ධර්මය යනු යි. නිවන තණ්හාවට අසුවන්නේ නැත. නිවනෙහි ද තණ්හාව නැත.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <div class="feature-card">
+        <div class="icon"><i class="fa-solid fa-circle-notch"></i></div>
+        <div class="text-sm font-bold">නිබ්බාන</div>
+        <div class="text-[10px] text-slate-600 dark:text-slate-400 mt-1">තණ්හාවෙන් බැහැර</div>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa-solid fa-infinity"></i></div>
+        <div class="text-sm font-bold">පදම්</div>
+        <div class="text-[10px] text-slate-600 dark:text-slate-400 mt-1">සැම කල්හි ඇත්තා වූ</div>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="text-sm font-bold">අච්චුතම්</div>
+        <div class="text-[10px] text-slate-600 dark:text-slate-400 mt-1">දිරීමක් නැත්තා වූ</div>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa-solid fa-gem"></i></div>
+        <div class="text-sm font-bold">අච්චන්තම්</div>
+        <div class="text-[10px] text-slate-600 dark:text-slate-400 mt-1">බිඳීමක් නැත්තා වූ</div>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa-solid fa-cube"></i></div>
+        <div class="text-sm font-bold">අසංඛතම්</div>
+        <div class="text-[10px] text-slate-600 dark:text-slate-400 mt-1">හේතුවකින් හට නොගැනුණු</div>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa-solid fa-star"></i></div>
+        <div class="text-sm font-bold">අනුත්තරම්</div>
+        <div class="text-[10px] text-slate-600 dark:text-slate-400 mt-1">උතුම් වූ</div>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa-solid fa-circle-half-stroke"></i></div>
+        <div class="text-sm font-bold">සුඤ්ඤත</div>
+        <div class="text-[10px] text-slate-600 dark:text-slate-400 mt-1">පළිබෝධ නැති</div>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa-solid fa-eye-slash"></i></div>
+        <div class="text-sm font-bold">අනිමිත්ත</div>
+        <div class="text-[10px] text-slate-600 dark:text-slate-400 mt-1">නිමිති නැත්තා වූ</div>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><i class="fa-solid fa-heart-crack"></i></div>
+        <div class="text-sm font-bold">අප්පණිහිත</div>
+        <div class="text-[10px] text-slate-600 dark:text-slate-400 mt-1">ආශාව නැත්තා වූ</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- සාරාංශය -->
+  <!-- ============================================================ -->
+  <section class="space-y-4">
+    <div class="nibbana-hero rounded-2xl p-5 shadow-lg">
+      <div class="flex items-start gap-3">
+        <div class="num-pill" style="background: linear-gradient(135deg, #c4b5fd, #a78bfa); color: #4c1d95;">
+          <i class="fa-solid fa-flag-checkered text-sm"></i>
+        </div>
+        <div class="flex-1">
+          <h4 class="font-bold text-base text-white mb-2">සාරාංශය</h4>
+          <p class="text-sm text-white/95 leading-relaxed text-justify">
+            මෙතෙකින් චිත්තය - චෛතසිකය - රූපය - නිර්වාණය යන පරමාර්ථ ධර්ම සතර ම එක්තරා ප්‍රමාණයකින් විස්තර කරන ලද්දේ ය.
+          </p>
+          <p class="text-xs text-violet-200 mt-2 text-right">(අභි.මා)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- FOOTER INFO -->
+  <!-- ============================================================ -->
+  <div class="text-center text-xs text-violet-700 dark:text-violet-400 py-4">
+    <i class="fa-solid fa-circle-notch text-violet-500 mr-2"></i>
+    නිබ්බාන පරමාර්ථය • අභිධර්ම මාතිකා අධ්‍යයනය
+  </div>
+
+</main>
+
+<footer class="bg-maroon-900 text-amber-100 text-center py-4 border-t-2 border-violet-500">
+  <p class="text-xs text-amber-200/70">අභිධර්ම මාතිකා අධ්‍යයනය &copy; 2024</p>
+</footer>
+
+<!-- ============================================================ -->
+<!-- SCRIPT ගොනු -->
+<!-- ============================================================ -->
+<script src="nibbana.js"></script>
+
+<script>
+// ============================================================
+// THEME TOGGLE
+// ============================================================
+function toggleDarkMode() {
+  var html = document.documentElement;
+  var icon = document.getElementById('theme-toggle-icon');
+  if (html.classList.contains('dark')) {
+    html.classList.remove('dark');
+    localStorage.setItem('nibbana_theme', 'light');
+    if (icon) icon.className = 'fa-solid fa-moon text-lg';
+  } else {
+    html.classList.add('dark');
+    localStorage.setItem('nibbana_theme', 'dark');
+    if (icon) icon.className = 'fa-solid fa-sun text-lg';
+  }
+}
+
+(function initTheme() {
+  var savedTheme = localStorage.getItem('nibbana_theme');
+  if (savedTheme === 'dark' ||
+      (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+    var icon = document.getElementById('theme-toggle-icon');
+    if (icon) icon.className = 'fa-solid fa-sun text-lg';
+  }
+})();
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof nibbanaData !== 'undefined') {
+    console.log('✅ nibbana.js දත්ත සාර්ථකව පූරණය විය.');
+  }
+});
+</script>
+
+</body>
+</html>
